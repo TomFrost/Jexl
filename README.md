@@ -2,8 +2,8 @@
     <img src="https://promises-aplus.github.io/promises-spec/assets/logo-small.png"
          align="right" valign="top" alt="Promises/A+ logo" />
 </a>
-# Jexl: Javascript Expression Language
-Powerful context-based expression parser and evaluator
+# Jexl [![Build Status](https://travis-ci.org/TechnologyAdvice/Jexl.svg?branch=master)](https://travis-ci.org/TechnologyAdvice/Jexl)
+Javascript Expression Language: Powerful context-based expression parser and evaluator
 
 ## Quick start
 Use it with promises or callbacks:
