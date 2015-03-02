@@ -227,24 +227,24 @@ A reference to the Jexl constructor. To maintain separate instances of Jexl
 with each maintaining its own set of transforms, simply re-instantiate with
 `new jexl.Jexl()`.
 
-#### jexl.addTransform(`{string} name`, `{function} transform`)
+#### jexl.addTransform(_{string} name_, _{function} transform_)
 Adds a transform function to this Jexl instance.  See the **Transforms**
 section above for information on the structure of a transform function.
 
-#### jexl.addTransforms(`{{}} map`)
+#### jexl.addTransforms(_{{}} map_)
 Adds multiple transforms from a supplied map of transform name to transform
 function.
 
-#### `{string|undefined}` jexl.getTransform(`{string} name`)
-Gets a previously set transform function, or `undefined` if no function of that
-name exists.
+#### jexl.getTransform(_{string} name_)
+**Returns `{function|undefined}`.** Gets a previously set transform function,
+or `undefined` if no function of that name exists.
 
-#### `{Promise<*>}` jexl.eval(`{string} expression`, `{{}} [context]`, `{function} [callback]`)
-Evaluates an expression.  The context map and callback function are optional.
-If a callback is specified, it will be called with the standard signature of
-`{Error}` first argument, and the expression's result in the second argument.
-Note that if a callback function is supplied, the returned Promise will already
-have a `.catch()` attached to it.
+#### jexl.eval(_{string} expression_, _{{}} [context]_, _{function} [callback]_)
+**Returns `{Promise<*>}`.** Evaluates an expression.  The context map and
+callback function are optional. If a callback is specified, it will be called
+with the standard signature of `{Error}` first argument, and the expression's
+result in the second argument.  Note that if a callback function is supplied,
+the returned Promise will already have a `.catch()` attached to it.
 
 ## License
 Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full
