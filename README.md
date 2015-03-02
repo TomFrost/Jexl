@@ -185,10 +185,10 @@ Example context:
 
 | Expression                                    | Result                                                                                |
 |-----------------------------------------------|---------------------------------------------------------------------------------------|
-| employees[.first == 'Sterling']               | {first: 'Sterling', last: 'Archer', age: 36}                                          |
+| employees[.first == 'Sterling']               | [{first: 'Sterling', last: 'Archer', age: 36}]                                        |
 | employees[.last == 'Tu' + 'nt'].first         | Cheryl                                                                                |
 | employees[.age >= 30 && .age < 40]            | [{first: 'Sterling', last: 'Archer', age: 36},{first: 'Lana', last: 'Kane', age: 33}] |
-| employees[.age >= 30 && .age < 40][.age < 35] | {first: 'Lana', last: 'Kane', age: 33}                                                |
+| employees[.age >= 30 && .age < 40][.age < 35] | [{first: 'Lana', last: 'Kane', age: 33}]                                              |
 | employees[.age >= retireAge].first            | Malory                                                                                |
 
 ### Transforms
