@@ -25,7 +25,7 @@ jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
 });
 
 // Do math
-jexl.eval('age * 2', context, function(err, res) {
+jexl.eval('age * (3 - 1)', context, function(err, res) {
 	console.log(res); // Output: 72
 });
 
@@ -122,6 +122,15 @@ Access Jexl the same way, backend or front:
 | Booleans |         `true`, `false`        |
 | Strings  | "Hello \"user\"", 'Hey there!' |
 | Numerics |      6, -7.2, 5, -3.14159      |
+
+### Groups
+
+Parentheses work just how you'd expect them to:
+
+| Expression                | Result |
+|---------------------------|:-------|
+| (83 + 1) / 2              | 42     |
+| 1 < 3 && (4 > 2 || 2 > 4) | true   |
 
 ### Identifiers
 
