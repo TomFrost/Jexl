@@ -127,10 +127,10 @@ Access Jexl the same way, backend or front:
 
 Parentheses work just how you'd expect them to:
 
-| Expression                | Result |
-|---------------------------|:-------|
-| (83 + 1) / 2              | 42     |
-| 1 < 3 && (4 > 2 || 2 > 4) | true   |
+| Expression                          | Result |
+|-------------------------------------|:-------|
+| (83 + 1) / 2                        | 42     |
+| 1 < 3 && (4 > 2 &#124;&#124; 2 > 4) | true   |
 
 ### Identifiers
 
