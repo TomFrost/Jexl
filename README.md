@@ -35,7 +35,7 @@ jexl.eval('name.first + " " + name["la" + "st"]', context).then(function(res) {
 });
 
 // Compound
-jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"] == "Pam"', context)
+jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
 	.then(function(res) {
 		console.log(res); // Output: true
 	});
