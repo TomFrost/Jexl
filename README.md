@@ -10,56 +10,56 @@ Use it with promises or callbacks:
 
 ```javascript
 var context = {
-	name: {first: 'Sterling', last: 'Archer'},
-	assoc: [
-		{first: 'Lana', last: 'Kane'},
-		{first: 'Cyril', last: 'Figgis'},
-		{first: 'Pam', last: 'Poovey'}
-	],
-	age: 36
+    name: {first: 'Sterling', last: 'Archer'},
+    assoc: [
+        {first: 'Lana', last: 'Kane'},
+        {first: 'Cyril', last: 'Figgis'},
+        {first: 'Pam', last: 'Poovey'}
+    ],
+    age: 36
 };
 
 // Filter an array
 jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
-	console.log(res); // Output: Kane
+    console.log(res); // Output: Kane
 });
 
 // Do math
 jexl.eval('age * (3 - 1)', context, function(err, res) {
-	console.log(res); // Output: 72
+    console.log(res); // Output: 72
 });
 
 // Concatenate
 jexl.eval('name.first + " " + name["la" + "st"]', context).then(function(res) {
-	console.log(res); // Output: Sterling Archer
+    console.log(res); // Output: Sterling Archer
 });
 
 // Compound
 jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
-	.then(function(res) {
-		console.log(res); // Output: true
-	});
+    .then(function(res) {
+        console.log(res); // Output: true
+    });
 
 // Use array indexes
 jexl.eval('assoc[1]', context, function(err, res) {
-	console.log(res.first + ' ' + res.last); // Output: Cyril Figgis
+    console.log(res.first + ' ' + res.last); // Output: Cyril Figgis
 });
 
 // Transform
 jexl.addTransform('upper', function(val) {
-	return val.toUpperCase();
+    return val.toUpperCase();
 });
 jexl.eval('"duchess"|upper + " " + name.last|upper', context).then(function(err, res) {
-	console.log(res); // Output: DUCHESS ARCHER
+    console.log(res); // Output: DUCHESS ARCHER
 });
 
 // Transform asynchronously, with arguments
 jexl.addTransform('lookup', function(val, args) {
-	return dbSelectByLastName(val, args.stat); // Returns a promise
+    return dbSelectByLastName(val, args.stat); // Returns a promise
 });
 jexl.eval('name.last|lookup{stat: "weight"}', context, function(err, res) {
-	if (err) console.log('Database Error', err.stack);
-	else console.log(res); // Output: 184
+    if (err) console.log('Database Error', err.stack);
+    else console.log(res); // Output: 184
 });
 ```
 
@@ -73,16 +73,16 @@ browsers, just include a Promise library such as
 
 For Node.js, type this in your project folder:
 
-	npm install jexl --save
+    npm install jexl --save
 
 For the frontend, drop `dist/jexl.min.js` into your project and include it on
 your page with:
 
-	<script src="path/to/jexl.min.js"></script>
+    <script src="path/to/jexl.min.js"></script>
 
 Access Jexl the same way, backend or front:
 
-	var jexl = require('Jexl');
+    var jexl = require('Jexl');
 
 ## All the details
 ### Binary Operators
@@ -148,9 +148,9 @@ Example context:
         last: "Archer"
     },
     exes: [
-    	"Nikolai Jakov",
-    	"Len Trexler",
-    	"Burt Reynolds"
+        "Nikolai Jakov",
+        "Len Trexler",
+        "Burt Reynolds"
     ],
     lastEx: 1
 }
@@ -213,6 +213,40 @@ jexl.addTransform('lower', function(val) {
 |--------------------------------------------------|-----------------------|
 | "Pam Poovey"&#124;lower&#124;split{char: ' '}[1] | poovey                |
 | "password==guest"&#124;split{char: '=' + '='}    | ['password', 'guest'] |
+
+#### Advanced Transforms
+Using Transforms, Jexl can support additional string formats like embedded
+JSON, YAML, XML, and more.  The following, with the help of the
+[xml2json](https://github.com/buglabs/node-xml2json) module, allows XML to be
+traversed just as easily as plain javascript objects:
+
+```javascript
+var xml2json = require('xml2json');
+
+jexl.addTransform('xml', function(val) {
+    return xml2json.toJson(val, {object: true});
+});
+
+var context = {
+    xmlDoc:
+        "<Employees>" +
+            "<Employee>" +
+                "<FirstName>Cheryl</FirstName>" +
+                "<LastName>Tunt</LastName>" +
+            "</Employee>" +
+            "<Employee>" +
+                "<FirstName>Cyril</FirstName>" +
+                "<LastName>Figgis</LastName>" +
+            "</Employee>" +
+        "</Employees>"
+};
+
+var expr = 'xmlDoc|xml.Employees.Employee[.LastName == "Figgis"].FirstName';
+
+jexl.eval(expr, context).then(function(res) {
+    console.log(res); // Output: Cyril
+});
+```
 
 ### Context
 
