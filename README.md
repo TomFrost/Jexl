@@ -87,16 +87,17 @@ Access Jexl the same way, backend or front:
 ## All the details
 ### Binary Operators
 
-| Operation   | Symbol |
-|-------------|:------:|
-| Add, Concat |    +   |
-| Subtract    |    -   |
-| Multiply    |    *   |
-| Divide      |    /   |
-| Modulus     |    %   |
-| Power of    |    ^   |
-| Logical AND |   &&   |
-| Logical OR  |   &#124;&#124;   |
+| Operation        |      Symbol      |
+|------------------|:----------------:|
+| Add, Concat      |         +        |
+| Subtract         |         -        |
+| Multiply         |         *        |
+| Divide           |         /        |
+| Divide and floor |        //        |
+| Modulus          |         %        |
+| Power of         |         ^        |
+| Logical AND      |        &&        |
+| Logical OR       |   &#124;&#124;   |
 
 ### Unary Operators
 
