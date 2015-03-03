@@ -17,7 +17,7 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('1+2'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpAddConcat',
+			operator: '+',
 			left: {type: 'Literal', value: 1},
 			right: {type: 'Literal', value: 2}
 		});
@@ -26,11 +26,11 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('2+3*4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpAddConcat',
+			operator: '+',
 			left: {type: 'Literal', value: 2},
 			right: {
 				type: 'BinaryExpression',
-				operator: 'binOpMult',
+				operator: '*',
 				left: {type: 'Literal', value: 3},
 				right: {type: 'Literal', value: 4}
 			}
@@ -40,10 +40,10 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('2*3+4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpAddConcat',
+			operator: '+',
 			left: {
 				type: 'BinaryExpression',
-				operator: 'binOpMult',
+				operator: '*',
 				left: {type: 'Literal', value: 2},
 				right: {type: 'Literal', value: 3}
 			},
@@ -54,24 +54,24 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('2+3*4==5/6-7'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpCmpEq',
+			operator: '==',
 			left: {
 				type: 'BinaryExpression',
-				operator: 'binOpAddConcat',
+				operator: '+',
 				left: {type: 'Literal', value: 2},
 				right: {
 					type: 'BinaryExpression',
-					operator: 'binOpMult',
+					operator: '*',
 					left: {type: 'Literal', value: 3},
 					right: {type: 'Literal', value: 4}
 				}
 			},
 			right: {
 				type: 'BinaryExpression',
-				operator: 'binOpSub',
+				operator: '-',
 				left: {
 					type: 'BinaryExpression',
-					operator: 'binOpDiv',
+					operator: '/',
 					left: {type: 'Literal', value: 5},
 					right: {type: 'Literal', value: 6}
 				},
@@ -83,17 +83,17 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('1*!!true-2'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpSub',
+			operator: '-',
 			left: {
 				type: 'BinaryExpression',
-				operator: 'binOpMult',
+				operator: '*',
 				left: {type: 'Literal', value: 1},
 				right: {
 					type: 'UnaryExpression',
-					operator: 'unOpNegate',
+					operator: '!',
 					right: {
 						type: 'UnaryExpression',
-						operator: 'unOpNegate',
+						operator: '!',
 						right: {type: 'Literal', value: true}
 					}
 				}
@@ -105,10 +105,10 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('(2+3)*4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpMult',
+			operator: '*',
 			left: {
 				type: 'BinaryExpression',
-				operator: 'binOpAddConcat',
+				operator: '+',
 				left: {type: 'Literal', value: 2},
 				right: {type: 'Literal', value: 3}
 			},
@@ -119,14 +119,14 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('(4*(2+3))/5'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpDiv',
+			operator: '/',
 			left: {
 				type: 'BinaryExpression',
-				operator: 'binOpMult',
+				operator: '*',
 				left: {type: 'Literal', value: 4},
 				right: {
 					type: 'BinaryExpression',
-					operator: 'binOpAddConcat',
+					operator: '+',
 					left: {type: 'Literal', value: 2},
 					right: {type: 'Literal', value: 3}
 				}
@@ -138,7 +138,7 @@ describe('Parser', function() {
 		inst.addTokens(Lexer.tokenize('foo.bar.baz + 1'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
-			operator: 'binOpAddConcat',
+			operator: '+',
 			left: {
 				type: 'Identifier',
 				value: 'baz',
@@ -188,7 +188,7 @@ describe('Parser', function() {
 				relative: true,
 				expr: {
 					type: 'BinaryExpression',
-					operator: 'binOpCmpEq',
+					operator: '==',
 					left: {
 						type: 'FilterExpression',
 						relative: false,

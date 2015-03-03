@@ -81,7 +81,6 @@ describe('Lexer', function() {
 			var tokens = Lexer.getTokens(['+']);
 			tokens.should.deep.equal([{
 				type: 'binaryOp',
-				name: 'binOpAddConcat',
 				value: '+',
 				raw: '+'
 			}]);
@@ -90,7 +89,6 @@ describe('Lexer', function() {
 			var tokens = Lexer.getTokens(['!']);
 			tokens.should.deep.equal([{
 				type: 'unaryOp',
-				name: 'unOpNegate',
 				value: '!',
 				raw: '!'
 			}]);
@@ -98,8 +96,7 @@ describe('Lexer', function() {
 		it("should recognize control characters", function() {
 			var tokens = Lexer.getTokens(['(']);
 			tokens.should.deep.equal([{
-				type: 'groupStart',
-				name: 'groupStart',
+				type: 'openParen',
 				value: '(',
 				raw: '('
 			}]);
@@ -121,20 +118,20 @@ describe('Lexer', function() {
 		var tokens = Lexer.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
 		tokens.should.deep.equal([
 			{type: 'literal', value: 6, raw: '6'},
-			{type: 'binaryOp', name: 'binOpAddConcat', value: '+', raw: '+'},
+			{type: 'binaryOp', value: '+', raw: '+'},
 			{type: 'identifier', value: 'x', raw: 'x '},
-			{type: 'binaryOp', name: 'binOpSub', value: '-', raw: '-  '},
+			{type: 'binaryOp', value: '-', raw: '-  '},
 			{type: 'literal', value: -17.55, raw: '-17.55'},
-			{type: 'binaryOp', name: 'binOpMult', value: '*', raw: '*'},
+			{type: 'binaryOp', value: '*', raw: '*'},
 			{type: 'identifier', value: 'y', raw: 'y'},
-			{type: 'binaryOp', name: 'binOpCmpLte', value: '<=', raw: '<= '},
-			{type: 'unaryOp', name: 'unOpNegate', value: '!', raw: '!'},
+			{type: 'binaryOp', value: '<=', raw: '<= '},
+			{type: 'unaryOp', value: '!', raw: '!'},
 			{type: 'identifier', value: 'foo', raw: 'foo'},
-			{type: 'identTraverse', name: 'identTraverse', value: '.', raw: '.'},
+			{type: 'dot', value: '.', raw: '.'},
 			{type: 'identifier', value: 'bar', raw: 'bar'},
-			{type: 'filterStart', name: 'filterStart', value: '[', raw: '['},
+			{type: 'openBracket', value: '[', raw: '['},
 			{type: 'literal', value: 'baz"foz', raw: '"baz\\"foz"'},
-			{type: 'filterEnd', name: 'filterEnd', value: ']', raw: ']'}
+			{type: 'closeBracket', value: ']', raw: ']'}
 		]);
 	});
 });
