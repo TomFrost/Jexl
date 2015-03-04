@@ -375,5 +375,5 @@ describe('Parser', function() {
 			},
 			alternate: {type: 'Literal', value: 3}
 		});
-	})
+	});
 });
