@@ -132,13 +132,15 @@ objects.  The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
 ### Ternary operator
 
 Conditional expressions check to see if the first segment evaluates to a truthy
-value.  If so, the consequent segment is evaluated.  Otherwise, the alternate
-is.
+value. If so, the consequent segment is evaluated.  Otherwise, the alternate
+is. If the consequent section is missing, the test result itself will be used
+instead.
 
-| Expression                       | Result |
-|----------------------------------|--------|
-| "" ? "Full" : "Empty"            | Empty  |
-| "foo" in "foobar" ? "Yes" : "No" | Yes    |
+| Expression                        | Result |
+|-----------------------------------|--------|
+| "" ? "Full" : "Empty"             | Empty  |
+| "foo" in "foobar" ? "Yes" : "No"  | Yes    |
+| {agent: "Archer"}.agent ?: "Kane" | Archer |
 
 ### Native Types
 

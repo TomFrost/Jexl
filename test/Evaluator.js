@@ -149,4 +149,8 @@ describe('Evaluator', function() {
 			e.eval(toTree('"" ? 1 : 2')).should.become(2)
 		]);
 	});
+	it('should allow missing consequent in ternary', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('"foo" ?: "bar"')).should.become("foo");
+	});
 });

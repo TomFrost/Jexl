@@ -8,7 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Array literals. Arrays can also be defined with `["standard", 'syntax']`.
 - The 'in' operator, for checking to see if a string appears inside a larger
 string, or if an element exists in an array.
-- Ternary expressions, with `this ? "standard" : "syntax"`
+- Ternary expressions with `this ? "standard" : "syntax"`
+- Ternary expressions with `alternate ?: "syntax"`
 
 ### Changed
 - Simplified Grammar, reduced RAM footprint
