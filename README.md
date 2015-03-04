@@ -54,10 +54,10 @@ jexl.eval('"duchess"|upper + " " + name.last|upper', context).then(function(err,
 });
 
 // Transform asynchronously, with arguments
-jexl.addTransform('lookup', function(val, args) {
-    return dbSelectByLastName(val, args.stat); // Returns a promise
+jexl.addTransform('getStat', function(val, stat) {
+    return dbSelectByLastName(val, stat); // Returns a promise
 });
-jexl.eval('name.last|lookup{stat: "weight"}', context, function(err, res) {
+jexl.eval('name.last|getStat("weight")', context, function(err, res) {
     if (err) console.log('Database Error', err.stack);
     else console.log(res); // Output: 184
 });
@@ -123,6 +123,7 @@ Access Jexl the same way, backend or front:
 | Booleans |         `true`, `false`        |
 | Strings  | "Hello \"user\"", 'Hey there!' |
 | Numerics |      6, -7.2, 5, -3.14159      |
+| Objects  |        {hello: "world!"}       |
 
 ### Groups
 
@@ -195,24 +196,24 @@ Example context:
 ### Transforms
 
 The power of Jexl is in transforming data, synchronously or asynchronously.
-Transform functions take two arguments: The value to be transformed, and
-a map of arguments. They must return either the transformed value, or a Promise
-that resolves with the transformed value. Add them with
-`jexl.addTransform(name, function)`.
+Transform functions take one or more arguments: The value to be transformed,
+followed by anything else passed to it in the expression. They must return
+either the transformed value, or a Promise that resolves with the transformed
+value. Add them with `jexl.addTransform(name, function)`.
 
 ```javascript
-jexl.addTransform('split', function(val, args) {
-    return val.split(args.char);
+jexl.addTransform('split', function(val, char) {
+    return val.split(char);
 });
 jexl.addTransform('lower', function(val) {
     return val.toLowerCase();
 });
 ```
 
-| Expression                                       | Result                |
-|--------------------------------------------------|-----------------------|
-| "Pam Poovey"&#124;lower&#124;split{char: ' '}[1] | poovey                |
-| "password==guest"&#124;split{char: '=' + '='}    | ['password', 'guest'] |
+| Expression                                 | Result                |
+|--------------------------------------------|-----------------------|
+| "Pam Poovey"&#124;lower&#124;split(' ')[1] | poovey                |
+| "password==guest"&#124;split('=' + '=')    | ['password', 'guest'] |
 
 #### Advanced Transforms
 Using Transforms, Jexl can support additional string formats like embedded
