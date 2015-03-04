@@ -2,6 +2,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
+Nothing yet!
+
+## [v1.0.0] - 2015-03-04
 ### Added
 - Object literals. Objects can now be defined inline with
 `{standard: 'syntax'}`.
@@ -28,5 +31,6 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TechnologyAdvice/Jexl/compare/0.0.2...HEAD
+[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.0.0...HEAD
+[v1.0.0]: https://github.com/TechnologyAdvice/Jexl/compare/0.2.0...1.0.0
 [v0.2.0]: https://github.com/TechnologyAdvice/Jexl/compare/0.1.0...0.2.0

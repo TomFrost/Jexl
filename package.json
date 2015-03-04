@@ -1,6 +1,6 @@
 {
   "name": "jexl",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Javascript Expression Language: Powerful context-based expression parser and evaluator",
   "main": "lib/Jexl.js",
   "directories": {
@@ -21,7 +21,9 @@
     "parser",
     "target",
     "context",
-    "jsep"
+    "jsep",
+    "filter",
+    "selector"
   ],
   "author": "Tom Shawver <tom@frosteddesign.com>",
   "license": "MIT",
