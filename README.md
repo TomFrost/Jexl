@@ -107,14 +107,22 @@ Access Jexl the same way, backend or front:
 
 ### Comparisons
 
-| Comparison            | Symbol |
-|-----------------------|:------:|
-| Equal                 |   ==   |
-| Not equal             |   !=   |
-| Greater than          |    >   |
-| Greater than or equal |   >=   |
-| Less than             |    <   |
-| Less than or equal    |   <=   |
+| Comparison                 | Symbol |
+|----------------------------|:------:|
+| Equal                      |   ==   |
+| Not equal                  |   !=   |
+| Greater than               |    >   |
+| Greater than or equal      |   >=   |
+| Less than                  |    <   |
+| Less than or equal         |   <=   |
+| Element in array or string |   in   |
+
+#### A note about `in`:
+The `in` operator can be used to check for a substring:
+`"Cad" in "Ron Cadillac"`, and it can be used to check for an array element:
+`"coarse" in ['fine', 'medium', 'coarse']`.  However, the `==` operator is used
+behind-the-scenes to search arrays, so it should not be used with arrays of
+objects.  The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
 
 ### Native Types
 

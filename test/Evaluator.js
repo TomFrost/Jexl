@@ -128,4 +128,18 @@ describe('Evaluator', function() {
 		return e.eval(toTree('["foo", 1+2]'))
 			.should.eventually.deep.equal(["foo", 3]);
 	});
+	it('should apply the "in" operator to strings', function() {
+		var e = new Evaluator();
+		return Promise.all([
+			e.eval(toTree('"bar" in "foobartek"')).should.become(true),
+			e.eval(toTree('"baz" in "foobartek"')).should.become(false)
+		]);
+	});
+	it('should apply the "in" operator to arrays', function() {
+		var e = new Evaluator();
+		return Promise.all([
+			e.eval(toTree('"bar" in ["foo","bar","tek"]')).should.become(true),
+			e.eval(toTree('"baz" in ["foo","bar","tek"]')).should.become(false)
+		]);
+	});
 });

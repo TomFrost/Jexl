@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Object literals. Objects can now be defined inline with
 `{standard: 'syntax'}`.
 - Array literals. Arrays can also be defined with `["standard", 'syntax']`.
+- The 'in' operator, for checking to see if a string appears inside a larger
+string, or if an element exists in an array.
 
 ### Changed
 - Simplified Grammar, reduced RAM footprint
