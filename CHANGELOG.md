@@ -2,8 +2,14 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
+### Added
+- Object literals. Objects can now be defined inline with
+`{standard: 'syntax'}`.
+
 ### Changed
 - Simplified Grammar, reduced RAM footprint
+- Dot notation can now be used to access properties of literals, such as
+`"someString".length` or `{foo: 'bar'}.foo`.
 
 ## [v0.2.0] - 2015-03-02
 ### Added

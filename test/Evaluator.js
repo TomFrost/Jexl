@@ -96,4 +96,31 @@ describe('Evaluator', function() {
 		var e = new Evaluator();
 		return e.eval(toTree('7 // 2')).should.become(3);
 	});
+	it('should evaluate an object literal', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('{foo: {bar: "tek"}}'))
+			.should.eventually.deep.equal({foo: {bar: 'tek'}});
+	});
+	it('should evaluate an empty object literal', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('{}'))
+			.should.eventually.deep.equal({});
+	});
+	it('should evaluate a transform with multiple args', function() {
+		var e = new Evaluator({
+			concat: function(val, a1, a2, a3) {
+				return val + ": " + a1 + a2 + a3;
+			}
+		});
+		return e.eval(toTree('"foo"|concat("baz", "bar", "tek")'))
+			.should.become('foo: bazbartek');
+	});
+	it('should evaluate dot notation for object literals', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('{foo: "bar"}.foo')).should.become('bar');
+	});
+	it('should allow access to literal properties', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('"foo".length')).should.become(3);
+	});
 });

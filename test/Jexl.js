@@ -41,7 +41,7 @@ describe('Jexl', function() {
 				return val.toUpperCase();
 			return val.toLowerCase();
 		});
-		return inst.eval('"hello"|toCase{case:"upper"}')
+		return inst.eval('"hello"|toCase({case:"upper"})')
 			.should.become('HELLO');
 	});
 	it('should allow transforms to be retrieved', function() {
