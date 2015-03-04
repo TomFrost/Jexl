@@ -45,6 +45,11 @@ jexl.eval('assoc[1]', context, function(err, res) {
     console.log(res.first + ' ' + res.last); // Output: Cyril Figgis
 });
 
+// Use conditional logic
+jexl.eval('age > 62 ? "retired" : "working"', context).then(function(res) {
+    console.log(res); // Output: working
+});
+
 // Transform
 jexl.addTransform('upper', function(val) {
     return val.toUpperCase();
@@ -85,6 +90,12 @@ Access Jexl the same way, backend or front:
     var jexl = require('Jexl');
 
 ## All the details
+### Unary Operators
+
+| Operation | Symbol |
+|-----------|:------:|
+| Negate    |    !   |
+
 ### Binary Operators
 
 | Operation        |      Symbol      |
@@ -98,12 +109,6 @@ Access Jexl the same way, backend or front:
 | Power of         |         ^        |
 | Logical AND      |        &&        |
 | Logical OR       |   &#124;&#124;   |
-
-### Unary Operators
-
-| Operation | Symbol |
-|-----------|:------:|
-| Negate    |    !   |
 
 ### Comparisons
 
@@ -123,6 +128,17 @@ The `in` operator can be used to check for a substring:
 `"coarse" in ['fine', 'medium', 'coarse']`.  However, the `==` operator is used
 behind-the-scenes to search arrays, so it should not be used with arrays of
 objects.  The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
+
+### Ternary operator
+
+Conditional expressions check to see if the first segment evaluates to a truthy
+value.  If so, the consequent segment is evaluated.  Otherwise, the alternate
+is.
+
+| Expression                       | Result |
+|----------------------------------|--------|
+| "" ? "Full" : "Empty"            | Empty  |
+| "foo" in "foobar" ? "Yes" : "No" | Yes    |
 
 ### Native Types
 

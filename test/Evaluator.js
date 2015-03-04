@@ -142,4 +142,11 @@ describe('Evaluator', function() {
 			e.eval(toTree('"baz" in ["foo","bar","tek"]')).should.become(false)
 		]);
 	});
+	it('should evaluate a conditional expression', function() {
+		var e = new Evaluator();
+		return Promise.all([
+			e.eval(toTree('"foo" ? 1 : 2')).should.become(1),
+			e.eval(toTree('"" ? 1 : 2')).should.become(2)
+		]);
+	});
 });

@@ -353,4 +353,27 @@ describe('Parser', function() {
 			}
 		});
 	});
+	it('should handle a ternary expression', function() {
+		inst.addTokens(Lexer.tokenize('foo ? 1 : 0'));
+		inst.complete().should.deep.equal({
+			type: 'ConditionalExpression',
+			test: {type: 'Identifier', value: 'foo'},
+			consequent: {type: 'Literal', value: 1},
+			alternate: {type: 'Literal', value: 0}
+		});
+	});
+	it('should handle nested ternary expressions', function() {
+		inst.addTokens(Lexer.tokenize('foo ? bar ? 1 : 2 : 3'));
+		inst.complete().should.deep.equal({
+			type: 'ConditionalExpression',
+			test: {type: 'Identifier', value: 'foo'},
+			consequent: {
+				type: 'ConditionalExpression',
+				test: {type: 'Identifier', value: 'bar'},
+				consequent: {type: 'Literal', value: 1},
+				alternate: {type: 'Literal', value: 2}
+			},
+			alternate: {type: 'Literal', value: 3}
+		});
+	})
 });
