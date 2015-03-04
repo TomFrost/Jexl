@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Object literals. Objects can now be defined inline with
 `{standard: 'syntax'}`.
+- Array literals. Arrays can also be defined with `["standard", 'syntax']`.
 
 ### Changed
 - Simplified Grammar, reduced RAM footprint

@@ -123,4 +123,9 @@ describe('Evaluator', function() {
 		var e = new Evaluator();
 		return e.eval(toTree('"foo".length')).should.become(3);
 	});
+	it('should evaluate array literals', function() {
+		var e = new Evaluator();
+		return e.eval(toTree('["foo", 1+2]'))
+			.should.eventually.deep.equal(["foo", 3]);
+	});
 });

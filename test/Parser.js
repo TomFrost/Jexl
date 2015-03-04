@@ -170,6 +170,44 @@ describe('Parser', function() {
 			value: {}
 		});
 	});
+	it('should handle array literals', function() {
+		inst.addTokens(Lexer.tokenize('["foo", 1+2]'));
+		inst.complete().should.deep.equal({
+			type: 'ArrayLiteral',
+			value: [
+				{type: 'Literal', value: 'foo'},
+				{
+					type: 'BinaryExpression',
+					operator: '+',
+					left: {type: 'Literal', value: 1},
+					right: {type: 'Literal', value: 2}
+				}
+			]
+		});
+	});
+	it('should handle nested array literals', function() {
+		inst.addTokens(Lexer.tokenize('["foo", ["bar", "tek"]]'));
+		inst.complete().should.deep.equal({
+			type: 'ArrayLiteral',
+			value: [
+				{type: 'Literal', value: 'foo'},
+				{
+					type: 'ArrayLiteral',
+					value: [
+						{type: 'Literal', value: 'bar'},
+						{type: 'Literal', value: 'tek'}
+					]
+				}
+			]
+		});
+	});
+	it('should handle empty array literals', function() {
+		inst.addTokens(Lexer.tokenize('[]'));
+		inst.complete().should.deep.equal({
+			type: 'ArrayLiteral',
+			value: []
+		});
+	});
 	it('should chain traversed identifiers', function() {
 		inst.addTokens(Lexer.tokenize('foo.bar.baz + 1'));
 		inst.complete().should.deep.equal({
@@ -298,6 +336,20 @@ describe('Parser', function() {
 				operator: '+',
 				left: {type: 'Literal', value: 'foo'},
 				right: {type: 'Literal', value: 'bar'}
+			}
+		});
+	});
+	it('should allow dot notation on arrays', function() {
+		inst.addTokens(Lexer.tokenize('["foo", "bar"].length'));
+		inst.complete().should.deep.equal({
+			type: 'Identifier',
+			value: 'length',
+			from: {
+				type: 'ArrayLiteral',
+				value: [
+					{type: 'Literal', value: 'foo'},
+					{type: 'Literal', value: 'bar'}
+				]
 			}
 		});
 	});

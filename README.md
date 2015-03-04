@@ -124,6 +124,7 @@ Access Jexl the same way, backend or front:
 | Strings  | "Hello \"user\"", 'Hey there!' |
 | Numerics |      6, -7.2, 5, -3.14159      |
 | Objects  |        {hello: "world!"}       |
+| Arrays   |       ['hello', 'world!']      |
 
 ### Groups
 
