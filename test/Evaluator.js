@@ -7,7 +7,7 @@ var chai = require('chai'),
 	chaiAsPromised = require('chai-as-promised'),
 	should = require('chai').should(),
 	Lexer = require('../lib/Lexer'),
-	Parser = require('../lib/Parser'),
+	Parser = require('../lib/parser/Parser'),
 	Evaluator = require('../lib/Evaluator');
 
 chai.use(chaiAsPromised);
