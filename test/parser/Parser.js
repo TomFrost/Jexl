@@ -4,8 +4,8 @@
  */
 
 var should = require('chai').should(),
-	Lexer = require('../lib/Lexer');
-	Parser = require('../lib/parser/Parser');
+	Lexer = require('../../lib/Lexer');
+	Parser = require('../../lib/parser/Parser');
 
 var inst;
 

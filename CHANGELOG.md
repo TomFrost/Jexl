@@ -2,7 +2,8 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
-Nothing yet!
+### Changed
+- Refactored Parser and Evaluator. Both operations are now marginally faster.
 
 ## [v1.0.0] - 2015-03-04
 ### Added

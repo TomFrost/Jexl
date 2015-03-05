@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha -R spec test",
+    "test": "mocha -R spec --recursive test",
     "prepublish": "gulp"
   },
   "repository": {
