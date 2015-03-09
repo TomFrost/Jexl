@@ -2,6 +2,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
+Nothing yet!
+
+## [v1.0.1] - 2015-03-08
 ### Changed
 - Refactored Parser and Evaluator. Both operations are now marginally faster.
 - Removed balance tracking in favor of passing maps of token types at which
@@ -38,6 +41,7 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.0.0...HEAD
+[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.0.1...HEAD
+[v1.0.1]: https://github.com/TechnologyAdvice/Jexl/compare/1.0.0...1.0.1
 [v1.0.0]: https://github.com/TechnologyAdvice/Jexl/compare/0.2.0...1.0.0
 [v0.2.0]: https://github.com/TechnologyAdvice/Jexl/compare/0.1.0...0.2.0
