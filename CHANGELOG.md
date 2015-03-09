@@ -2,7 +2,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
-Nothing yet!
+### Fixed
+- Bad Gulpfile resulted in frondend dist falling out of sync. Fixed and
+re-synced.
 
 ## [v1.0.1] - 2015-03-08
 ### Changed

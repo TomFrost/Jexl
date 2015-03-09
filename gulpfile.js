@@ -19,7 +19,7 @@ gulp.task('default', function () {
 		b.require(path.basename(filename, '.js'));
 		return b.bundle();
 	});
-	return gulp.src('./lib/Jexl.js', {read: false})
+	return gulp.src('./lib/Jexl.js')
 		.pipe(browserified)
 		.pipe(uglify())
 		.pipe(rename({
