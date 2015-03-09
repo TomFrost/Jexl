@@ -1,6 +1,6 @@
 {
   "name": "jexl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Javascript Expression Language: Powerful context-based expression parser and evaluator",
   "main": "lib/Jexl.js",
   "directories": {
