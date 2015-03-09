@@ -6,7 +6,7 @@ Nothing yet!
 
 ## [v1.0.2] = 2015-03-08
 ### Fixed
-- Bad Gulpfile resulted in frondend dist falling out of sync. Fixed and
+- Bad Gulpfile resulted in frontend dist falling out of sync. Fixed and
 re-synced.
 
 ## [v1.0.1] - 2015-03-08
