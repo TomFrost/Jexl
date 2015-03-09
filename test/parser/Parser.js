@@ -362,7 +362,21 @@ describe('Parser', function() {
 			alternate: {type: 'Literal', value: 0}
 		});
 	});
-	it('should handle nested ternary expressions', function() {
+	it('should handle nested and grouped ternary expressions', function() {
+		inst.addTokens(Lexer.tokenize('foo ? (bar ? 1 : 2) : 3'));
+		inst.complete().should.deep.equal({
+			type: 'ConditionalExpression',
+			test: {type: 'Identifier', value: 'foo'},
+			consequent: {
+				type: 'ConditionalExpression',
+				test: {type: 'Identifier', value: 'bar'},
+				consequent: {type: 'Literal', value: 1},
+				alternate: {type: 'Literal', value: 2}
+			},
+			alternate: {type: 'Literal', value: 3}
+		});
+	});
+	it('should handle nested, non-grouped ternary expressions', function() {
 		inst.addTokens(Lexer.tokenize('foo ? bar ? 1 : 2 : 3'));
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
@@ -374,6 +388,20 @@ describe('Parser', function() {
 				alternate: {type: 'Literal', value: 2}
 			},
 			alternate: {type: 'Literal', value: 3}
+		});
+	});
+	it('should handle ternary expression with objects', function() {
+		inst.addTokens(Lexer.tokenize('foo ? {bar: "tek"} : "baz"'));
+		inst.complete().should.deep.equal({
+			type: 'ConditionalExpression',
+			test: {type: 'Identifier', value: 'foo'},
+			consequent: {
+				type: 'ObjectLiteral',
+				value: {
+					bar: {type: 'Literal', value: 'tek'}
+				}
+			},
+			alternate: {type: 'Literal', value: 'baz'}
 		});
 	});
 });

@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Development]
 ### Changed
 - Refactored Parser and Evaluator. Both operations are now marginally faster.
+- Removed balance tracking in favor of passing maps of token types at which
+the sub-parser should stop.
+
+### Fixed
+- Object literals could not be defined in the consequent section of a ternary
+expression.
 
 ## [v1.0.0] - 2015-03-04
 ### Added
