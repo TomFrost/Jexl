@@ -2,7 +2,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
-Nothing yet!
+### Added
+- The ability to define new binary and unary operators, or override existing
+ones.
+- The ability to delete existing binary and unary operators.
 
 ## [v1.0.2] = 2015-03-08
 ### Fixed

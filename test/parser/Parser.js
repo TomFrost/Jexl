@@ -13,7 +13,7 @@ var inst,
 
 describe('Parser', function() {
 	beforeEach(function() {
-		inst = new Parser();
+		inst = new Parser(grammar);
 	});
 	it('should construct an AST for 1+2', function() {
 		inst.addTokens(lexer.tokenize('1+2'));

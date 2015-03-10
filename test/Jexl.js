@@ -60,4 +60,36 @@ describe('Jexl', function() {
 	it('should pass context', function() {
 		return inst.eval('foo', {foo: 'bar'}).should.become('bar');
 	});
+	it('should allow binaryOps to be defined', function() {
+		inst.addBinaryOp('_=', 20, function(left, right) {
+			return left.toLowerCase() === right.toLowerCase();
+		});
+		return inst.eval('"FoO" _= "fOo"').should.become(true);
+	});
+	it('should observe weight on binaryOps', function() {
+		inst.addBinaryOp('**', 0, function(left, right) {
+			return left * 2 + right * 2;
+		});
+		inst.addBinaryOp('***', 1000, function(left, right) {
+			return left * 2 + right * 2;
+		});
+		return Promise.all([
+			inst.eval('1 + 2 ** 3 + 4'),
+			inst.eval('1 + 2 *** 3 + 4')
+		]).should.become([20, 15]);
+	});
+	it('should allow unaryOps to be defined', function() {
+		inst.addUnaryOp('~', function(right) {
+			return Math.floor(right);
+		});
+		return inst.eval('~5.7 + 5').should.become(10);
+	});
+	it('should allow binaryOps to be removed', function() {
+		inst.removeOp('+');
+		return inst.eval('1+2').should.reject;
+	});
+	it('should allow unaryOps to be removed', function() {
+		inst.removeOp('!');
+		return inst.eval('!true').should.reject;
+	});
 });

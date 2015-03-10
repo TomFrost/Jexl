@@ -66,6 +66,15 @@ jexl.eval('name.last|getStat("weight")', context, function(err, res) {
     if (err) console.log('Database Error', err.stack);
     else console.log(res); // Output: 184
 });
+
+// Add your own (a)synchronous operators
+// Here's a case-insensitive string equality
+jexl.addBinaryOp('_=', 20, function(left, right) {
+    return left.toLowerCase() === right.toLowerCase();
+});
+jexl.eval('"Guest" _= "gUeSt"').then(function(val) {
+    console.log(res); // Output: true
+});
 ```
 
 ## Installation
@@ -290,6 +299,22 @@ A reference to the Jexl constructor. To maintain separate instances of Jexl
 with each maintaining its own set of transforms, simply re-instantiate with
 `new jexl.Jexl()`.
 
+#### jexl.addBinaryOp(_{string} operator_, _{number} precedence_, _{function} fn_)
+Adds a binary operator to the Jexl instance. A binary operator is one that
+considers the values on both its left and right, such as "+" or "==", in order
+to calculate a result. The precedence determines the operator's position in the
+order of operations (please refer to `lib/grammar.js` to see the precedence of
+existing operators). The provided function will be called with two arguments:
+a left value and a right value. It should return either the resulting value,
+or a Promise that resolves to the resulting value.
+
+#### jexl.addUnaryOp(_{string} operator_, _{function} fn_)
+Adds a unary operator to the Jexl instance. A unary operator is one that
+considers only the value on its right, such as "!", in order to calculate a
+result. The provided function will be called with one argument: the value to
+the operator's right. It should return either the resulting value, or a Promise
+that resolves to the resulting value.
+
 #### jexl.addTransform(_{string} name_, _{function} transform_)
 Adds a transform function to this Jexl instance.  See the **Transforms**
 section above for information on the structure of a transform function.
@@ -308,6 +333,10 @@ callback function are optional. If a callback is specified, it will be called
 with the standard signature of `{Error}` first argument, and the expression's
 result in the second argument.  Note that if a callback function is supplied,
 the returned Promise will already have a `.catch()` attached to it.
+
+#### jexl.removeOp(_{string} operator_)
+Removes a binary or unary operator from the Jexl instance. For example, "^" can
+be passed to eliminate the "power of" operator.
 
 ## License
 Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full
