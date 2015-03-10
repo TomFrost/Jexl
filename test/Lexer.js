@@ -4,43 +4,49 @@
  */
 
 var should = require('chai').should(),
-	Lexer = require('../lib/Lexer');
+	Lexer = require('../lib/Lexer'),
+	grammar = require('../lib/grammar').elements;
+
+var inst;
 
 describe('Lexer', function() {
+	beforeEach(function() {
+		inst = new Lexer(grammar);
+	});
 	describe('Elements', function() {
 		it("should count a string as one element", function() {
 			var str = '"foo"',
-				elems = Lexer.getElements(str);
+				elems = inst.getElements(str);
 			elems.should.have.length(1);
 			elems[0].should.equal(str);
 		});
 		it("should support single-quote strings", function() {
 			var str = "'foo'",
-				elems = Lexer.getElements(str);
+				elems = inst.getElements(str);
 			elems.should.have.length(1);
 			elems[0].should.equal(str);
 		});
 		it("should support escaping double-quotes", function() {
 			var str = '"f\\"oo"',
-				elems = Lexer.getElements(str);
+				elems = inst.getElements(str);
 			elems.should.have.length(1);
 			elems[0].should.equal(str);
 		});
 		it("should support escaping single-quotes", function() {
 			var str = "'f\\'oo'",
-				elems = Lexer.getElements(str);
+				elems = inst.getElements(str);
 			elems.should.have.length(1);
 			elems[0].should.equal(str);
 		});
 		it("should count an identifier as one element", function() {
 			var str = "alpha12345",
-				elems = Lexer.getElements(str);
+				elems = inst.getElements(str);
 			elems.should.deep.equal([str]);
 		});
 	});
 	describe('Tokens', function() {
 		it("should unquote string elements", function() {
-			var tokens = Lexer.getTokens(['"foo \\"bar\\\\"']);
+			var tokens = inst.getTokens(['"foo \\"bar\\\\"']);
 			tokens.should.deep.equal([{
 				type: 'literal',
 				value: 'foo "bar\\',
@@ -48,7 +54,7 @@ describe('Lexer', function() {
 			}]);
 		});
 		it("should recognize booleans", function() {
-			var tokens = Lexer.getTokens(['true', 'false']);
+			var tokens = inst.getTokens(['true', 'false']);
 			tokens.should.deep.equal([
 				{
 					type: 'literal',
@@ -63,7 +69,7 @@ describe('Lexer', function() {
 			]);
 		});
 		it("should recognize numerics", function() {
-			var tokens = Lexer.getTokens(['-7.6', '20']);
+			var tokens = inst.getTokens(['-7.6', '20']);
 			tokens.should.deep.equal([
 				{
 					type: 'literal',
@@ -78,7 +84,7 @@ describe('Lexer', function() {
 			]);
 		});
 		it("should recognize binary operators", function() {
-			var tokens = Lexer.getTokens(['+']);
+			var tokens = inst.getTokens(['+']);
 			tokens.should.deep.equal([{
 				type: 'binaryOp',
 				value: '+',
@@ -86,7 +92,7 @@ describe('Lexer', function() {
 			}]);
 		});
 		it("should recognize unary operators", function() {
-			var tokens = Lexer.getTokens(['!']);
+			var tokens = inst.getTokens(['!']);
 			tokens.should.deep.equal([{
 				type: 'unaryOp',
 				value: '!',
@@ -94,7 +100,7 @@ describe('Lexer', function() {
 			}]);
 		});
 		it("should recognize control characters", function() {
-			var tokens = Lexer.getTokens(['(']);
+			var tokens = inst.getTokens(['(']);
 			tokens.should.deep.equal([{
 				type: 'openParen',
 				value: '(',
@@ -102,7 +108,7 @@ describe('Lexer', function() {
 			}]);
 		});
 		it("should recognize identifiers", function() {
-			var tokens = Lexer.getTokens(['_foo9_bar']);
+			var tokens = inst.getTokens(['_foo9_bar']);
 			tokens.should.deep.equal([{
 				type: 'identifier',
 				value: '_foo9_bar',
@@ -110,12 +116,12 @@ describe('Lexer', function() {
 			}]);
 		});
 		it("should throw on invalid token", function() {
-			var fn = Lexer.getTokens.bind(Lexer, ['9foo']);
+			var fn = inst.getTokens.bind(Lexer, ['9foo']);
 			fn.should.throw();
 		});
 	});
 	it("should tokenize a full expression", function() {
-		var tokens = Lexer.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
+		var tokens = inst.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
 		tokens.should.deep.equal([
 			{type: 'literal', value: 6, raw: '6'},
 			{type: 'binaryOp', value: '+', raw: '+'},

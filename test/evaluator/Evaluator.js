@@ -8,13 +8,16 @@ var chai = require('chai'),
 	should = require('chai').should(),
 	Lexer = require('../../lib/Lexer'),
 	Parser = require('../../lib/parser/Parser'),
-	Evaluator = require('../../lib/evaluator/Evaluator');
+	Evaluator = require('../../lib/evaluator/Evaluator'),
+	grammar = require('../../lib/grammar').elements;
 
 chai.use(chaiAsPromised);
 
+var lexer = new Lexer(grammar);
+
 function toTree(exp) {
 	var p = new Parser();
-	p.addTokens(Lexer.tokenize(exp));
+	p.addTokens(lexer.tokenize(exp));
 	return p.complete();
 }
 
