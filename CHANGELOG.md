@@ -2,7 +2,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Development
-Nothing yet!
+### Fixed
+- Minus did not denote a negative number at the start of a ternary's consequent
+section
 
 ## [v1.1.0]
 ### Added

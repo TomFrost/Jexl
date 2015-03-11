@@ -140,4 +140,13 @@ describe('Lexer', function() {
 			{type: 'closeBracket', value: ']', raw: ']'}
 		]);
 	});
+	it("should consider minus to be negative appropriately", function() {
+		inst.tokenize('-1?-2:-3').should.deep.equal([
+			{type: 'literal', value: -1, raw: '-1'},
+			{type: 'question', value: '?', raw: '?'},
+			{type: 'literal', value: -2, raw: '-2'},
+			{type: 'colon', value: ':', raw: ':'},
+			{type: 'literal', value: -3, raw: '-3'}
+		]);
+	});
 });
