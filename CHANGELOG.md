@@ -2,7 +2,8 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Development
-Nothing yet!
+### Changed
+- Code coverage thresholds are now enforced through `gulp coverage-test`
 
 ## [v1.1.1]
 ### Fixed
