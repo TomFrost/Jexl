@@ -1,3 +1,4 @@
 {
-  "curly": false
+  "curly": false,
+  "evil": true
 }
