@@ -43,6 +43,11 @@ describe('Lexer', function() {
 				elems = inst.getElements(str);
 			elems.should.deep.equal([str]);
 		});
+		it("should not split grammar elements out of transforms", function() {
+			var str = "inString",
+				elems = inst.getElements(str);
+			elems.should.deep.equal([str]);
+		});
 	});
 	describe('Tokens', function() {
 		it("should unquote string elements", function() {
