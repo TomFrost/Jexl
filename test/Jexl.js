@@ -8,6 +8,9 @@ var chai = require('chai'),
 	should = require('chai').should(),
 	Jexl = require('../lib/Jexl');
 
+if (!global.Promise)
+	global.Promise = require('bluebird').Promise;
+
 chai.use(chaiAsPromised);
 
 var inst;

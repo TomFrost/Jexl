@@ -8,6 +8,9 @@ var should = require('chai').should(),
 	Parser = require('../../lib/parser/Parser'),
 	grammar = require('../../lib/grammar').elements;
 
+if (!global.Promise)
+	global.Promise = require('bluebird').Promise;
+
 var inst,
 	lexer = new Lexer(grammar);
 

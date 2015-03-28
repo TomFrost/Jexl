@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/TechnologyAdvice/jexl",
   "devDependencies": {
+    "bluebird": "^2.9.16",
     "browserify": "^9.0.3",
     "chai": "^2.0.0",
     "chai-as-promised": "^4.2.0",

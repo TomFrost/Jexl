@@ -7,6 +7,9 @@ var should = require('chai').should(),
 	Lexer = require('../lib/Lexer'),
 	grammar = require('../lib/grammar').elements;
 
+if (!global.Promise)
+	global.Promise = require('bluebird').Promise;
+
 var inst;
 
 describe('Lexer', function() {

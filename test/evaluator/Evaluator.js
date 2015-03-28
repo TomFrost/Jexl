@@ -11,6 +11,9 @@ var chai = require('chai'),
 	Evaluator = require('../../lib/evaluator/Evaluator'),
 	grammar = require('../../lib/grammar').elements;
 
+if (!global.Promise)
+	global.Promise = require('bluebird').Promise;
+
 chai.use(chaiAsPromised);
 
 var lexer = new Lexer(grammar);
