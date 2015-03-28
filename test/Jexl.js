@@ -95,4 +95,17 @@ describe('Jexl', function() {
 		inst.removeOp('!');
 		return inst.eval('!true').should.reject;
 	});
+	it('should allow assignment of a variable to context', function() {
+		return inst.eval('foo=5+7\nfoo+3').should.become(15);
+	});
+	it('should allow assignment of multiple variables to context', function() {
+		return inst.eval('foo=5+7\nbar=foo*2\nbar').should.become(24);
+	});
+	it('should allow use of lambda functions', function() {
+		inst.addTransform('map', function(val, predicate) {
+			return val.map(predicate);
+		});
+		return inst.eval('foo = [1,2,3] | map((n) -> n + 2)\nfoo').should.eventually.deep.equal([3,4,5]);
+	});
+
 });

@@ -128,7 +128,7 @@ describe('Lexer', function() {
 			fn.should.throw();
 		});
 	});
-	it("should tokenize a full expression", function() {
+	it("should tokenize the lines of a full expression", function() {
 		var tokens = inst.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
 		tokens.should.deep.equal([
 			{type: 'literal', value: 6, raw: '6'},
@@ -155,6 +155,20 @@ describe('Lexer', function() {
 			{type: 'literal', value: -2, raw: '-2'},
 			{type: 'colon', value: ':', raw: ':'},
 			{type: 'literal', value: -3, raw: '-3'}
+		]);
+	});
+	it("should properly tokenize a multiline expression", function() {
+		inst.tokenizeLines('foo=5+7\nfoo').should.deep.equal([
+			[
+				{type: 'identifier', value: 'foo', raw: 'foo'},
+				{type: 'assign', value: '=', raw: '='},
+				{type: 'literal', value: 5, raw: '5'},
+				{type: 'binaryOp', value: '+', raw: '+'},
+				{type: 'literal', value: 7, raw: '7'}
+			],
+			[
+				{type: 'identifier', value: 'foo', raw: 'foo'}
+			]
 		]);
 	});
 });
