@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Code coverage thresholds are now enforced through `gulp coverage-test`
 
+### Fixed
+- Operators found in identifier names (such as 'in' in 'incident') were being
+tokenized separately from the rest of the identifier
+
 ## [v1.1.1]
 ### Fixed
 - Minus did not denote a negative number at the start of a ternary's consequent
