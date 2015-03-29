@@ -123,7 +123,7 @@ describe('Jexl', function() {
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + other)\nfoo', context).should.eventually.deep.equal([5,6,7]);
 	});
-	it('should allow access of context variables within lambda functions and correctly apply scope', function() {
+	it('should allow access of context variables within lambda functions and not alter existing context', function() {
 		var context = {other: 4, n: 17};
 		inst.addTransform('map', function(val, lambda) {
 			return val.map(lambda);
