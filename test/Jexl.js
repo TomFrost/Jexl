@@ -101,11 +101,33 @@ describe('Jexl', function() {
 	it('should allow assignment of multiple variables to context', function() {
 		return inst.eval('foo=5+7\nbar=foo*2\nbar').should.become(24);
 	});
+	it('should not change the supplied context variable', function() {
+		var context = {};
+		return inst.eval('foo=5+7\nbar=foo*2\nbar', context).then(function() {
+			return Object.keys(context).length.should.equal(0);
+		});
+	});
 	it('should allow use of lambda functions', function() {
 		inst.addTransform('map', function(val, predicate) {
 			return val.map(predicate);
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + 2)\nfoo').should.eventually.deep.equal([3,4,5]);
+	});
+	it('should allow access of context variables within lambda functions and correctly apply scope', function() {
+		var context = {other: 4, n: 17};
+		inst.addTransform('map', function(val, predicate) {
+			return val.map(predicate);
+		});
+		return inst.eval('foo = [1,2,3] | map((n) -> n + other)\nfoo', context).should.eventually.deep.equal([5,6,7]);
+	});
+	it('should allow access of context variables within lambda functions and correctly apply scope', function() {
+		var context = {other: 4, n: 17};
+		inst.addTransform('map', function(val, predicate) {
+			return val.map(predicate);
+		});
+		return inst.eval('foo = [1,2,3] | map((n) -> n + other)\nfoo', context).then(function() {
+			return Object.keys(context).length.should.equal(2);
+		});
 	});
 
 });
