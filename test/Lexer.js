@@ -128,7 +128,7 @@ describe('Lexer', function() {
 			fn.should.throw();
 		});
 	});
-	it("should tokenize the lines of a full expression", function() {
+	it("should tokenize a full expression", function() {
 		var tokens = inst.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
 		tokens.should.deep.equal([
 			{type: 'literal', value: 6, raw: '6'},
