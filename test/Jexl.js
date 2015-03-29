@@ -132,5 +132,4 @@ describe('Jexl', function() {
 			return Object.keys(context).length.should.equal(2);
 		});
 	});
-
 });

@@ -159,5 +159,4 @@ describe('Evaluator', function() {
 		var e = new Evaluator(grammar);
 		return e.eval(toTree('"foo" ?: "bar"')).should.become("foo");
 	});
-
 });
