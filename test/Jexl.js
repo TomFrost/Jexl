@@ -125,8 +125,8 @@ describe('Jexl', function() {
 	});
 	it('should allow access of context variables within lambda functions and correctly apply scope', function() {
 		var context = {other: 4, n: 17};
-		inst.addTransform('map', function(val, predicate) {
-			return val.map(predicate);
+		inst.addTransform('map', function(val, lambda) {
+			return val.map(lambda);
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + other)\nfoo', context).then(function() {
 			return Object.keys(context).length.should.equal(2);
