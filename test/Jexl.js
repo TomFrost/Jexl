@@ -98,6 +98,9 @@ describe('Jexl', function() {
 	it('should allow assignment of a variable to context', function() {
 		return inst.eval('foo=5+7\nfoo+3').should.become(15);
 	});
+	it('should properly assign a negative number to the context', function() {
+		return inst.eval('foo=-3\nfoo+3').should.become(0);
+	});
 	it('should allow assignment of multiple variables to context', function() {
 		return inst.eval('foo=5+7\nbar=foo*2\nbar').should.become(24);
 	});
