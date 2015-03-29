@@ -158,7 +158,7 @@ describe('Lexer', function() {
 		]);
 	});
 	it("should properly tokenize a multiline expression", function() {
-		inst.tokenizeLines('foo=5+7\nfoo').should.deep.equal([
+		inst.tokenizeLines('foo=5+7\n   \nfoo').should.deep.equal([
 			[
 				{type: 'identifier', value: 'foo', raw: 'foo'},
 				{type: 'equals', value: '=', raw: '='},
