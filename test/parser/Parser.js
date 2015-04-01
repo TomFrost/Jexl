@@ -14,12 +14,19 @@ if (!global.Promise)
 var inst,
 	lexer = new Lexer(grammar);
 
+function toLine(exp) {
+	var lines = lexer.tokenizeLines(exp);
+	lines.length.should.equal(1);
+	return lines[0];
+}
+
 describe('Parser', function() {
 	beforeEach(function() {
 		inst = new Parser(grammar);
 	});
 	it('should construct an AST for 1+2', function() {
-		inst.addTokens(lexer.tokenize('1+2'));
+		var line = toLine('1+2');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '+',
@@ -28,7 +35,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should add heavier operations to the right for 2+3*4', function() {
-		inst.addTokens(lexer.tokenize('2+3*4'));
+		var line = toLine('2+3*4');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '+',
@@ -42,7 +50,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should encapsulate for lighter operation in 2*3+4', function() {
-		inst.addTokens(lexer.tokenize('2*3+4'));
+		var line = toLine('2*3+4');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '+',
@@ -56,7 +65,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle encapsulation of subtree in 2+3*4==5/6-7', function() {
-		inst.addTokens(lexer.tokenize('2+3*4==5/6-7'));
+		var line = toLine('2+3*4==5/6-7');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '==',
@@ -85,7 +95,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle a unary operator', function() {
-		inst.addTokens(lexer.tokenize('1*!!true-2'));
+		var line = toLine('1*!!true-2');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '-',
@@ -107,7 +118,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle a subexpression', function() {
-		inst.addTokens(lexer.tokenize('(2+3)*4'));
+		var line = toLine('(2+3)*4');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '*',
@@ -121,7 +133,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle nested subexpressions', function() {
-		inst.addTokens(lexer.tokenize('(4*(2+3))/5'));
+		var line = toLine('(4*(2+3))/5');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '/',
@@ -140,7 +153,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle object literals', function() {
-		inst.addTokens(lexer.tokenize('{foo: "bar", tek: 1+2}'));
+		var line = toLine('{foo: "bar", tek: 1+2}');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ObjectLiteral',
 			value: {
@@ -155,7 +169,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle nested object literals', function() {
-		inst.addTokens(lexer.tokenize('{foo: {bar: "tek"}}'));
+		var line = toLine('{foo: {bar: "tek"}}');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ObjectLiteral',
 			value: {
@@ -169,14 +184,16 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle empty object literals', function() {
-		inst.addTokens(lexer.tokenize('{}'));
+		var line = toLine('{}');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ObjectLiteral',
 			value: {}
 		});
 	});
 	it('should handle array literals', function() {
-		inst.addTokens(lexer.tokenize('["foo", 1+2]'));
+		var line = toLine('["foo", 1+2]');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ArrayLiteral',
 			value: [
@@ -191,7 +208,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle nested array literals', function() {
-		inst.addTokens(lexer.tokenize('["foo", ["bar", "tek"]]'));
+		var line = toLine('["foo", ["bar", "tek"]]');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ArrayLiteral',
 			value: [
@@ -207,14 +225,16 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle empty array literals', function() {
-		inst.addTokens(lexer.tokenize('[]'));
+		var line = toLine('[]');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ArrayLiteral',
 			value: []
 		});
 	});
 	it('should chain traversed identifiers', function() {
-		inst.addTokens(lexer.tokenize('foo.bar.baz + 1'));
+		var line = toLine('foo.bar.baz + 1');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '+',
@@ -234,7 +254,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should apply transforms and arguments', function() {
-		inst.addTokens(lexer.tokenize('foo|tr1|tr2.baz|tr3({bar:"tek"})'));
+		var line = toLine('foo|tr1|tr2.baz|tr3({bar:"tek"})');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'Transform',
 			name: 'tr3',
@@ -265,7 +286,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle multiple arguments in transforms', function() {
-		inst.addTokens(lexer.tokenize('foo|bar("tek", 5, true)'));
+		var line = toLine('foo|bar("tek", 5, true)');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'Transform',
 			name: 'bar',
@@ -278,7 +300,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should apply filters to identifiers', function() {
-		inst.addTokens(lexer.tokenize('foo[1][.bar[0]=="tek"].baz'));
+		var line = toLine('foo[1][.bar[0]=="tek"].baz');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
 			value: 'baz',
@@ -310,7 +333,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should allow dot notation for all operands', function() {
-		inst.addTokens(lexer.tokenize('"foo".length + {foo: "bar"}.foo'));
+		var line = toLine('"foo".length + {foo: "bar"}.foo');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
 			operator: '+',
@@ -332,7 +356,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should allow dot notation on subexpressions', function() {
-		inst.addTokens(lexer.tokenize('("foo" + "bar").length'));
+		var line = toLine('("foo" + "bar").length');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
 			value: 'length',
@@ -345,7 +370,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should allow dot notation on arrays', function() {
-		inst.addTokens(lexer.tokenize('["foo", "bar"].length'));
+		var line = toLine('["foo", "bar"].length');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
 			value: 'length',
@@ -359,7 +385,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle a ternary expression', function() {
-		inst.addTokens(lexer.tokenize('foo ? 1 : 0'));
+		var line = toLine('foo ? 1 : 0');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
 			test: {type: 'Identifier', value: 'foo'},
@@ -368,7 +395,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle nested and grouped ternary expressions', function() {
-		inst.addTokens(lexer.tokenize('foo ? (bar ? 1 : 2) : 3'));
+		var line = toLine('foo ? (bar ? 1 : 2) : 3');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
 			test: {type: 'Identifier', value: 'foo'},
@@ -382,7 +410,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle nested, non-grouped ternary expressions', function() {
-		inst.addTokens(lexer.tokenize('foo ? bar ? 1 : 2 : 3'));
+		var line = toLine('foo ? bar ? 1 : 2 : 3');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
 			test: {type: 'Identifier', value: 'foo'},
@@ -396,7 +425,8 @@ describe('Parser', function() {
 		});
 	});
 	it('should handle ternary expression with objects', function() {
-		inst.addTokens(lexer.tokenize('foo ? {bar: "tek"} : "baz"'));
+		var line = toLine('foo ? {bar: "tek"} : "baz"');
+		inst.addTokens(line);
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
 			test: {type: 'Identifier', value: 'foo'},

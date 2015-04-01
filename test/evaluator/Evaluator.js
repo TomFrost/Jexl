@@ -20,7 +20,9 @@ var lexer = new Lexer(grammar);
 
 function toTree(exp) {
 	var p = new Parser(grammar);
-	p.addTokens(lexer.tokenize(exp));
+	var lines = lexer.tokenizeLines(exp);
+	lines.length.should.equal(1);
+	p.addTokens(lines[0]);
 	return p.complete();
 }
 
