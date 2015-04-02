@@ -101,8 +101,11 @@ describe('Jexl', function() {
 	it('should properly assign a negative number to the context', function() {
 		return inst.eval('foo=-3; foo+3').should.become(0);
 	});
-	it('should allow assignment of multiple variables to context', function() {
+	it('should allow assignment of multiple variables to the context', function() {
 		return inst.eval('foo=5+7; bar=foo*2; bar').should.become(24);
+	});
+	it('should not allow assignment of variables to the context within a subexpresion', function() {
+		return inst.eval('foo=5+(bar = 7); foo').should.eventually.be.rejected;
 	});
 	it('should not change the supplied context variable', function() {
 		var context = {};
@@ -116,20 +119,16 @@ describe('Jexl', function() {
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + 2); foo').should.eventually.deep.equal([3,4,5]);
 	});
-	it('should allow access of context variables within lambda functions and correctly apply scope', function() {
+	it('should allow access of context variables within lambda functions with correct scope and not alter existing context', function() {
 		var context = {other: 4, n: 17};
 		inst.addTransform('map', function(val, lambda) {
 			return val.map(lambda);
 		});
-		return inst.eval('foo = [1,2,3] | map((n) -> n + other); foo', context).should.eventually.deep.equal([5,6,7]);
-	});
-	it('should allow access of context variables within lambda functions and not alter existing context', function() {
-		var context = {other: 4, n: 17};
-		inst.addTransform('map', function(val, lambda) {
-			return val.map(lambda);
-		});
-		return inst.eval('foo = [1,2,3] | map((n) -> n + other); foo', context).then(function() {
-			return Object.keys(context).length.should.equal(2);
-		});
+		return inst.eval('foo = [1,2,3] | map((n) -> n + other); foo', context).then(function(res) {
+			Object.keys(context).length.should.equal(2);
+			context.other.should.equal(4);
+			context.n.should.equal(17);
+			return Promise.resolve(res);
+		}).should.eventually.deep.equal([5,6,7]);
 	});
 });

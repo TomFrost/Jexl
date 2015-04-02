@@ -18,7 +18,7 @@ function toLine(exp) {
 	var lines = lexer.tokenizeLines(exp);
 	lines.length.should.equal(1);
 	return lines[0];
-}
+};
 
 describe('Parser', function() {
 	beforeEach(function() {
