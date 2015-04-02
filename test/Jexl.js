@@ -125,7 +125,7 @@ describe('Jexl', function() {
 			return val.map(lambda);
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + other); foo', context).then(function(res) {
-			Object.keys(context).length.should.equal(2);
+			Object.keys(context).should.have.length(2);
 			context.other.should.equal(4);
 			context.n.should.equal(17);
 			return Promise.resolve(res);

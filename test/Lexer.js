@@ -51,6 +51,17 @@ describe('Lexer', function() {
 				elems = inst.getElements(str);
 			elems.should.deep.equal([str]);
 		});
+		it('should recognize unquoted grammar elements', function() {
+			var str = "foo+-;bar",
+				elems = inst.getElements(str);
+			elems.should.deep.equal(['foo', '+', '-', ';', 'bar']);
+		});
+		it('should not split grammar elements out of strings', function() {
+			var str = "'foo+-;bar'",
+				elems = inst.getElements(str);
+			elems.should.deep.equal([str]);
+		});
+
 	});
 	describe('Tokens', function() {
 		it("should unquote string elements", function() {

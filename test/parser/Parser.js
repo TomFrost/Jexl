@@ -16,7 +16,7 @@ var inst,
 
 function toLine(exp) {
 	var lines = lexer.tokenizeLines(exp);
-	lines.length.should.equal(1);
+	lines.should.have.length(1);
 	return lines[0];
 };
 
