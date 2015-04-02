@@ -149,15 +149,13 @@ describe('Lexer', function() {
 		]]);
 	});
 	it("should consider minus to be negative appropriately", function() {
-		inst.tokenizeLines('-1?-2:-3').should.deep.equal([
-			[
-				{type: 'literal', value: -1, raw: '-1'},
-				{type: 'question', value: '?', raw: '?'},
-				{type: 'literal', value: -2, raw: '-2'},
-				{type: 'colon', value: ':', raw: ':'},
-				{type: 'literal', value: -3, raw: '-3'}
-			]
-		]);
+		inst.tokenizeLines('-1?-2:-3').should.deep.equal([[
+			{type: 'literal', value: -1, raw: '-1'},
+			{type: 'question', value: '?', raw: '?'},
+			{type: 'literal', value: -2, raw: '-2'},
+			{type: 'colon', value: ':', raw: ':'},
+			{type: 'literal', value: -3, raw: '-3'}
+		]]);
 	});
 	it("should properly tokenize a multiline expression, ignoring lines of only whitespace", function() {
 		inst.tokenizeLines('foo=5+7;\n   \n\n   \n;foo').should.deep.equal([
