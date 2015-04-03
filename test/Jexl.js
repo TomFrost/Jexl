@@ -122,6 +122,24 @@ describe('Jexl', function() {
 		});
 		return inst.eval('foo = [1,2,3] | map((n) -> n + 2); foo').should.eventually.deep.equal([3,4,5]);
 	});
+	it('should allow use of lambda functions with multiple arguments', function() {
+		inst.addTransform('map', function(val, lambda) {
+			return val.map(lambda);
+		});
+		return inst.eval('foo = [1,2,3] | map((n, i) -> n + i); foo').should.eventually.deep.equal([1,3,5]);
+	});
+	it('should throw when string literals are used as argument names', function() {
+		inst.addTransform('map', function(val, lambda) {
+			return val.map(lambda);
+		});
+		return inst.eval('foo = [1,2,3] | map(("n", i) -> n + i); foo').should.eventually.be.rejected;
+	});
+	it('should throw when number literals are used as argument names', function() {
+		inst.addTransform('map', function(val, lambda) {
+			return val.map(lambda);
+		});
+		return inst.eval('foo = [1,2,3] | map((5, i) -> n + i); foo').should.eventually.be.rejected;
+	});
 	it('should allow access of context variables within lambda functions with correct scope and not alter existing context', function() {
 		var context = {other: 4, n: 17};
 		inst.addTransform('map', function(val, lambda) {
