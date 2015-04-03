@@ -28,22 +28,25 @@ describe('Parser', function() {
 		inst.addTokens(toLine('1+2'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '+',
-			left: {type: 'Literal', value: 1},
-			right: {type: 'Literal', value: 2}
+			left: {type: 'Literal', lineNo: 0, value: 1},
+			right: {type: 'Literal', lineNo: 0, value: 2}
 		});
 	});
 	it('should add heavier operations to the right for 2+3*4', function() {
 		inst.addTokens(toLine('2+3*4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '+',
-			left: {type: 'Literal', value: 2},
+			left: {type: 'Literal', lineNo: 0, value: 2},
 			right: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '*',
-				left: {type: 'Literal', value: 3},
-				right: {type: 'Literal', value: 4}
+				left: {type: 'Literal', lineNo: 0, value: 3},
+				right: {type: 'Literal', lineNo: 0, value: 4}
 			}
 		});
 	});
@@ -51,42 +54,49 @@ describe('Parser', function() {
 		inst.addTokens(toLine('2*3+4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '+',
 			left: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '*',
-				left: {type: 'Literal', value: 2},
-				right: {type: 'Literal', value: 3}
+				left: {type: 'Literal', lineNo: 0, value: 2},
+				right: {type: 'Literal', lineNo: 0, value: 3}
 			},
-			right: {type: 'Literal', value: 4}
+			right: {type: 'Literal', lineNo: 0, value: 4}
 		});
 	});
 	it('should handle encapsulation of subtree in 2+3*4==5/6-7', function() {
 		inst.addTokens(toLine('2+3*4==5/6-7'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '==',
 			left: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '+',
-				left: {type: 'Literal', value: 2},
+				left: {type: 'Literal', lineNo: 0, value: 2},
 				right: {
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '*',
-					left: {type: 'Literal', value: 3},
-					right: {type: 'Literal', value: 4}
+					left: {type: 'Literal', lineNo: 0, value: 3},
+					right: {type: 'Literal', lineNo: 0, value: 4}
 				}
 			},
 			right: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '-',
 				left: {
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '/',
-					left: {type: 'Literal', value: 5},
-					right: {type: 'Literal', value: 6}
+					left: {type: 'Literal', lineNo: 0, value: 5},
+					right: {type: 'Literal', lineNo: 0, value: 6}
 				},
-				right: {type: 'Literal', value: 7}
+				right: {type: 'Literal', lineNo: 0, value: 7}
 			}
 		});
 	});
@@ -94,55 +104,64 @@ describe('Parser', function() {
 		inst.addTokens(toLine('1*!!true-2'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '-',
 			left: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '*',
-				left: {type: 'Literal', value: 1},
+				left: {type: 'Literal', lineNo: 0, value: 1},
 				right: {
 					type: 'UnaryExpression',
+					lineNo: 0,
 					operator: '!',
 					right: {
 						type: 'UnaryExpression',
+						lineNo: 0,
 						operator: '!',
-						right: {type: 'Literal', value: true}
+						right: {type: 'Literal', lineNo: 0, value: true}
 					}
 				}
 			},
-			right: {type: 'Literal', value: 2}
+			right: {type: 'Literal', lineNo: 0, value: 2}
 		});
 	});
 	it('should handle a subexpression', function() {
 		inst.addTokens(toLine('(2+3)*4'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '*',
 			left: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '+',
-				left: {type: 'Literal', value: 2},
-				right: {type: 'Literal', value: 3}
+				left: {type: 'Literal', lineNo: 0, value: 2},
+				right: {type: 'Literal', lineNo: 0, value: 3}
 			},
-			right: {type: 'Literal', value: 4}
+			right: {type: 'Literal', lineNo: 0, value: 4}
 		});
 	});
 	it('should handle nested subexpressions', function() {
 		inst.addTokens(toLine('(4*(2+3))/5'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '/',
 			left: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '*',
-				left: {type: 'Literal', value: 4},
+				left: {type: 'Literal', lineNo: 0, value: 4},
 				right: {
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '+',
-					left: {type: 'Literal', value: 2},
-					right: {type: 'Literal', value: 3}
+					left: {type: 'Literal', lineNo: 0, value: 2},
+					right: {type: 'Literal', lineNo: 0, value: 3}
 				}
 			},
-			right: {type: 'Literal', value: 5}
+			right: {type: 'Literal', lineNo: 0, value: 5}
 		});
 	});
 	it('should handle object literals', function() {
@@ -150,12 +169,13 @@ describe('Parser', function() {
 		inst.complete().should.deep.equal({
 			type: 'ObjectLiteral',
 			value: {
-				foo: {type: 'Literal', value: 'bar'},
+				foo: {type: 'Literal', lineNo: 0, value: 'bar'},
 				tek: {
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '+',
-					left: {type: 'Literal', value: 1},
-					right: {type: 'Literal', value: 2}
+					left: {type: 'Literal', lineNo: 0, value: 1},
+					right: {type: 'Literal', lineNo: 0, value: 2}
 				}
 			}
 		});
@@ -168,7 +188,7 @@ describe('Parser', function() {
 				foo: {
 					type: 'ObjectLiteral',
 					value: {
-						bar: {type: 'Literal', value: 'tek'}
+						bar: {type: 'Literal', lineNo: 0, value: 'tek'}
 					}
 				}
 			}
@@ -186,12 +206,13 @@ describe('Parser', function() {
 		inst.complete().should.deep.equal({
 			type: 'ArrayLiteral',
 			value: [
-				{type: 'Literal', value: 'foo'},
+				{type: 'Literal', lineNo: 0, value: 'foo'},
 				{
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '+',
-					left: {type: 'Literal', value: 1},
-					right: {type: 'Literal', value: 2}
+					left: {type: 'Literal', lineNo: 0, value: 1},
+					right: {type: 'Literal', lineNo: 0, value: 2}
 				}
 			]
 		});
@@ -201,12 +222,12 @@ describe('Parser', function() {
 		inst.complete().should.deep.equal({
 			type: 'ArrayLiteral',
 			value: [
-				{type: 'Literal', value: 'foo'},
+				{type: 'Literal', lineNo: 0, value: 'foo'},
 				{
 					type: 'ArrayLiteral',
 					value: [
-						{type: 'Literal', value: 'bar'},
-						{type: 'Literal', value: 'tek'}
+						{type: 'Literal', lineNo: 0, value: 'bar'},
+						{type: 'Literal', lineNo: 0, value: 'tek'}
 					]
 				}
 			]
@@ -223,46 +244,55 @@ describe('Parser', function() {
 		inst.addTokens(toLine('foo.bar.baz + 1'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '+',
 			left: {
 				type: 'Identifier',
+				lineNo: 0,
 				value: 'baz',
 				from: {
 					type: 'Identifier',
+					lineNo: 0,
 					value: 'bar',
 					from: {
 						type: 'Identifier',
+						lineNo: 0,
 						value: 'foo'
 					}
 				}
 			},
-			right: {type: 'Literal', value: 1}
+			right: {type: 'Literal', lineNo: 0, value: 1}
 		});
 	});
 	it('should apply transforms and arguments', function() {
 		inst.addTokens(toLine('foo|tr1|tr2.baz|tr3({bar:"tek"})'));
 		inst.complete().should.deep.equal({
 			type: 'Transform',
+			lineNo: 0,
 			name: 'tr3',
 			args: [{
 				type: 'ObjectLiteral',
 				value: {
-					bar: {type: 'Literal', value: 'tek'}
+					bar: {type: 'Literal', lineNo: 0, value: 'tek'}
 				}
 			}],
 			subject: {
 				type: 'Identifier',
+				lineNo: 0,
 				value: 'baz',
 				from: {
 					type: 'Transform',
+					lineNo: 0,
 					name: 'tr2',
 					args: [],
 					subject: {
 						type: 'Transform',
+						lineNo: 0,
 						name: 'tr1',
 						args: [],
 						subject: {
 							type: 'Identifier',
+							lineNo: 0,
 							value: 'foo'
 						}
 					}
@@ -274,43 +304,49 @@ describe('Parser', function() {
 		inst.addTokens(toLine('foo|bar("tek", 5, true)'));
 		inst.complete().should.deep.equal({
 			type: 'Transform',
+			lineNo: 0,
 			name: 'bar',
 			args: [
-				{type: 'Literal', value: 'tek'},
-				{type: 'Literal', value: 5},
-				{type: 'Literal', value: true}
+				{type: 'Literal', lineNo: 0, value: 'tek'},
+				{type: 'Literal', lineNo: 0, value: 5},
+				{type: 'Literal', lineNo: 0, value: true}
 			],
-			subject: {type: 'Identifier', value: 'foo'}
+			subject: {type: 'Identifier',
+			lineNo: 0, lineNo: 0, value: 'foo'}
 		});
 	});
 	it('should apply filters to identifiers', function() {
 		inst.addTokens(toLine('foo[1][.bar[0]=="tek"].baz'));
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
+			lineNo: 0,
 			value: 'baz',
 			from: {
 				type: 'FilterExpression',
 				relative: true,
 				expr: {
 					type: 'BinaryExpression',
+					lineNo: 0,
 					operator: '==',
 					left: {
 						type: 'FilterExpression',
 						relative: false,
-						expr: {type: 'Literal', value: 0},
+						expr: {type: 'Literal', lineNo: 0, value: 0},
 						subject: {
 							type: 'Identifier',
+							lineNo: 0,
 							value: 'bar',
 							relative: true
 						}
 					},
-					right: {type: 'Literal', value: 'tek'}
+					right: {type: 'Literal', lineNo: 0, value: 'tek'}
 				},
 				subject: {
 					type: 'FilterExpression',
 					relative: false,
-					expr: {type: 'Literal', value: 1},
-					subject: {type: 'Identifier', value: 'foo'}
+					expr: {type: 'Literal', lineNo: 0, value: 1},
+					subject: {type: 'Identifier',
+					lineNo: 0, lineNo: 0, value: 'foo'}
 				}
 			}
 		});
@@ -319,19 +355,22 @@ describe('Parser', function() {
 		inst.addTokens(toLine('"foo".length + {foo: "bar"}.foo'));
 		inst.complete().should.deep.equal({
 			type: 'BinaryExpression',
+			lineNo: 0,
 			operator: '+',
 			left: {
 				type: 'Identifier',
+				lineNo: 0,
 				value: 'length',
-				from: {type: 'Literal', value: 'foo'}
+				from: {type: 'Literal', lineNo: 0, value: 'foo'}
 			},
 			right: {
 				type: 'Identifier',
+				lineNo: 0,
 				value: 'foo',
 				from: {
 					type: 'ObjectLiteral',
 					value: {
-						foo: {type: 'Literal', value: 'bar'}
+						foo: {type: 'Literal', lineNo: 0, value: 'bar'}
 					}
 				}
 			}
@@ -341,12 +380,14 @@ describe('Parser', function() {
 		inst.addTokens(toLine('("foo" + "bar").length'));
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
+			lineNo: 0,
 			value: 'length',
 			from: {
 				type: 'BinaryExpression',
+				lineNo: 0,
 				operator: '+',
-				left: {type: 'Literal', value: 'foo'},
-				right: {type: 'Literal', value: 'bar'}
+				left: {type: 'Literal', lineNo: 0, value: 'foo'},
+				right: {type: 'Literal', lineNo: 0, value: 'bar'}
 			}
 		});
 	});
@@ -354,12 +395,13 @@ describe('Parser', function() {
 		inst.addTokens(toLine('["foo", "bar"].length'));
 		inst.complete().should.deep.equal({
 			type: 'Identifier',
+			lineNo: 0,
 			value: 'length',
 			from: {
 				type: 'ArrayLiteral',
 				value: [
-					{type: 'Literal', value: 'foo'},
-					{type: 'Literal', value: 'bar'}
+					{type: 'Literal', lineNo: 0, value: 'foo'},
+					{type: 'Literal', lineNo: 0, value: 'bar'}
 				]
 			}
 		});
@@ -368,51 +410,57 @@ describe('Parser', function() {
 		inst.addTokens(toLine('foo ? 1 : 0'));
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
-			test: {type: 'Identifier', value: 'foo'},
-			consequent: {type: 'Literal', value: 1},
-			alternate: {type: 'Literal', value: 0}
+			test: {type: 'Identifier',
+			lineNo: 0, lineNo: 0, value: 'foo'},
+			consequent: {type: 'Literal', lineNo: 0, value: 1},
+			alternate: {type: 'Literal', lineNo: 0, value: 0}
 		});
 	});
 	it('should handle nested and grouped ternary expressions', function() {
 		inst.addTokens(toLine('foo ? (bar ? 1 : 2) : 3'));
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
-			test: {type: 'Identifier', value: 'foo'},
+			test: {type: 'Identifier',
+			lineNo: 0, lineNo: 0, value: 'foo'},
 			consequent: {
 				type: 'ConditionalExpression',
-				test: {type: 'Identifier', value: 'bar'},
-				consequent: {type: 'Literal', value: 1},
-				alternate: {type: 'Literal', value: 2}
+				test: {type: 'Identifier',
+				lineNo: 0, lineNo: 0, value: 'bar'},
+				consequent: {type: 'Literal', lineNo: 0, value: 1},
+				alternate: {type: 'Literal', lineNo: 0, value: 2}
 			},
-			alternate: {type: 'Literal', value: 3}
+			alternate: {type: 'Literal', lineNo: 0, value: 3}
 		});
 	});
 	it('should handle nested, non-grouped ternary expressions', function() {
 		inst.addTokens(toLine('foo ? bar ? 1 : 2 : 3'));
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
-			test: {type: 'Identifier', value: 'foo'},
+			test: {type: 'Identifier',
+			lineNo: 0, lineNo: 0, value: 'foo'},
 			consequent: {
 				type: 'ConditionalExpression',
-				test: {type: 'Identifier', value: 'bar'},
-				consequent: {type: 'Literal', value: 1},
-				alternate: {type: 'Literal', value: 2}
+				test: {type: 'Identifier',
+				lineNo: 0, lineNo: 0, value: 'bar'},
+				consequent: {type: 'Literal', lineNo: 0, value: 1},
+				alternate: {type: 'Literal', lineNo: 0, value: 2}
 			},
-			alternate: {type: 'Literal', value: 3}
+			alternate: {type: 'Literal', lineNo: 0, value: 3}
 		});
 	});
 	it('should handle ternary expression with objects', function() {
 		inst.addTokens(toLine('foo ? {bar: "tek"} : "baz"'));
 		inst.complete().should.deep.equal({
 			type: 'ConditionalExpression',
-			test: {type: 'Identifier', value: 'foo'},
+			test: {type: 'Identifier',
+			lineNo: 0, lineNo: 0, value: 'foo'},
 			consequent: {
 				type: 'ObjectLiteral',
 				value: {
-					bar: {type: 'Literal', value: 'tek'}
+					bar: {type: 'Literal', lineNo: 0, value: 'tek'}
 				}
 			},
-			alternate: {type: 'Literal', value: 'baz'}
+			alternate: {type: 'Literal', lineNo: 0, value: 'baz'}
 		});
 	});
 });

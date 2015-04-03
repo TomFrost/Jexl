@@ -67,7 +67,7 @@ describe('Lexer', function() {
 		it("should unquote string elements", function() {
 			var lines = inst.getTokenizedLines(['"foo \\"bar\\\\"']);
 			lines.should.deep.equal([[{
-				type: 'literal',
+				type: 'literal', lineNo: 0,
 				value: 'foo "bar\\',
 				raw: '"foo \\"bar\\\\"'
 			}]]);
@@ -77,11 +77,13 @@ describe('Lexer', function() {
 			lines.should.deep.equal([[
 				{
 					type: 'literal',
+					lineNo: 0,
 					value: true,
 					raw: 'true'
 				},
 				{
 					type: 'literal',
+					lineNo: 0,
 					value: false,
 					raw: 'false'
 				}
@@ -92,11 +94,13 @@ describe('Lexer', function() {
 			lines.should.deep.equal([[
 				{
 					type: 'literal',
+					lineNo: 0,
 					value: -7.6,
 					raw: '-7.6'
 				},
 				{
 					type: 'literal',
+					lineNo: 0,
 					value: 20,
 					raw: '20'
 				}
@@ -105,7 +109,7 @@ describe('Lexer', function() {
 		it("should recognize binary operators", function() {
 			var lines = inst.getTokenizedLines(['+']);
 			lines.should.deep.equal([[{
-				type: 'binaryOp',
+				type: 'binaryOp', lineNo: 0,
 				value: '+',
 				raw: '+'
 			}]]);
@@ -113,7 +117,7 @@ describe('Lexer', function() {
 		it("should recognize unary operators", function() {
 			var lines = inst.getTokenizedLines(['!']);
 			lines.should.deep.equal([[{
-				type: 'unaryOp',
+				type: 'unaryOp', lineNo: 0,
 				value: '!',
 				raw: '!'
 			}]]);
@@ -121,7 +125,7 @@ describe('Lexer', function() {
 		it("should recognize control characters", function() {
 			var lines = inst.getTokenizedLines(['(']);
 			lines.should.deep.equal([[{
-				type: 'openParen',
+				type: 'openParen', lineNo: 0,
 				value: '(',
 				raw: '('
 			}]]);
@@ -129,7 +133,7 @@ describe('Lexer', function() {
 		it("should recognize identifiers", function() {
 			var lines = inst.getTokenizedLines(['_foo9_bar']);
 			lines.should.deep.equal([[{
-				type: 'identifier',
+				type: 'identifier', lineNo: 0,
 				value: '_foo9_bar',
 				raw: '_foo9_bar'
 			}]]);
@@ -142,43 +146,43 @@ describe('Lexer', function() {
 	it("should tokenize a full expression", function() {
 		var lines = inst.tokenizeLines('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]');
 		lines.should.deep.equal([[
-			{type: 'literal', value: 6, raw: '6'},
-			{type: 'binaryOp', value: '+', raw: '+'},
-			{type: 'identifier', value: 'x', raw: 'x '},
-			{type: 'binaryOp', value: '-', raw: '-  '},
-			{type: 'literal', value: -17.55, raw: '-17.55'},
-			{type: 'binaryOp', value: '*', raw: '*'},
-			{type: 'identifier', value: 'y', raw: 'y'},
-			{type: 'binaryOp', value: '<=', raw: '<= '},
-			{type: 'unaryOp', value: '!', raw: '!'},
-			{type: 'identifier', value: 'foo', raw: 'foo'},
-			{type: 'dot', value: '.', raw: '.'},
-			{type: 'identifier', value: 'bar', raw: 'bar'},
-			{type: 'openBracket', value: '[', raw: '['},
-			{type: 'literal', value: 'baz"foz', raw: '"baz\\"foz"'},
-			{type: 'closeBracket', value: ']', raw: ']'}
+			{type: 'literal', lineNo: 0, value: 6, raw: '6'},
+			{type: 'binaryOp', lineNo: 0, value: '+', raw: '+'},
+			{type: 'identifier', lineNo: 0, value: 'x', raw: 'x '},
+			{type: 'binaryOp', lineNo: 0, value: '-', raw: '-  '},
+			{type: 'literal', lineNo: 0, value: -17.55, raw: '-17.55'},
+			{type: 'binaryOp', lineNo: 0, value: '*', raw: '*'},
+			{type: 'identifier', lineNo: 0, value: 'y', raw: 'y'},
+			{type: 'binaryOp', lineNo: 0, value: '<=', raw: '<= '},
+			{type: 'unaryOp', lineNo: 0, value: '!', raw: '!'},
+			{type: 'identifier', lineNo: 0, value: 'foo', raw: 'foo'},
+			{type: 'dot', lineNo: 0, value: '.', raw: '.'},
+			{type: 'identifier', lineNo: 0, value: 'bar', raw: 'bar'},
+			{type: 'openBracket', lineNo: 0, value: '[', raw: '['},
+			{type: 'literal', lineNo: 0, value: 'baz"foz', raw: '"baz\\"foz"'},
+			{type: 'closeBracket', lineNo: 0, value: ']', raw: ']'}
 		]]);
 	});
 	it("should consider minus to be negative appropriately", function() {
 		inst.tokenizeLines('-1?-2:-3').should.deep.equal([[
-			{type: 'literal', value: -1, raw: '-1'},
-			{type: 'question', value: '?', raw: '?'},
-			{type: 'literal', value: -2, raw: '-2'},
-			{type: 'colon', value: ':', raw: ':'},
-			{type: 'literal', value: -3, raw: '-3'}
+			{type: 'literal', lineNo: 0, value: -1, raw: '-1'},
+			{type: 'question', lineNo: 0, value: '?', raw: '?'},
+			{type: 'literal', lineNo: 0, value: -2, raw: '-2'},
+			{type: 'colon', lineNo: 0, value: ':', raw: ':'},
+			{type: 'literal', lineNo: 0, value: -3, raw: '-3'}
 		]]);
 	});
 	it("should properly tokenize a multiline expression, ignoring lines of only whitespace", function() {
 		inst.tokenizeLines('foo=5+7;\n   \n\n   \n;foo').should.deep.equal([
 			[
-				{type: 'identifier', value: 'foo', raw: 'foo'},
-				{type: 'equals', value: '=', raw: '='},
-				{type: 'literal', value: 5, raw: '5'},
-				{type: 'binaryOp', value: '+', raw: '+'},
-				{type: 'literal', value: 7, raw: '7'}
+				{type: 'identifier', lineNo: 0, value: 'foo', raw: 'foo'},
+				{type: 'assignOp', lineNo: 0, value: '=', raw: '='},
+				{type: 'literal', lineNo: 0, value: 5, raw: '5'},
+				{type: 'binaryOp', lineNo: 0, value: '+', raw: '+'},
+				{type: 'literal', lineNo: 0, value: 7, raw: '7'}
 			],
 			[
-				{type: 'identifier', value: 'foo', raw: 'foo'}
+				{type: 'identifier', lineNo: 1, value: 'foo', raw: 'foo'}
 			]
 		]);
 	});

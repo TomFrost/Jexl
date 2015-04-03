@@ -104,8 +104,11 @@ describe('Jexl', function() {
 	it('should allow assignment of multiple variables to the context', function() {
 		return inst.eval('foo=5+7; bar=foo*2; bar').should.become(24);
 	});
-	it('should not allow assignment of variables to the context within a subexpresion', function() {
-		return inst.eval('foo=5+(bar = 7); foo').should.eventually.be.rejected;
+	it('should allow succesive variable assignments to the context', function() {
+		return inst.eval('foo=1; bar=foo*2; foo+=5; bar+foo').should.become(8);
+	});
+	it('should allow assignment of variables to the context within a subexpresion', function() {
+		return inst.eval('foo=5+(bar = 7); foo').should.become(12);
 	});
 	it('should not change the supplied context variable', function() {
 		var context = {};
@@ -130,5 +133,11 @@ describe('Jexl', function() {
 			context.n.should.equal(17);
 			return Promise.resolve(res);
 		}).should.eventually.deep.equal([5,6,7]);
+	});
+	it('should throw on an attempt to evaluate bare identifiers separated by commas', function() {
+		return inst.eval('x, y', {x:1, y:2}).should.eventually.be.rejected;
+	});
+	it('should throw on a lambda declaration outside of a subexpresion', function() {
+		return inst.eval('1 + -> 1').should.eventually.be.rejected;
 	});
 });
