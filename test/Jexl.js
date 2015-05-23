@@ -158,4 +158,15 @@ describe('Jexl', function() {
 	it('should throw on a lambda declaration outside of a subexpresion', function() {
 		return inst.eval('1 + -> 1').should.eventually.be.rejected;
 	});
+	it('should compile an expression', function() {
+		var fn = inst.compile('foo');
+		return Promise.all([
+			fn({foo: 5}),
+			fn({foo: 0})
+		]).should.eventually.deep.equal([5,0]);
+	});
+	it('should throw when compiling an expression with invalid tokens', function() {
+		var fn = inst.compile.bind(inst, '9foo');
+		return fn.should.throw();
+	});
 });

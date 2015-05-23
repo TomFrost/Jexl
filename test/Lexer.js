@@ -139,8 +139,8 @@ describe('Lexer', function() {
 			}]]);
 		});
 		it("should throw on invalid token", function() {
-			var fn = inst.getTokenizedLines.bind(Lexer, ['9foo']);
-			fn.should.throw();
+			var fn = inst.getTokenizedLines.bind(inst, ['9foo']);
+			return fn.should.throw();
 		});
 	});
 	it("should tokenize a full expression", function() {
