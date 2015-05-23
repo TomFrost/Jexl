@@ -11,13 +11,18 @@ var chai = require('chai'),
 	Evaluator = require('../../lib/evaluator/Evaluator'),
 	grammar = require('../../lib/grammar').elements;
 
+if (!global.Promise)
+	global.Promise = require('bluebird').Promise;
+
 chai.use(chaiAsPromised);
 
 var lexer = new Lexer(grammar);
 
 function toTree(exp) {
 	var p = new Parser(grammar);
-	p.addTokens(lexer.tokenize(exp));
+	var lines = lexer.tokenizeLines(exp);
+	lines.length.should.equal(1);
+	p.addTokens(lines[0]);
 	return p.complete();
 }
 
@@ -93,7 +98,7 @@ describe('Evaluator', function() {
 	});
 	it('should throw when transform does not exist', function() {
 		var e = new Evaluator(grammar);
-		return e.eval(toTree('"hello"|world')).should.reject;
+		return e.eval(toTree('"hello"|world')).should.eventually.be.rejected;
 	});
 	it('should apply the DivFloor operator', function() {
 		var e = new Evaluator(grammar);
