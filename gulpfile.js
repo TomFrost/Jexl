@@ -11,7 +11,8 @@ var browserify = require('browserify'),
 	path = require('path'),
 	coverageEnforcer = require("gulp-istanbul-enforcer"),
 	istanbul = require('gulp-istanbul'),
-	mocha = require('gulp-mocha');
+	mocha = require('gulp-mocha'),
+	compressor = require('node-minify');
 
 gulp.task('dist', function() {
 	// transform regular node stream to gulp (buffered vinyl) stream
