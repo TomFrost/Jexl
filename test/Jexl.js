@@ -60,8 +60,22 @@ describe('Jexl', function() {
 		});
 		return inst.eval('2|add1|add2').should.become(5);
 	});
+	it('should call callback with error result when a non-compile error is thrown', function(done) {
+		inst.addTransform('throw', function() { throw new Error('foo'); });
+		inst.eval('5 | throw', function(err, res) {
+			should.exist(err);
+			should.not.exist(res);
+			done();
+		});
+	});
 	it('should pass context', function() {
 		return inst.eval('foo', {foo: 'bar'}).should.become('bar');
+	});
+	it('should have proper order of arithmetic operations', function() {
+		return inst.eval('5 + 12/4 + 5%2 + 2^3 - 2').should.become(15);
+	});
+	it('should evaluate the "!", "<", and "!=" operators', function() {
+		return inst.eval('!5 != (3 < 5)').should.become(true);
 	});
 	it('should allow binaryOps to be defined', function() {
 		inst.addBinaryOp('_=', 20, function(left, right) {
@@ -89,11 +103,14 @@ describe('Jexl', function() {
 	});
 	it('should allow binaryOps to be removed', function() {
 		inst.removeOp('+');
-		return inst.eval.bind(inst, '1+2').should.throw;
+		return inst.eval('1+2').should.eventually.be.rejected;
 	});
 	it('should allow unaryOps to be removed', function() {
 		inst.removeOp('!');
-		return inst.eval.bind(inst, '!true').should.throw;
+		return inst.eval('!true').should.eventually.be.rejected;
+	});
+	it('should throw when the expression has a trailing "-" token', function() {
+		return inst.eval('500 + -').should.eventually.be.rejected;
 	});
 	it('should allow assignment of a variable to context', function() {
 		return inst.eval('foo=5+7; foo+3').should.become(15);
@@ -106,6 +123,9 @@ describe('Jexl', function() {
 	});
 	it('should allow succesive variable assignments to the context', function() {
 		return inst.eval('foo=1; bar=foo*2; foo+=5; bar+foo').should.become(8);
+	});
+	it('should properly handle various assign operations', function() {
+		return inst.eval('foo=3; foo*=5; foo-=3; foo/=2; foo').should.become(6);
 	});
 	it('should allow assignment of variables to the context within a subexpresion', function() {
 		return inst.eval('foo=5+(bar = 7); foo').should.become(12);
@@ -168,5 +188,9 @@ describe('Jexl', function() {
 	it('should throw when compiling an expression with invalid tokens', function() {
 		var fn = inst.compile.bind(inst, '9foo');
 		return fn.should.throw();
+	});
+	it('should apply a filter to an object post-transform', function() {
+		inst.addTransform('id', function(x) { return x; });
+		return inst.eval("{foo: 5, bar: 7} | id[.foo > 3].bar").should.become(7);
 	});
 });

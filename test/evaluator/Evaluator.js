@@ -136,6 +136,21 @@ describe('Evaluator', function() {
 		return e.eval(toTree('["foo", 1+2]'))
 			.should.eventually.deep.equal(["foo", 3]);
 	});
+	it('should evaluate an && operator with a falsy first argument', function() {
+		var e = new Evaluator(grammar);
+		return e.eval(toTree('0 && 7'))
+			.should.eventually.deep.equal(0);
+	});
+	it('should evaluate an || operator with a truthy first argument', function() {
+		var e = new Evaluator(grammar);
+		return e.eval(toTree('"hi" || 7'))
+			.should.eventually.deep.equal("hi");
+	});
+	it('should evaluate an || operator with a falsy first argument', function() {
+		var e = new Evaluator(grammar);
+		return e.eval(toTree('"" || 7'))
+			.should.eventually.deep.equal(7);
+	});
 	it('should apply the "in" operator to strings', function() {
 		var e = new Evaluator(grammar);
 		return Promise.all([
@@ -150,6 +165,10 @@ describe('Evaluator', function() {
 			e.eval(toTree('"baz" in ["foo","bar","tek"]')).should.become(false)
 		]);
 	});
+	it('should return false when the "in" operator is applied to other types', function() {
+		var e = new Evaluator(grammar);
+		return e.eval(toTree('"bar" in {bar: 5}')).should.become(false);
+	});
 	it('should evaluate a conditional expression', function() {
 		var e = new Evaluator(grammar);
 		return Promise.all([
@@ -161,4 +180,5 @@ describe('Evaluator', function() {
 		var e = new Evaluator(grammar);
 		return e.eval(toTree('"foo" ?: "bar"')).should.become("foo");
 	});
+
 });
