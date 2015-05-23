@@ -89,11 +89,11 @@ describe('Jexl', function() {
 	});
 	it('should allow binaryOps to be removed', function() {
 		inst.removeOp('+');
-		return inst.eval('1+2').should.reject;
+		return inst.eval.bind(inst, '1+2').should.throw;
 	});
 	it('should allow unaryOps to be removed', function() {
 		inst.removeOp('!');
-		return inst.eval('!true').should.reject;
+		return inst.eval.bind(inst, '!true').should.throw;
 	});
 	it('should allow assignment of a variable to context', function() {
 		return inst.eval('foo=5+7; foo+3').should.become(15);
