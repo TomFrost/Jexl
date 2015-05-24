@@ -193,4 +193,10 @@ describe('Jexl', function() {
 		inst.addTransform('id', function(x) { return x; });
 		return inst.eval("{foo: 5, bar: 7} | id[.foo > 3].bar").should.become(7);
 	});
+	it('should apply a collect subexpresion over an array', function() {
+		return inst.eval("[3,5,7] <| @ + # |>").should.eventually.deep.equal([3,6,9]);
+	});
+	it('should apply a collect subexpresion over an object', function() {
+		return inst.eval("{foo: 5, bar: 7} <| @ + 2 |>").should.eventually.deep.equal({foo: 7, bar: 9});
+	});
 });
