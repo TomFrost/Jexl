@@ -96,10 +96,10 @@ describe('Jexl', function() {
 		]).should.become([20, 15]);
 	});
 	it('should allow unaryOps to be defined', function() {
-		inst.addUnaryOp('~', function(right) {
+		inst.addUnaryOp('$', function(right) {
 			return Math.floor(right);
 		});
-		return inst.eval('~5.7 + 5').should.become(10);
+		return inst.eval('$5.7 + 5').should.become(10);
 	});
 	it('should allow binaryOps to be removed', function() {
 		inst.removeOp('+');
@@ -207,6 +207,9 @@ describe('Jexl', function() {
 	});
 	it('should allow access of properties of values without a dot within a collect expresion', function() {
 		return inst.eval("foo <| @bar + 2 |>", {foo: [{bar: 5}]}).should.eventually.deep.equal([7]);
+	});
+	it('should filter results indicated by the "~" character', function() {
+		return inst.eval("[1,2,3,4,5] <| @ > 2 ? ~ : @ |>").should.eventually.deep.equal([1,2]);
 	});
 	it('should return undefined for the result of a nonexistant relative identifier', function() {
 		return inst.eval("foo.bar").should.become(undefined);
