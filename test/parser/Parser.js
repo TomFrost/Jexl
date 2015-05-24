@@ -458,7 +458,7 @@ describe('Parser', function() {
 		completeParse("5 + 5");
 		return inst.addToken.bind(inst, extraToken).should.throw()
 	});
-	it('should XXX', function() {
-		return completeParse.bind(null, 'x, y').should.throw();
+	it('should throw when an expression has bare identifiers separated by commas', function() {
+		return completeParse.bind(null, '(((x, y)))').should.throw();
 	});
 });
