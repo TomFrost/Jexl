@@ -448,7 +448,7 @@ describe('Parser', function() {
 		return completeParse.bind(null, "5+").should.throw();
 	});
 	it('should throw when an expression has bare identifiers', function() {
-		return completeParse.bind(null, "foo bar").should.throw();
+		return completeParse.bind(null, "foo garf").should.throw();
 	});
 	it('should throw when literals are used as variables in a lambda expression', function() {
 		return completeParse.bind(null, "foo | map((5) -> 5 + 2)").should.throw();
@@ -457,5 +457,8 @@ describe('Parser', function() {
 		var extraToken = toLine("foo")[0];
 		completeParse("5 + 5");
 		return inst.addToken.bind(inst, extraToken).should.throw()
+	});
+	it('should XXX', function() {
+		return completeParse.bind(null, 'x, y').should.throw();
 	});
 });

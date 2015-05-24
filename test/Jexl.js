@@ -146,7 +146,7 @@ describe('Jexl', function() {
 		inst.addTransform('map', function(val, lambda) {
 			return val.map(lambda);
 		});
-		return inst.eval('foo = [1,2,3] | map((n, i) -> n + i); foo').should.eventually.deep.equal([1,3,5]);
+		return inst.eval('foo = [1,2,3] | map((n, i, a, b, c) -> n + i); foo').should.eventually.deep.equal([1,3,5]);
 	});
 	it('should throw when string literals are used as argument names', function() {
 		inst.addTransform('map', function(val, lambda) {
