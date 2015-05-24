@@ -1,6 +1,6 @@
 jexl = require('./lib/Jexl')
 
-jexl.eval("[{hi: 5}, {hi: 7}] <| @hi + # |>", {foo: 5}).then =>
+jexl.eval("foo bar", {foo: 5}).then =>
 	console.log arguments
 .catch =>
 	console.log arguments

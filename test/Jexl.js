@@ -199,4 +199,22 @@ describe('Jexl', function() {
 	it('should apply a collect subexpresion over an object', function() {
 		return inst.eval("{foo: 5, bar: 7} <| @ + 2 |>").should.eventually.deep.equal({foo: 7, bar: 9});
 	});
+	it('should return a singleton when applying a collect subexpresion over a non-object', function() {
+		return inst.eval("20 <| @ + 2 |>").should.become(22);
+	});
+	it('should allow access of context variables within a collect expresion', function() {
+		return inst.eval("[5,10] <| @ + foo |>", {foo: 5}).should.eventually.deep.equal([10,15]);
+	});
+	it('should allow access of properties of values without a dot within a collect expresion', function() {
+		return inst.eval("foo <| @bar + 2 |>", {foo: [{bar: 5}]}).should.eventually.deep.equal([7]);
+	});
+	it('should return undefined for the result of a nonexistant relative identifier', function() {
+		return inst.eval("foo.bar").should.become(undefined);
+	});
+	it('should apply a static filter that evaluates to true', function() {
+		return inst.eval("foo[3>2]", {foo: [1,2,3]}).should.eventually.deep.equal([1,2,3]);
+	});
+	it('should return undefined when applying a static filter that evaluates to false', function() {
+		return inst.eval("foo[2>3]", {foo: [1,2,3]}).should.become(undefined);
+	});
 });
