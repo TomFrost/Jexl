@@ -217,5 +217,4 @@ describe('Jexl', function() {
 	it('should return undefined when applying a static filter that evaluates to false', function() {
 		return inst.eval("foo[2>3]", {foo: [1,2,3]}).should.become(undefined);
 	});
-
 });
