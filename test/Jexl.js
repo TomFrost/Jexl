@@ -208,6 +208,12 @@ describe('Jexl', function() {
 	it('should allow access of properties of values without a dot within a collect expresion', function() {
 		return inst.eval("foo <| @bar + 2 |>", {foo: [{bar: 5}]}).should.eventually.deep.equal([7]);
 	});
+	it('should identify array literals within a collect expresion', function() {
+		return inst.eval("foo <| [@bar, @baz] |>", {foo: [{bar: 5, baz: 7}]}).should.eventually.deep.equal([[5,7]]);
+	});
+	it('should throw when a bare identifiers separated by commas are used within a subexpresion of an array literal within a collect expression', function() {
+		return inst.eval("foo <| [(@bar, @baz)] |>", {foo: [{bar: 5, baz: 7}]}).should.eventually.be.rejected;
+	});
 	it('should filter results indicated by the "~" character', function() {
 		return inst.eval("[1,2,3,4,5] <| @ > 2 ? ~ : @ |>").should.eventually.deep.equal([1,2]);
 	});
