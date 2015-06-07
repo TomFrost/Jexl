@@ -197,8 +197,8 @@ describe('Jexl', function() {
 	it('should apply a collect subexpresion over an object', function() {
 		return inst.eval("{foo: 5, bar: 7} <| @ + 2 |>").should.eventually.deep.equal({foo: 7, bar: 9});
 	});
-	it('should return a singleton when applying a collect subexpresion over a non-object', function() {
-		return inst.eval("20 <| @ + 2 |>").should.become(22);
+	it('should throw applying a collect subexpresion over a non-object', function() {
+		return inst.eval("20 <| @ + 2 |>").should.eventually.be.rejected;
 	});
 	it('should allow access of context variables within a collect expresion', function() {
 		return inst.eval("[5,10] <| @ + foo |>", {foo: 5}).should.eventually.deep.equal([10,15]);
@@ -232,5 +232,8 @@ describe('Jexl', function() {
 	});
 	it('should evaluate a find expression to undefined when there are no truthy results', function() {
 		return inst.eval("[1,2,3,4,5] <|* @ % 7 == 0 ? @ : ~ |> ").should.become(undefined);
+	});
+	it('should allow string literals as object keys', function() {
+		return inst.eval("{'foo': 5}['foo']").should.become(5);
 	});
 });
