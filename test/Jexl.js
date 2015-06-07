@@ -183,6 +183,10 @@ describe('Jexl', function() {
 		var fn = inst.compile.bind(inst, '9foo');
 		return fn.should.throw();
 	});
+	it('should throw when compiling an expression that assigns and identifies the same variable in the same line', function() {
+		var fn = inst.compile.bind(inst, 'foo=foo;foo');
+		return fn.should.throw();
+	});
 	it('should apply a filter to an object post-transform', function() {
 		inst.addTransform('id', function(x) { return x; });
 		return inst.eval("{foo: 5, bar: 7} | id[.foo > 3].bar").should.become(7);
@@ -219,5 +223,8 @@ describe('Jexl', function() {
 	});
 	it('should return undefined when applying a static filter that evaluates to false', function() {
 		return inst.eval("foo[2>3]", {foo: [1,2,3]}).should.become(undefined);
+	});
+	it('should allow definition of a transform', function() {
+		return inst.eval("addDouble(i) |= @ + 2*i; 5 | addDouble(3)").should.become(11);
 	});
 });
