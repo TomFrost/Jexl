@@ -176,7 +176,7 @@ describe('Lexer', function() {
 		inst.tokenizeLines('foo=5+7;\n   \n\n   \n;foo').should.deep.equal([
 			[
 				{type: 'identifier', lineNo: 0, value: 'foo', raw: 'foo'},
-				{type: 'assignOp', lineNo: 0, value: '=', raw: '='},
+				{type: 'equals', lineNo: 0, value: '=', raw: '='},
 				{type: 'literal', lineNo: 0, value: 5, raw: '5'},
 				{type: 'binaryOp', lineNo: 0, value: '+', raw: '+'},
 				{type: 'literal', lineNo: 0, value: 7, raw: '7'}

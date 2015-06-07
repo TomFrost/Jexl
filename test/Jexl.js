@@ -122,13 +122,7 @@ describe('Jexl', function() {
 		return inst.eval('foo=5+7; bar=foo*2; bar').should.become(24);
 	});
 	it('should allow succesive variable assignments to the context', function() {
-		return inst.eval('foo=1; bar=foo*2; foo+=5; bar+foo').should.become(8);
-	});
-	it('should properly handle various assign operations', function() {
-		return inst.eval('foo=3; foo*=5; foo-=3; foo/=2; foo').should.become(6);
-	});
-	it('should allow assignment of variables to the context within a subexpresion', function() {
-		return inst.eval('foo=5+(bar = 7); foo').should.become(12);
+		return inst.eval('foo=1; bar=foo*2; baz=foo+bar; baz*bar').should.become(6);
 	});
 	it('should not change the supplied context variable', function() {
 		var context = {};
