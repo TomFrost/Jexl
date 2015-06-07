@@ -227,4 +227,10 @@ describe('Jexl', function() {
 	it('should allow definition of a transform', function() {
 		return inst.eval("addDouble(i) |= @ + 2*i; 5 | addDouble(3)").should.become(11);
 	});
+	it('should evaluate a find expression', function() {
+		return inst.eval("[1,2,3,4,5] <|* @ % 4 == 0 ? @ : ~ |> ").should.become(4);
+	});
+	it('should evaluate a find expression to undefined when there are no truthy results', function() {
+		return inst.eval("[1,2,3,4,5] <|* @ % 7 == 0 ? @ : ~ |> ").should.become(undefined);
+	});
 });
