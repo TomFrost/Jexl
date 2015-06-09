@@ -207,7 +207,7 @@ describe('Jexl', function() {
 		return inst.eval("foo <| @bar + 2 |>", {foo: [{bar: 5}]}).should.eventually.deep.equal([7]);
 	});
 	it('should allow object literals with multiple identifiers within a collect expression', function() {
-		return inst.eval("[1,2,3] <| {num: @, inc: 1} |> <| @num + @inc |>").should.eventually.deep.equal([2,3,4]);
+		return inst.eval("[1,2,3] <| {num: @, inc: @} |> <| @num + @inc |>").should.eventually.deep.equal([2,4,6]);
 	});
 	it('should identify array literals within a collect expresion', function() {
 		return inst.eval("foo <| [@bar, @baz] |>", {foo: [{bar: 5, baz: 7}]}).should.eventually.deep.equal([[5,7]]);
