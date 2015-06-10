@@ -54,7 +54,7 @@ jexl.eval('age > 62 ? "retired" : "working"', context).then(function(res) {
 jexl.addTransform('upper', function(val) {
     return val.toUpperCase();
 });
-jexl.eval('"duchess"|upper + " " + name.last|upper', context).then(function(err, res) {
+jexl.eval('"duchess"|upper + " " + name.last|upper', context).then(function(res) {
     console.log(res); // Output: DUCHESS ARCHER
 });
 
