@@ -112,6 +112,9 @@ describe('Jexl', function() {
 	it('should throw when the expression has a trailing "-" token', function() {
 		return inst.eval('500 + -').should.eventually.be.rejected;
 	});
+	it('should allow access to properties of object literals', function() {
+		return inst.eval('{foo: 5}.foo').should.become(5);
+	});
 	it('should allow assignment of a variable to context', function() {
 		return inst.eval('foo=5+7; foo+3').should.become(15);
 	});
