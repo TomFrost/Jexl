@@ -22,8 +22,7 @@ function toTree(exp) {
 	var p = new Parser(grammar);
 	var lines = lexer.tokenizeLines(exp);
 	lines.length.should.equal(1);
-	p.addTokens(lines[0]);
-	return p.complete();
+	return p.addTokens(lines[0]);
 }
 
 describe('Evaluator', function() {

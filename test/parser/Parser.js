@@ -25,8 +25,7 @@ describe('Parser', function() {
 	beforeEach(function() {
 		inst = new Parser(grammar);
 		completeParse = function(exp) {
-			inst.addTokens(toLine(exp));
-			return inst.complete();
+			return inst.addTokens(toLine(exp));
 		};
 	});
 	it('should construct an AST for 1+2', function() {
