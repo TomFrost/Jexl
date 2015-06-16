@@ -140,19 +140,7 @@ describe('Jexl', function() {
 		inst.addTransform('map', function(val, lambda) {
 			return val.map(lambda);
 		});
-		return inst.eval('foo = [1,2,3] | map((n, i, a, b, c) -> n + i); foo').should.eventually.deep.equal([1,3,5]);
-	});
-	it('should throw when string literals are used as argument names', function() {
-		inst.addTransform('map', function(val, lambda) {
-			return val.map(lambda);
-		});
-		return inst.eval('foo = [1,2,3] | map(("n", i) -> n + i); foo').should.eventually.be.rejected;
-	});
-	it('should throw when number literals are used as argument names', function() {
-		inst.addTransform('map', function(val, lambda) {
-			return val.map(lambda);
-		});
-		return inst.eval('foo = [1,2,3] | map((5, i) -> n + i); foo').should.eventually.be.rejected;
+		return inst.eval('foo = [1,2,3] | map((n, i, a, b, c) -> n - i); foo').should.eventually.deep.equal([1,1,1]);
 	});
 	it('should allow access of context variables within lambda functions with correct scope and not alter existing context', function() {
 		var context = {other: 4, n: 17};
@@ -227,9 +215,6 @@ describe('Jexl', function() {
 	it('should return undefined when applying a static filter that evaluates to false', function() {
 		return inst.eval("foo[2>3]", {foo: [1,2,3]}).should.become(undefined);
 	});
-	it('should allow definition of a transform', function() {
-		return inst.eval("addDouble(num, i) |= num + 2*i; 5 | addDouble(3)").should.become(11);
-	});
 	it('should evaluate a find expression', function() {
 		return inst.eval("[1,2,3,4,5] <|* @ % 4 == 0 ? @ : ~ |> ").should.become(4);
 	});
@@ -242,10 +227,13 @@ describe('Jexl', function() {
 	it('should apply a reduce expression', function() {
 		return inst.eval("[1,2,3,4,5] <| @ + $ , 0|>").should.become(15);
 	});
-	it('should allow a reduce expression as a transform assignment', function() {
-		return inst.eval("sum(arr) |= arr <| @ + $, 0 |>; [1,2,3,4,5] | sum").should.become(15);
-	});
 	it('should allow evaluation of an array literal', function() {
 		return inst.eval("[1,2,3]").should.eventually.deep.equal([1,2,3]);
+	});
+	it('should allow definition of a transform', function() {
+		return inst.eval("addDouble(num, i) |= num + 2*i; 5 | addDouble(3)").should.become(11);
+	});
+	it('should allow a reduce expression as a transform assignment', function() {
+		return inst.eval("sum(arr) |= arr <| @ + $, 0 |>; [1,2,3,4,5] | sum").should.become(15);
 	});
 });
