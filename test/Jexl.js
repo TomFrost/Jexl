@@ -175,6 +175,10 @@ describe('Jexl', function() {
 		var fn = inst.compile.bind(inst, 'foo=foo;foo');
 		return fn.should.throw();
 	});
+	it('should throw when compiling an expression that assigns a variable multiple times', function() {
+		var fn = inst.compile.bind(inst, 'foo=5; foo=6; foo');
+		return fn.should.throw();
+	});
 	it('should apply a filter to an object post-transform', function() {
 		inst.addTransform('id', function(x) { return x; });
 		return inst.eval("{foo: 5, bar: 7} | id[.foo > 3].bar").should.become(7);
