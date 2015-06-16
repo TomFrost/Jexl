@@ -151,7 +151,7 @@ describe('Jexl', function() {
 			Object.keys(context).should.have.length(2);
 			context.other.should.equal(4);
 			context.n.should.equal(17);
-			return Promise.resolve(res);
+			return res;
 		}).should.eventually.deep.equal([5,6,7]);
 	});
 	it('should throw on an attempt to evaluate bare identifiers separated by commas', function() {
