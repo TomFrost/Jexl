@@ -89,14 +89,17 @@ For Node.js, type this in your project folder:
 
     npm install jexl --save
 
-For the frontend, drop `dist/jexl.min.js` into your project and include it on
-your page with:
+For the frontend, drop `dist/jexl.min.js` into your project. It's in a UMD
+wrapper, so feel free to include it using your favorite module manager or just
+include it on your page with:
 
     <script src="path/to/jexl.min.js"></script>
 
-Access Jexl the same way, backend or front:
+If the above live was used, you now have Jexl!
 
-    var jexl = require('Jexl');
+    Jexl.eval('2+2').then(function(result) {
+        console.log(result);
+    });
 
 ## All the details
 ### Unary Operators

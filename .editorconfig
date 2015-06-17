@@ -1,0 +1,27 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# Note that this config violates the TechnologyAdvice standard style guide
+# found at https://github.com/TechnologyAdvice/javascript due to Jexl being
+# written before that style guide was adopted. We'll potentially re-style this
+# if there's a period of no open PRs against the old styles.
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+[*.{md,markdown}]
+trim_trailing_whitespace = false
+
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.js]
+indent_style = tab
+indent_size = 4

@@ -1,0 +1,13 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "no-console": 0,                // http://eslint.org/docs/rules/no-console
+    "new-cap": 0,                    // http://eslint.org/docs/rules/new-cap
+    // TODO: Remove the following lines when Jexl is updated to new style
+    "no-unused-vars": 0,
+    "no-mixed-requires": 0
+  }
+}

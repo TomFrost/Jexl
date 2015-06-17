@@ -7,8 +7,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "istanbul cover _mocha -- -R spec --recursive test",
-    "prepublish": "gulp"
+    "test": "npm run lint && npm run test-cov && npm run check-cov && npm run karma",
+    "lint": "eslint .",
+    "karma": "karma start",
+    "mocha": "mocha -R spec --recursive test",
+    "test-cov": "istanbul cover _mocha -- -R spec --recursive test",
+    "check-cov": "istanbul check-coverage --statements 95 --functions 92 --branches 88 --lines 95",
+    "build": "browserify lib/Jexl.js -s Jexl | derequire | uglifyjs > dist/jexl.min.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -32,17 +38,17 @@
   },
   "homepage": "https://github.com/TechnologyAdvice/jexl",
   "devDependencies": {
-    "browserify": "^9.0.3",
+    "browserify": "^10.2.4",
     "chai": "^2.0.0",
     "chai-as-promised": "^4.2.0",
-    "gulp": "^3.8.11",
-    "gulp-istanbul": "^0.6.0",
-    "gulp-istanbul-enforcer": "^1.0.3",
-    "gulp-mocha": "^2.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^1.1.0",
+    "derequire": "^2.0.0",
+    "eslint": "^0.23.0",
     "istanbul": "^0.3.8",
+    "karma": "^0.12.36",
+    "karma-browserify": "^4.2.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.1.10",
     "mocha": "^2.1.0",
-    "vinyl-transform": "^1.0.0"
+    "uglify-js": "^2.4.23"
   }
 }

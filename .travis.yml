@@ -6,7 +6,9 @@ addons:
   code_climate:
     repo_token:
       secure: "dddkidaGDpzNMkjP7PmR75NUWL/iAPODNdde/+yTGhukdvFW3J7ItVV0Q8/2eXwSq1PoEwn7RotIp6k+9Zq9ndWdtox1Hcx00J8CEFz/AAYWFls2wkbZh7XvHepLbODq+cVWNCwgfqW6z/mynPWXY9kr9zGF22Tny0feK7+MtUE="
-script: node_modules/.bin/gulp coverage-test
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 after_script:
   - npm install -g codeclimate-test-reporter
   - cat coverage/lcov.info | codeclimate
