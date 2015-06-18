@@ -4,13 +4,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Development (2.x branch)
 ### Added
 - Karma testing, to make sure everything works in both Node and Firefox
+- UMD wrapper for Jexl frontend. No more direct calls to a pre-packaged require
+function!
 
 ### Changed
-- The Jexl frontend is now supplied as a UMD wrapper. No more direct calls to
-a pre-packaged require function!
 - Some basic linting is now enforced. It does not currently match the code
 standards as advertised on https://github.com/TechnologyAdvice/javascript due
 to Jexl being written before those standards were adopted, but it's a start.
+- Building and testing is now handled by NPM scripts for simplicity and
+performance
+
+### Removed
+- Gulp build and test processes
 
 ## [v1.1.2]
 ### Changed
