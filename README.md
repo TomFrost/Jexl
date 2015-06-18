@@ -95,7 +95,7 @@ include it on your page with:
 
     <script src="path/to/jexl.min.js"></script>
 
-If the above live was used, you now have Jexl!
+If the above line was used, you now have Jexl!
 
     Jexl.eval('2+2').then(function(result) {
         console.log(result);
