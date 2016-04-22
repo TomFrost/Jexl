@@ -1,7 +1,10 @@
 # Jexl Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Development
+## [Development]
+Nothing yet!
+
+## [v1.1.3]
 ### Fixed
 - Binary operators after nested identifiers were not balanced properly,
 resulting in a broken expression/AST
@@ -71,7 +74,8 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.2...HEAD
+[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.3...HEAD
+[v1.1.3]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.2...1.1.3
 [v1.1.2]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.1...1.1.2
 [v1.1.1]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.0...1.1.1
 [v1.1.0]: https://github.com/TechnologyAdvice/Jexl/compare/1.0.2...1.1.0
