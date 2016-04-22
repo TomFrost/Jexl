@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Binary operators after nested identifiers were not balanced properly,
 resulting in a broken expression/AST
+- Gulp (or one of its plugins) had a breaking change in a minor release,
+preventing the frontend build from running. This build method will be
+removed from the next major version of Jexl. For now, Jexl is now version-
+locked to the original gulp+plugins that worked.
 
 ## [v1.1.2]
 ### Changed
