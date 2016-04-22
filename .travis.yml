@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "0.12"
-  - "iojs"
+  - "4"
+  - "5"
 addons:
   code_climate:
     repo_token:
@@ -10,3 +11,4 @@ script: node_modules/.bin/gulp coverage-test
 after_script:
   - npm install -g codeclimate-test-reporter
   - cat coverage/lcov.info | codeclimate
+

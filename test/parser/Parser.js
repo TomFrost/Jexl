@@ -406,4 +406,22 @@ describe('Parser', function() {
 			alternate: {type: 'Literal', value: 'baz'}
 		});
 	});
+	it('should correctly balance a binary op between complex identifiers', function() {
+		inst.addTokens(lexer.tokenize('a.b == c.d'));
+		inst.complete().should.deep.equal({
+			type:  'BinaryExpression',
+			operator: '==',
+			left: {
+				type: 'Identifier',
+				value: 'b',
+				from: {type: 'Identifier', value: 'a'}
+			},
+			right: {
+				type: 'Identifier',
+				value: 'd',
+				from: {type: 'Identifier', value: 'c'}
+			}
+		});
+	});
 });
+
