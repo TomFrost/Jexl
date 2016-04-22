@@ -2,7 +2,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Development
-Nothing yet!
+### Fixed
+- Binary operators after nested identifiers were not balanced properly,
+resulting in a broken expression/AST
 
 ## [v1.1.2]
 ### Changed
