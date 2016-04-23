@@ -4,9 +4,10 @@
   "description": "Javascript Expression Language: Powerful context-based expression parser and evaluator",
   "main": "lib/Jexl.js",
   "scripts": {
-    "check-cov": "istanbul check-coverage --statements 95 --functions 92 --branches 85 --lines 95",
+    "check-cov": "istanbul check-coverage --statements 95 --functions 90 --branches 85 --lines 95",
+    "lint": "eslint ./lib",
     "mocha": "mocha",
-    "test": "npm run test-cov && npm run check-cov",
+    "test": "npm run lint && npm run test-cov && npm run check-cov",
     "test-cov": "istanbul cover _mocha"
   },
   "repository": {
