@@ -5,7 +5,7 @@
   "main": "lib/Jexl.js",
   "scripts": {
     "check-cov": "istanbul check-coverage --statements 95 --functions 90 --branches 85 --lines 95",
-    "lint": "eslint ./lib",
+    "lint": "eslint ./lib ./test",
     "mocha": "mocha",
     "test": "npm run lint && npm run test-cov && npm run check-cov",
     "test-cov": "istanbul cover _mocha"

@@ -1,3 +1,10 @@
+/*
+ * Jexl
+ * Copyright (c) 2015-2016 TechnologyAdvice
+ */
+
+'use strict'
+
 const path = require('path')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
@@ -8,4 +15,3 @@ chai.use(chaiAsPromised)
 // Allow require relative to root
 process.env.NODE_PATH = path.join(__dirname, '..') + path.delimiter + (process.env.NODE_PATH || '')
 mod._initPaths()
-
