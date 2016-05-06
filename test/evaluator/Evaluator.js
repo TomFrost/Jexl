@@ -156,4 +156,8 @@ describe('Evaluator', function() {
 		var e = new Evaluator(grammar);
 		return e.eval(toTree('"foo" ?: "bar"')).should.become("foo");
 	});
+	it('does not treat falsey properties as undefined', function() {
+		const e = new Evaluator(grammar);
+		return e.eval(toTree('"".length')).should.become(0);
+	});
 });
