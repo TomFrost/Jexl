@@ -13,6 +13,10 @@ Node 4.2 LTS and beyond.
 - The codebase now follows the TechnologyAdvice standard style guide,
 enforced by eslint.
 
+## [v1.1.4]
+### Fixed
+- Falsey identifiers are no longer treated as undefined
+
 ## [v1.1.3]
 ### Fixed
 - Binary operators after nested identifiers were not balanced properly,
@@ -83,7 +87,8 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.3...HEAD
+[Development]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.4...HEAD
+[v1.1.4]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.3...1.1.4
 [v1.1.3]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.2...1.1.3
 [v1.1.2]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.1...1.1.2
 [v1.1.1]: https://github.com/TechnologyAdvice/Jexl/compare/1.1.0...1.1.1
