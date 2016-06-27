@@ -160,4 +160,8 @@ describe('Evaluator', function() {
 		const e = new Evaluator(grammar);
 		return e.eval(toTree('"".length')).should.become(0);
 	});
+	it('should handle an expression with arbitrary whitespace', function() {
+		var e = new Evaluator(grammar);
+		return e.eval(toTree('(\t2\n+\n3) *\n4\n\r\n')).should.become(20);
+	});
 });
