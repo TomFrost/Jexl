@@ -136,6 +136,15 @@ describe('Parser', function() {
 			right: {type: 'Literal', value: 5}
 		});
 	});
+	it('should handle whitespace in an expression', function() {
+		inst.addTokens(lexer.tokenize('\t2\r\n+\n\r3\n\n'));
+		inst.complete().should.deep.equal({
+			type: 'BinaryExpression',
+			operator: '+',
+			left: {type: 'Literal', value: 2},
+			right: {type: 'Literal', value: 3}
+		});
+	});
 	it('should handle object literals', function() {
 		inst.addTokens(lexer.tokenize('{foo: "bar", tek: 1+2}'));
 		inst.complete().should.deep.equal({
@@ -424,4 +433,3 @@ describe('Parser', function() {
 		});
 	});
 });
-
