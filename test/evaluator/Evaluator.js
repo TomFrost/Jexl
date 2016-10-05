@@ -39,6 +39,16 @@ describe('Evaluator', function() {
 		var e = new Evaluator(grammar);
 		return e.eval(toTree('2 <= 1')).should.become(false);
 	});
+	it('should evaluate a true value/type comparision expression', function() {
+		var context = {number: 0},
+			e = new Evaluator(grammar, null, context);
+		return e.eval(toTree('number === 0')).should.become(true);
+	});
+	it('should evaluate a false value/type comparision expression', function() {
+		var context = {word: ''},
+			e = new Evaluator(grammar, null, context);
+		return e.eval(toTree('word === 0')).should.become(false);
+	});
 	it('should evaluate a complex expression', function() {
 		var e = new Evaluator(grammar);
 		return e.eval(toTree('"foo" && 6 >= 6 && 0 + 1 && true'))
