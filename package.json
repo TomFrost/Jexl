@@ -43,6 +43,7 @@
     "gulp-uglify": "=1.1.0",
     "istanbul": "^0.3.8",
     "mocha": "^2.1.0",
+    "sinon": "^2.1.0",
     "vinyl-transform": "=1.0.0"
   }
 }

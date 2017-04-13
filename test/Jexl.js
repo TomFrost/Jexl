@@ -6,7 +6,9 @@
 var chai = require('chai'),
 	chaiAsPromised = require('chai-as-promised'),
 	should = require('chai').should(),
-	Jexl = require('../lib/Jexl');
+	sinon = require('sinon'),
+	Jexl = require('../lib/Jexl'),
+	Parser = require('../lib/parser/Parser');
 
 chai.use(chaiAsPromised);
 
@@ -91,5 +93,46 @@ describe('Jexl', function() {
 	it('should allow unaryOps to be removed', function() {
 		inst.removeOp('!');
 		return inst.eval('!true').should.reject;
+	});
+
+	describe('parser cache', function() {
+		var static_inst = new Jexl.Jexl();
+
+		before(function() {
+			sinon.spy(Parser.prototype, 'complete');
+			sinon.spy(static_inst, '_clearParserCache');
+		});
+		beforeEach(function() {
+			Parser.prototype.complete.reset();
+			static_inst._clearParserCache.reset();
+		});
+		after(function() {
+			Parser.prototype.complete.restore();
+			static_inst._clearParserCache.restore();
+		});
+
+		it('should call parser.complete on the first run', function() {
+			return static_inst.eval('8+8')
+				.then(function(res) {
+					res.should.equal(16);
+					Parser.prototype.complete.callCount.should.equal(1);
+				});
+		});
+
+		it('should not call parser.complete on the second run', function() {
+			return static_inst.eval('8+8')
+				.then(function(res) {
+					res.should.equal(16);
+					Parser.prototype.complete.callCount.should.equal(0);
+				});
+		});
+
+		it('should clear the parser cache when adding a new op', function() {
+			static_inst.addBinaryOp('**', 0, function(left, right) {
+				return left * 2 + right * 2;
+			});
+
+			static_inst._clearParserCache.callCount.should.equal(1);
+		});
 	});
 });
