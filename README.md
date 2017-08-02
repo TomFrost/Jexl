@@ -2,7 +2,11 @@
     <img src="https://promises-aplus.github.io/promises-spec/assets/logo-small.png"
          align="right" valign="top" alt="Promises/A+ logo" />
 </a>
-# Jexl [![Build Status](https://travis-ci.org/TechnologyAdvice/Jexl.svg?branch=master)](https://travis-ci.org/TechnologyAdvice/Jexl) [![Code Climate](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/gpa.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl) [![Test Coverage](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/coverage.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl)
+
+# Jexl
+
+[![Build Status](https://travis-ci.org/TechnologyAdvice/Jexl.svg?branch=master)](https://travis-ci.org/TechnologyAdvice/Jexl) [![Code Climate](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/gpa.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl) [![Test Coverage](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/coverage.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl)
+
 Javascript Expression Language: Powerful context-based expression parser and evaluator
 
 ## Quick start
