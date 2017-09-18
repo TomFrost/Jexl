@@ -1,8 +1,4 @@
-<a href="http://promisesaplus.com/">
-    <img src="https://promises-aplus.github.io/promises-spec/assets/logo-small.png"
-         align="right" valign="top" alt="Promises/A+ logo" />
-</a>
-# Jexl [![Build Status](https://travis-ci.org/TechnologyAdvice/Jexl.svg?branch=master)](https://travis-ci.org/TechnologyAdvice/Jexl) [![Code Climate](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/gpa.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl) [![Test Coverage](https://codeclimate.com/github/TechnologyAdvice/Jexl/badges/coverage.svg)](https://codeclimate.com/github/TechnologyAdvice/Jexl)
+# Jexl [![Build Status](https://travis-ci.org/TomFrost/Jexl.svg?branch=master)](https://travis-ci.org/TomFrost/Jexl)
 Javascript Expression Language: Powerful context-based expression parser and evaluator
 
 ## Quick start
@@ -189,7 +185,7 @@ Example context:
         "Len Trexler",
         "Burt Reynolds"
     ],
-    lastEx: 1
+    lastEx: 2
 }
 ```
 
@@ -343,5 +339,4 @@ Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full
 details.
 
 ## Credits
-Jexl was designed and created at
-[TechnologyAdvice](http://technologyadvice.com).
+Jexl was originally created at [TechnologyAdvice](http://technologyadvice.com) in Nashville, TN.
