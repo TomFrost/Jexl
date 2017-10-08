@@ -38,11 +38,16 @@ describe('Lexer', function() {
 			elems.should.have.length(1);
 			elems[0].should.equal(str);
 		});
-		it("should count an identifier as one element", function() {
-			var str = "alpha12345",
-				elems = inst.getElements(str);
-			elems.should.deep.equal([str]);
-		});
+        it("should count an identifier as one element", function() {
+            var str = "alpha12345",
+                elems = inst.getElements(str);
+            elems.should.deep.equal([str]);
+        });
+        it("should count $id as one element", function() {
+            var str = "$id",
+                elems = inst.getElements(str);
+            elems.should.deep.equal([str]);
+        });
 		it("should not split grammar elements out of transforms", function() {
 			var str = "inString",
 				elems = inst.getElements(str);
