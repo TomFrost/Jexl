@@ -20,7 +20,7 @@ describe('Jexl', function() {
 		return inst.eval('2+2').should.become(4);
 	});
 	it('should reject Promise on error', function() {
-		return inst.eval('2++2').should.reject;
+		return inst.eval('2++2').should.be.rejectedWith(Error, "Token + (binaryOp) unexpected in expression: 2++");
 	});
 	it('should call callback with success result', function(done) {
 		inst.eval('2+2', function(err, res) {
@@ -86,10 +86,10 @@ describe('Jexl', function() {
 	});
 	it('should allow binaryOps to be removed', function() {
 		inst.removeOp('+');
-		return inst.eval('1+2').should.reject;
+		return inst.eval('1+2').should.be.rejectedWith(Error, "Invalid expression token: +");
 	});
 	it('should allow unaryOps to be removed', function() {
 		inst.removeOp('!');
-		return inst.eval('!true').should.reject;
+		return inst.eval('!true').should.be.rejectedWith(Error, "Invalid expression token: !");
 	});
 });
