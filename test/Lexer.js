@@ -154,4 +154,77 @@ describe('Lexer', function() {
 			{type: 'literal', value: -3, raw: '-3'}
 		]);
 	});
+	it("should tokenizen intent string", function() {
+		var tokens = inst.tokenize('#TestIntent');
+		// intents[.intent == "Shortcut_Employees"].confidence > 0.5
+		tokens.should.deep.equal([
+			{type: 'identifier', value: 'intents', raw: 'intents' },
+			{type: 'openBracket', value: '[', raw: '['},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'intent', raw: 'intent'},
+			{type: 'binaryOp', value: '==', raw: '=='},
+			{type: 'literal', value: 'TestIntent', raw: '\"TestIntent\"'},
+			{type: 'closeBracket', value: ']', raw: ']'},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'confidence', raw: 'confidence'},
+			{type: 'binaryOp', value: '>', raw: '>'},
+			{type: 'literal', value: 0.5, raw: '0.5'}
+		]);
+	});
+	it("should tokenizen context string", function() {
+		var tokens = inst.tokenize('$description');
+		// context[.context == "description"].value
+		tokens.should.deep.equal([
+			{type: 'identifier', value: 'context', raw: 'context' },
+			{type: 'openBracket', value: '[', raw: '['},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'context', raw: 'context'},
+			{type: 'binaryOp', value: '==', raw: '=='},
+			{type: 'literal', value: 'description', raw: '\"description\"'},
+			{type: 'closeBracket', value: ']', raw: ']'},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'value', raw: 'value'},
+		]);
+	});
+	it("should tokenizen only entity string", function() {
+		var tokens = inst.tokenize('@Employees');
+		// entities[.entity == "Employees"].confidence > 0.5
+		tokens.should.deep.equal([
+			{type: 'identifier', value: 'entities', raw: 'entities' },
+			{type: 'openBracket', value: '[', raw: '['},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'entity', raw: 'entity'},
+			{type: 'binaryOp', value: '==', raw: '=='},
+			{type: 'literal', value: 'Employees', raw: '\"Employees\"'},
+			{type: 'closeBracket', value: ']', raw: ']'},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'confidence', raw: 'confidence'},
+			{type: 'binaryOp', value: '>', raw: '>'},
+			{type: 'literal', value: 0.5, raw: '0.5'}
+		]);
+	});
+	it("should tokenizen entity value string", function() {
+		var tokens = inst.tokenize('@Employees:Patrick');
+
+		// entities[.entity == "Employees"][.value == "Patrick"].confidence > 0.5
+		tokens.should.deep.equal([
+			{type: 'identifier', value: 'entities', raw: 'entities' },
+			{type: 'openBracket', value: '[', raw: '['},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'entity', raw: 'entity'},
+			{type: 'binaryOp', value: '==', raw: '=='},
+			{type: 'literal', value: 'Employees', raw: '\"Employees\"'},
+			{type: 'closeBracket', value: ']', raw: ']'},
+			{type: 'openBracket', value: '[', raw: '['},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'value', raw: 'value'},
+			{type: 'binaryOp', value: '==', raw: '=='},
+			{type: 'literal', value: 'Patrick', raw: '\"Patrick\"'},
+			{type: 'closeBracket', value: ']', raw: ']'},
+			{type: 'dot', value: '.', raw: '.'},
+			{type: 'identifier', value: 'confidence', raw: 'confidence'},
+			{type: 'binaryOp', value: '>', raw: '>'},
+			{type: 'literal', value: 0.5, raw: '0.5'}
+		]);
+	});
 });
