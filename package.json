@@ -1,7 +1,7 @@
 {
-  "name": "jexl",
-  "version": "1.1.5",
-  "description": "Javascript Expression Language: Powerful context-based expression parser and evaluator",
+  "name": "clexl",
+  "version": "0.0.1",
+  "description": "Clever Expression Language: Jexl-based powerful context-based expression parser and evaluator",
   "main": "lib/Jexl.js",
   "directories": {
     "test": "test"
@@ -25,7 +25,7 @@
     "filter",
     "selector"
   ],
-  "author": "Tom Shawver <tom@frosteddesign.com>",
+  "author": "Brecht Carnewal <brecht@clever.be>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TomFrost/jexl/issues"
