@@ -1,6 +1,6 @@
 {
   "name": "jexl",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Javascript Expression Language: Powerful context-based expression parser and evaluator",
   "main": "lib/Jexl.js",
   "directories": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TomFrost/jexl"
+    "url": "https://github.com/Carnewal/jexl"
   },
   "keywords": [
     "JSON",
