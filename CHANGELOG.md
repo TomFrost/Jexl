@@ -1,8 +1,17 @@
 # Jexl Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Development
-Nothing yet!
+## [Development] (v2.0.0)
+### Changed
+- The pre-minified Jexl has been removed; in modern times, frontend
+webapps have their own build stack, and Jexl should't make assumptions
+about the module format a frontend app wants to use.
+- Node 0.12 support has been dropped. If you need 0.12 support, Jexl
+can be built with the appropriate babel presets.
+- The codebase has been modernized to the subset of ES6 supported in
+Node 4.2 LTS and beyond.
+- The codebase now follows the TechnologyAdvice standard style guide,
+enforced by eslint.
 
 ## [v1.1.4]
 ### Fixed
