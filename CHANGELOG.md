@@ -1,7 +1,10 @@
 # Jexl Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Development] (v2.0.0)
+## [Development]
+Nothing yet!
+
+## [v2.0.0]
 ### Changed
 - The pre-minified Jexl has been removed; in modern times, frontend
 webapps have their own build stack, and Jexl should't make assumptions
@@ -45,12 +48,12 @@ section
 ones.
 - The ability to delete existing binary and unary operators.
 
-## [v1.0.2] = 2015-03-08
+## [v1.0.2]
 ### Fixed
 - Bad Gulpfile resulted in frontend dist falling out of sync. Fixed and
 re-synced.
 
-## [v1.0.1] - 2015-03-08
+## [v1.0.1]
 ### Changed
 - Refactored Parser and Evaluator. Both operations are now marginally faster.
 - Removed balance tracking in favor of passing maps of token types at which
@@ -60,7 +63,7 @@ the sub-parser should stop.
 - Object literals could not be defined in the consequent section of a ternary
 expression.
 
-## [v1.0.0] - 2015-03-04
+## [v1.0.0]
 ### Added
 - Object literals. Objects can now be defined inline with
 `{standard: 'syntax'}`.
@@ -78,16 +81,17 @@ string, or if an element exists in an array.
 multiple arguments can be defined. Arguments are no longer limited to object
 literals.
 
-## [v0.2.0] - 2015-03-02
+## [v0.2.0]
 ### Added
 - "Divide and floor" operator: //
 - Documentation outlining running expressions against XML.
 
-## v0.1.0 - 2015-03-02
+## v0.1.0
 ### Added
 - Initial release
 
-[Development]: https://github.com/TomFrost/Jexl/compare/1.1.4...HEAD
+[Development]: https://github.com/TomFrost/Jexl/compare/2.0.0...HEAD
+[v2.0.0]: https://github.com/TomFrost/Jexl/compare/1.1.4...2.0.0
 [v1.1.4]: https://github.com/TomFrost/Jexl/compare/1.1.3...1.1.4
 [v1.1.3]: https://github.com/TomFrost/Jexl/compare/1.1.2...1.1.3
 [v1.1.2]: https://github.com/TomFrost/Jexl/compare/1.1.1...1.1.2
