@@ -18,19 +18,6 @@ describe('Jexl', () => {
   it('rejects Promise on error', () => {
     return inst.eval('2++2').should.reject
   })
-  it('calls callback with success result', (done) => {
-    inst.eval('2+2', (err, res) => {
-      res.should.equal(4)
-      done(err)
-    })
-  })
-  it('calls callback with error result', (done) => {
-    inst.eval('2++2', (err, res) => {
-      should.exist(err)
-      should.not.exist(res)
-      done()
-    })
-  })
   it('allows transforms to be defined', () => {
     inst.addTransform('toCase', (val, args) => {
       return args.case === 'upper' ? val.toUpperCase() : val.toLowerCase()
