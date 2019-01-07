@@ -37,7 +37,7 @@ describe('Jexl', () => {
     })
     return inst.eval('2|add1|add2').should.become(5)
   })
-  it('passs context', () => {
+  it('pass context', () => {
     return inst.eval('foo', {foo: 'bar'}).should.become('bar')
   })
   it('allows binaryOps to be defined', () => {
