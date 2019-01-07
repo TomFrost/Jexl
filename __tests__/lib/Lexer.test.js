@@ -3,8 +3,6 @@
  * Copyright 2019 Tom Shawver
  */
 
-'use strict'
-
 const grammar = require('lib/grammar').elements
 const Lexer = require('lib/Lexer')
 
@@ -18,42 +16,42 @@ describe('Lexer', () => {
     it('counts a string as one element', () => {
       const str = '"foo"'
       const elems = inst.getElements(str)
-      elems.should.have.length(1)
-      elems[0].should.equal(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toBe(str)
     })
     it('supports single-quote strings', () => {
       const str = "'foo'"
       const elems = inst.getElements(str)
-      elems.should.have.length(1)
-      elems[0].should.equal(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toEqual(str)
     })
     it('supports escaping double-quotes', () => {
       const str = '"f\\"oo"'
       const elems = inst.getElements(str)
-      elems.should.have.length(1)
-      elems[0].should.equal(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toEqual(str)
     })
     it('supports escaping single-quotes', () => {
       const str = "'f\\'oo'"
       const elems = inst.getElements(str)
-      elems.should.have.length(1)
-      elems[0].should.equal(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toEqual(str)
     })
     it('counts an identifier as one element', () => {
       const str = 'alpha12345'
       const elems = inst.getElements(str)
-      elems.should.deep.equal([str])
+      expect(elems).toEqual([str])
     })
     it('does not split grammar elements out of transforms', () => {
       const str = 'inString'
       const elems = inst.getElements(str)
-      elems.should.deep.equal([str])
+      expect(elems).toEqual([str])
     })
   })
   describe('Tokens', () => {
     it('unquotes string elements', () => {
       const tokens = inst.getTokens(['"foo \\"bar\\\\"'])
-      tokens.should.deep.equal([{
+      expect(tokens).toEqual([{
         type: 'literal',
         value: 'foo "bar\\',
         raw: '"foo \\"bar\\\\"'
@@ -61,7 +59,7 @@ describe('Lexer', () => {
     })
     it('recognizes booleans', () => {
       const tokens = inst.getTokens(['true', 'false'])
-      tokens.should.deep.equal([
+      expect(tokens).toEqual([
         {
           type: 'literal',
           value: true,
@@ -76,7 +74,7 @@ describe('Lexer', () => {
     })
     it('recognizes numerics', () => {
       const tokens = inst.getTokens(['-7.6', '20'])
-      tokens.should.deep.equal([
+      expect(tokens).toEqual([
         {
           type: 'literal',
           value: -7.6,
@@ -91,7 +89,7 @@ describe('Lexer', () => {
     })
     it('recognizes binary operators', () => {
       const tokens = inst.getTokens(['+'])
-      tokens.should.deep.equal([{
+      expect(tokens).toEqual([{
         type: 'binaryOp',
         value: '+',
         raw: '+'
@@ -99,7 +97,7 @@ describe('Lexer', () => {
     })
     it('recognizes unary operators', () => {
       const tokens = inst.getTokens(['!'])
-      tokens.should.deep.equal([{
+      expect(tokens).toEqual([{
         type: 'unaryOp',
         value: '!',
         raw: '!'
@@ -107,7 +105,7 @@ describe('Lexer', () => {
     })
     it('recognizes control characters', () => {
       const tokens = inst.getTokens(['('])
-      tokens.should.deep.equal([{
+      expect(tokens).toEqual([{
         type: 'openParen',
         value: '(',
         raw: '('
@@ -115,7 +113,7 @@ describe('Lexer', () => {
     })
     it('recognizes identifiers', () => {
       const tokens = inst.getTokens(['_foo9_bar'])
-      tokens.should.deep.equal([{
+      expect(tokens).toEqual([{
         type: 'identifier',
         value: '_foo9_bar',
         raw: '_foo9_bar'
@@ -123,36 +121,36 @@ describe('Lexer', () => {
     })
     it('throws on invalid token', () => {
       const fn = inst.getTokens.bind(Lexer, ['9foo'])
-      fn.should.throw()
+      expect(fn).toThrow()
     })
   })
   it('tokenizes a full expression', () => {
     const tokens = inst.tokenize('6+x -  -17.55*y<= !foo.bar["baz\\"foz"]')
-    tokens.should.deep.equal([
-      {type: 'literal', value: 6, raw: '6'},
-      {type: 'binaryOp', value: '+', raw: '+'},
-      {type: 'identifier', value: 'x', raw: 'x '},
-      {type: 'binaryOp', value: '-', raw: '-  '},
-      {type: 'literal', value: -17.55, raw: '-17.55'},
-      {type: 'binaryOp', value: '*', raw: '*'},
-      {type: 'identifier', value: 'y', raw: 'y'},
-      {type: 'binaryOp', value: '<=', raw: '<= '},
-      {type: 'unaryOp', value: '!', raw: '!'},
-      {type: 'identifier', value: 'foo', raw: 'foo'},
-      {type: 'dot', value: '.', raw: '.'},
-      {type: 'identifier', value: 'bar', raw: 'bar'},
-      {type: 'openBracket', value: '[', raw: '['},
-      {type: 'literal', value: 'baz"foz', raw: '"baz\\"foz"'},
-      {type: 'closeBracket', value: ']', raw: ']'}
+    expect(tokens).toEqual([
+      { type: 'literal', value: 6, raw: '6' },
+      { type: 'binaryOp', value: '+', raw: '+' },
+      { type: 'identifier', value: 'x', raw: 'x ' },
+      { type: 'binaryOp', value: '-', raw: '-  ' },
+      { type: 'literal', value: -17.55, raw: '-17.55' },
+      { type: 'binaryOp', value: '*', raw: '*' },
+      { type: 'identifier', value: 'y', raw: 'y' },
+      { type: 'binaryOp', value: '<=', raw: '<= ' },
+      { type: 'unaryOp', value: '!', raw: '!' },
+      { type: 'identifier', value: 'foo', raw: 'foo' },
+      { type: 'dot', value: '.', raw: '.' },
+      { type: 'identifier', value: 'bar', raw: 'bar' },
+      { type: 'openBracket', value: '[', raw: '[' },
+      { type: 'literal', value: 'baz"foz', raw: '"baz\\"foz"' },
+      { type: 'closeBracket', value: ']', raw: ']' }
     ])
   })
   it('considers minus to be negative appropriately', () => {
-    inst.tokenize('-1?-2:-3').should.deep.equal([
-      {type: 'literal', value: -1, raw: '-1'},
-      {type: 'question', value: '?', raw: '?'},
-      {type: 'literal', value: -2, raw: '-2'},
-      {type: 'colon', value: ':', raw: ':'},
-      {type: 'literal', value: -3, raw: '-3'}
+    expect(inst.tokenize('-1?-2:-3')).toEqual([
+      { type: 'literal', value: -1, raw: '-1' },
+      { type: 'question', value: '?', raw: '?' },
+      { type: 'literal', value: -2, raw: '-2' },
+      { type: 'colon', value: ':', raw: ':' },
+      { type: 'literal', value: -3, raw: '-3' }
     ])
   })
 })
