@@ -1,100 +1,86 @@
 # Jexl [![Build Status](https://travis-ci.org/TomFrost/Jexl.svg?branch=master)](https://travis-ci.org/TomFrost/Jexl)
+
 Javascript Expression Language: Powerful context-based expression parser and evaluator
 
 ## Quick start
-Use it with promises or callbacks:
+
+Use it with promises:
 
 ```javascript
-var context = {
-    name: {first: 'Sterling', last: 'Archer'},
-    assoc: [
-        {first: 'Lana', last: 'Kane'},
-        {first: 'Cyril', last: 'Figgis'},
-        {first: 'Pam', last: 'Poovey'}
-    ],
-    age: 36
-};
+const context = {
+  name: { first: 'Sterling', last: 'Archer' },
+  assoc: [
+    { first: 'Lana', last: 'Kane' },
+    { first: 'Cyril', last: 'Figgis' },
+    { first: 'Pam', last: 'Poovey' }
+  ],
+  age: 36
+}
 
 // Filter an array
 jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
-    console.log(res); // Output: Kane
+  console.log(res); // Output: Kane
 });
 
 // Do math
-jexl.eval('age * (3 - 1)', context, function(err, res) {
-    console.log(res); // Output: 72
-});
+const res = await jexl.eval('age * (3 - 1)', context)
+console.log(res) // Output: 72
 
 // Concatenate
-jexl.eval('name.first + " " + name["la" + "st"]', context).then(function(res) {
-    console.log(res); // Output: Sterling Archer
-});
+await jexl.eval('name.first + " " + name["la" + "st"]', context)
+// "Sterling Archer"
 
 // Compound
-jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
-    .then(function(res) {
-        console.log(res); // Output: true
-    });
+await jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
+// true
 
 // Use array indexes
-jexl.eval('assoc[1]', context, function(err, res) {
-    console.log(res.first + ' ' + res.last); // Output: Cyril Figgis
-});
+await jexl.eval('assoc[1]', context)
+// { first: 'Cyril', last: 'Figgis' }
 
 // Use conditional logic
-jexl.eval('age > 62 ? "retired" : "working"', context).then(function(res) {
-    console.log(res); // Output: working
-});
+await jexl.eval('age > 62 ? "retired" : "working"', context)
+// "working"
 
 // Transform
-jexl.addTransform('upper', function(val) {
-    return val.toUpperCase();
-});
-jexl.eval('"duchess"|upper + " " + name.last|upper', context).then(function(res) {
-    console.log(res); // Output: DUCHESS ARCHER
-});
+jexl.addTransform('upper', (val) => val.toUpperCase())
+await jexl.eval('"duchess"|upper + " " + name.last|upper', context)
+// "DUCHESS ARCHER"
 
 // Transform asynchronously, with arguments
-jexl.addTransform('getStat', function(val, stat) {
-    return dbSelectByLastName(val, stat); // Returns a promise
-});
-jexl.eval('name.last|getStat("weight")', context, function(err, res) {
-    if (err) console.log('Database Error', err.stack);
-    else console.log(res); // Output: 184
-});
+jexl.addTransform('getStat',  async (val, stat) => dbSelectByLastName(val, stat))
+try {
+  const res = await jexl.eval('name.last|getStat("weight")', context)
+  console.log(res) // Output: 184
+} catch (e) {
+  console.log('Database Error', e.stack)
+}
 
 // Add your own (a)synchronous operators
 // Here's a case-insensitive string equality
-jexl.addBinaryOp('_=', 20, function(left, right) {
-    return left.toLowerCase() === right.toLowerCase();
-});
-jexl.eval('"Guest" _= "gUeSt"').then(function(val) {
-    console.log(res); // Output: true
-});
+jexl.addBinaryOp('_=', 20, (left, right) => left.toLowerCase() === right.toLowerCase())
+await jexl.eval('"Guest" _= "gUeSt"')
+// true
 ```
 
 ## Installation
-Jexl requires an environment that supports the
-[Promise/A+](https://promisesaplus.com/) specification as standardized in ES6.
-Node.js version 0.12.0 and up is great right out of the box (no --harmony flag
-necessary), as well as the latest versions of many browsers. To support older
-browsers, just include a Promise library such as
-[Bluebird](https://github.com/petkaantonov/bluebird).
 
-For Node.js, type this in your project folder:
+Jexl works on the backend, and on the frontend if bundled using a bundler like Parcel or Webpack.
+
+Install from npm:
 
     npm install jexl --save
 
-For the frontend, drop `dist/jexl.min.js` into your project and include it on
-your page with:
+or yarn:
 
-    <script src="path/to/jexl.min.js"></script>
+    yarn add jexl
 
-Access Jexl the same way, backend or front:
+and use it:
 
-    var jexl = require('Jexl');
+    const jexl = require('jexl')
 
 ## All the details
+
 ### Unary Operators
 
 | Operation | Symbol |
@@ -127,7 +113,8 @@ Access Jexl the same way, backend or front:
 | Less than or equal         |   <=   |
 | Element in array or string |   in   |
 
-#### A note about `in`:
+#### A note about `in`
+
 The `in` operator can be used to check for a substring:
 `"Cad" in "Ron Cadillac"`, and it can be used to check for an array element:
 `"coarse" in ['fine', 'medium', 'coarse']`.  However, the `==` operator is used
@@ -176,16 +163,16 @@ Example context:
 
 ```javascript
 {
-    name: {
-        first: "Malory",
-        last: "Archer"
-    },
-    exes: [
-        "Nikolai Jakov",
-        "Len Trexler",
-        "Burt Reynolds"
-    ],
-    lastEx: 2
+  name: {
+    first: "Malory",
+    last: "Archer"
+  },
+  exes: [
+    "Nikolai Jakov",
+    "Len Trexler",
+    "Burt Reynolds"
+  ],
+  lastEx: 2
 }
 ```
 
@@ -204,6 +191,7 @@ prefixing them with a leading dot. The result will be an array of the objects
 for which the filter expression resulted in a truthy value.
 
 Example context:
+
 ```javascript
 {
     employees: [
@@ -234,12 +222,8 @@ either the transformed value, or a Promise that resolves with the transformed
 value. Add them with `jexl.addTransform(name, function)`.
 
 ```javascript
-jexl.addTransform('split', function(val, char) {
-    return val.split(char);
-});
-jexl.addTransform('lower', function(val) {
-    return val.toLowerCase();
-});
+jexl.addTransform('split', (val, char) => val.split(char))
+jexl.addTransform('lower', (val) => val.toLowerCase())
 ```
 
 | Expression                                 | Result                |
@@ -248,37 +232,34 @@ jexl.addTransform('lower', function(val) {
 | "password==guest"&#124;split('=' + '=')    | ['password', 'guest'] |
 
 #### Advanced Transforms
+
 Using Transforms, Jexl can support additional string formats like embedded
 JSON, YAML, XML, and more.  The following, with the help of the
 [xml2json](https://github.com/buglabs/node-xml2json) module, allows XML to be
 traversed just as easily as plain javascript objects:
 
 ```javascript
-var xml2json = require('xml2json');
+const xml2json = require('xml2json');
 
-jexl.addTransform('xml', function(val) {
-    return xml2json.toJson(val, {object: true});
-});
+jexl.addTransform('xml', (val) => xml2json.toJson(val, { object: true }))
 
-var context = {
-    xmlDoc:
-        "<Employees>" +
-            "<Employee>" +
-                "<FirstName>Cheryl</FirstName>" +
-                "<LastName>Tunt</LastName>" +
-            "</Employee>" +
-            "<Employee>" +
-                "<FirstName>Cyril</FirstName>" +
-                "<LastName>Figgis</LastName>" +
-            "</Employee>" +
-        "</Employees>"
-};
+const context = {
+  xmlDoc: `
+    <Employees>
+      <Employee>
+        <FirstName>Cheryl</FirstName>
+        <LastName>Tunt</LastName>
+      </Employee>
+      <Employee>
+        <FirstName>Cyril</FirstName>
+        <LastName>Figgis</LastName>
+      </Employee>
+    </Employees>`
+}
 
 var expr = 'xmlDoc|xml.Employees.Employee[.LastName == "Figgis"].FirstName';
 
-jexl.eval(expr, context).then(function(res) {
-    console.log(res); // Output: Cyril
-});
+jexl.eval(expr, context).then(console.log) // Output: Cyril
 ```
 
 ### Context
@@ -291,11 +272,13 @@ resolve and use that value!
 ### API
 
 #### jexl.Jexl
+
 A reference to the Jexl constructor. To maintain separate instances of Jexl
 with each maintaining its own set of transforms, simply re-instantiate with
 `new jexl.Jexl()`.
 
 #### jexl.addBinaryOp(_{string} operator_, _{number} precedence_, _{function} fn_)
+
 Adds a binary operator to the Jexl instance. A binary operator is one that
 considers the values on both its left and right, such as "+" or "==", in order
 to calculate a result. The precedence determines the operator's position in the
@@ -305,6 +288,7 @@ a left value and a right value. It should return either the resulting value,
 or a Promise that resolves to the resulting value.
 
 #### jexl.addUnaryOp(_{string} operator_, _{function} fn_)
+
 Adds a unary operator to the Jexl instance. A unary operator is one that
 considers only the value on its right, such as "!", in order to calculate a
 result. The provided function will be called with one argument: the value to
@@ -312,31 +296,33 @@ the operator's right. It should return either the resulting value, or a Promise
 that resolves to the resulting value.
 
 #### jexl.addTransform(_{string} name_, _{function} transform_)
+
 Adds a transform function to this Jexl instance.  See the **Transforms**
 section above for information on the structure of a transform function.
 
 #### jexl.addTransforms(_{{}} map_)
+
 Adds multiple transforms from a supplied map of transform name to transform
 function.
 
 #### jexl.getTransform(_{string} name_)
+
 **Returns `{function|undefined}`.** Gets a previously set transform function,
 or `undefined` if no function of that name exists.
 
-#### jexl.eval(_{string} expression_, _{{}} [context]_, _{function} [callback]_)
-**Returns `{Promise<*>}`.** Evaluates an expression.  The context map and
-callback function are optional. If a callback is specified, it will be called
-with the standard signature of `{Error}` first argument, and the expression's
-result in the second argument.  Note that if a callback function is supplied,
-the returned Promise will already have a `.catch()` attached to it.
+#### jexl.eval(_{string} expression_, _{{}} [context]_)
+
+**Returns `{Promise<*>}`.** Evaluates an expression.  The context map is optional.
 
 #### jexl.removeOp(_{string} operator_)
+
 Removes a binary or unary operator from the Jexl instance. For example, "^" can
 be passed to eliminate the "power of" operator.
 
 ## License
-Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full
-details.
+
+Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full details.
 
 ## Credits
+
 Jexl was originally created at [TechnologyAdvice](http://technologyadvice.com) in Nashville, TN.
