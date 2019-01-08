@@ -333,6 +333,38 @@ describe('Parser', () => {
       type: 'FilterExpression'
     })
   })
+  it('allows mixing relative and non-relative identifiers in a complex case', () => {
+    inst.addTokens(lexer.tokenize('foo.bar[.baz == tek.tak]'))
+    expect(inst.complete()).toEqual({
+      expr: {
+        left: {
+          relative: true,
+          type: 'Identifier',
+          value: 'baz'
+        },
+        operator: '==',
+        right: {
+          from: {
+            type: 'Identifier',
+            value: 'tek'
+          },
+          type: 'Identifier',
+          value: 'tak'
+        },
+        type: 'BinaryExpression'
+      },
+      relative: true,
+      subject: {
+        from: {
+          type: 'Identifier',
+          value: 'foo'
+        },
+        type: 'Identifier',
+        value: 'bar'
+      },
+      type: 'FilterExpression'
+    })
+  })
   it('allows dot notation for all operands', () => {
     inst.addTokens(lexer.tokenize('"foo".length + {foo: "bar"}.foo'))
     expect(inst.complete()).toEqual({
