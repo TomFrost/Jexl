@@ -319,6 +319,10 @@ or `undefined` if no function of that name exists.
 Removes a binary or unary operator from the Jexl instance. For example, "^" can
 be passed to eliminate the "power of" operator.
 
+## Other implementations
+
+[PyJEXL](https://github.com/mozilla/pyjexl) - A Python-based JEXL parser and evaluator.
+
 ## License
 
 Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full details.
