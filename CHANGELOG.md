@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Development]
 Nothing yet!
 
+## [v2.0.1]
+### Fixed
+- Issue where Jexl might mistake an identifier as being relative to a parent
+when it should refer to the top level of the context in one specific case
+
 ## [v2.0.0]
 ### Changed
 - The pre-minified Jexl has been removed; in modern times, frontend
@@ -90,7 +95,8 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TomFrost/Jexl/compare/2.0.0...HEAD
+[Development]: https://github.com/TomFrost/Jexl/compare/2.0.1...HEAD
+[v2.0.1]: https://github.com/TomFrost/Jexl/compare/2.0.0...2.0.1
 [v2.0.0]: https://github.com/TomFrost/Jexl/compare/1.1.4...2.0.0
 [v1.1.4]: https://github.com/TomFrost/Jexl/compare/1.1.3...1.1.4
 [v1.1.3]: https://github.com/TomFrost/Jexl/compare/1.1.2...1.1.3
