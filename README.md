@@ -309,7 +309,7 @@ function.
 
 **Returns `{function|undefined}`.** Gets a previously set transform function,
 or `undefined` if no function of that name exists.
-
+    
 #### jexl.eval(_{string} expression_, _{{}} [context]_)
 
 **Returns `{Promise<*>}`.** Evaluates an expression.  The context map is optional.
