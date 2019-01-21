@@ -4,7 +4,7 @@ Javascript Expression Language: Powerful context-based expression parser and eva
 
 ## Quick start
 
-Use it with promises:
+Use it async with promises or in sync:
 
 ```javascript
 const context = {
@@ -18,34 +18,57 @@ const context = {
 }
 
 // Filter an array
+// async
 jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
   console.log(res); // Output: Kane
 });
+// sync
+const res = jexl.syncEval('assoc[.first == "Lana"].last', context)
+console.log(res) // Output: 72
 
 // Do math
+// async
 const res = await jexl.eval('age * (3 - 1)', context)
+console.log(res) // Output: 72
+// sync
+const res = jexl.syncEval('age * (3 - 1)', context)
 console.log(res) // Output: 72
 
 // Concatenate
+// async
 await jexl.eval('name.first + " " + name["la" + "st"]', context)
-// "Sterling Archer"
+// sync
+jexl.syncEval('name.first + " " + name["la" + "st"]', context)
+// Result: "Sterling Archer"
 
 // Compound
+// async
 await jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
-// true
+// sync
+jexl.syncEval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
+// Result: true
 
 // Use array indexes
+// async
 await jexl.eval('assoc[1]', context)
-// { first: 'Cyril', last: 'Figgis' }
+// sync
+jexl.syncEval('assoc[1]', context)
+// Result: { first: 'Cyril', last: 'Figgis' }
 
 // Use conditional logic
+// async
 await jexl.eval('age > 62 ? "retired" : "working"', context)
-// "working"
+//  sync
+jexl.syncEval('age > 62 ? "retired" : "working"', context)
+// Result: "working"
 
 // Transform
 jexl.addTransform('upper', (val) => val.toUpperCase())
+// async
 await jexl.eval('"duchess"|upper + " " + name.last|upper', context)
-// "DUCHESS ARCHER"
+// sync
+jexl.syncEval('"duchess"|upper + " " + name.last|upper', context)
+// Result: "DUCHESS ARCHER"
 
 // Transform asynchronously, with arguments
 jexl.addTransform('getStat',  async (val, stat) => dbSelectByLastName(val, stat))
@@ -59,8 +82,11 @@ try {
 // Add your own (a)synchronous operators
 // Here's a case-insensitive string equality
 jexl.addBinaryOp('_=', 20, (left, right) => left.toLowerCase() === right.toLowerCase())
+// async
 await jexl.eval('"Guest" _= "gUeSt"')
-// true
+// sync
+jexl.syncEval('"Guest" _= "gUeSt"')
+// Result: true
 ```
 
 ## Installation
@@ -313,6 +339,10 @@ or `undefined` if no function of that name exists.
 #### jexl.eval(_{string} expression_, _{{}} [context]_)
 
 **Returns `{Promise<*>}`.** Evaluates an expression.  The context map is optional.
+
+#### jexl.syncEval(_{string} expression_, _{{}} [context]_)
+
+**Returns `{*}`.** Evaluates an expression.  The context map is optional.
 
 #### jexl.removeOp(_{string} operator_)
 
