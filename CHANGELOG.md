@@ -99,9 +99,10 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TomFrost/Jexl/compare/2.0.1...HEAD
-[v2.0.1]: https://github.com/TomFrost/Jexl/compare/2.0.0...2.0.1
-[v2.0.0]: https://github.com/TomFrost/Jexl/compare/1.1.4...2.0.0
+[Development]: https://github.com/TomFrost/Jexl/compare/v2.0.2...HEAD
+[v2.0.2]: https://github.com/TomFrost/Jexl/compare/v2.0.1...v2.0.2
+[v2.0.1]: https://github.com/TomFrost/Jexl/compare/v2.0.0...v2.0.1
+[v2.0.0]: https://github.com/TomFrost/Jexl/compare/1.1.4...v2.0.0
 [v1.1.4]: https://github.com/TomFrost/Jexl/compare/1.1.3...1.1.4
 [v1.1.3]: https://github.com/TomFrost/Jexl/compare/1.1.2...1.1.3
 [v1.1.2]: https://github.com/TomFrost/Jexl/compare/1.1.1...1.1.2
