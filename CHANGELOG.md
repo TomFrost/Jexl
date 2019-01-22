@@ -2,7 +2,8 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
-Nothing yet!
+### Added
+- Jexl now has synchronous evaluation! Just call `evalSync`.
 
 ## [v2.0.2]
 ### Fixed

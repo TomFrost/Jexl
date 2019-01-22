@@ -4,7 +4,7 @@ Javascript Expression Language: Powerful context-based expression parser and eva
 
 ## Quick start
 
-Use it with promises:
+Use it with promises or synchronously:
 
 ```javascript
 const context = {
@@ -17,10 +17,13 @@ const context = {
   age: 36
 }
 
-// Filter an array
+// Filter an array asynchronously...
 jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
   console.log(res); // Output: Kane
 });
+
+// Or synchronously!
+console.log(jexl.evalSync('assoc[.first == "Lana"].last')) // Output: Kane
 
 // Do math
 const res = await jexl.eval('age * (3 - 1)', context)
@@ -78,6 +81,16 @@ or yarn:
 and use it:
 
     const jexl = require('jexl')
+
+## Async vs Sync: Which to use
+
+There is little performance difference between `eval` and `evalSync`. The functional
+difference is that, if `eval` is used, Jexl can be customized with asynchronous operators,
+transforms, and even wait for unresolved promises in the context object with zero additional
+overhead or handling on the programmer's part. `evalSync` eliminates those advantages,
+exposing the expression to raw Promise objects if any are returned as the result of a
+custom transform or operator. However, if your application doesn't require async methods,
+the `evalSync` API can be simpler to use.
 
 ## All the details
 
@@ -312,7 +325,12 @@ or `undefined` if no function of that name exists.
 
 #### jexl.eval(_{string} expression_, _{{}} [context]_)
 
-**Returns `{Promise<*>}`.** Evaluates an expression.  The context map is optional.
+**Returns `{Promise<*>}`.** Evaluates an expression. The context map is optional.
+
+#### jexl.evalSync(_{string} expression_, _{{}} [context]_)
+
+**Returns `{*}`.** Evaluates an expression and returns the result. The context map
+is optional.
 
 #### jexl.removeOp(_{string} operator_)
 

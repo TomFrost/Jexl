@@ -7,6 +7,7 @@ const Lexer = require('lib/Lexer')
 const Parser = require('lib/parser/Parser')
 const Evaluator = require('lib/evaluator/Evaluator')
 const grammar = require('lib/grammar').elements
+const PromiseSync = require('lib/PromiseSync')
 
 const lexer = new Lexer(grammar)
 
@@ -17,6 +18,10 @@ const toTree = (exp) => {
 }
 
 describe('Evaluator', () => {
+  it('evaluates using an alternative Promise class', () => {
+    const e = new Evaluator(grammar, null, null, null, PromiseSync)
+    expect(e.eval(toTree('2 + 2'))).toHaveProperty('value', 4)
+  })
   it('evaluates an arithmetic expression', async () => {
     const e = new Evaluator(grammar)
     return expect(e.eval(toTree('(2 + 3) * 4'))).resolves.toBe(20)
