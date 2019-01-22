@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Development]
 Nothing yet!
 
+## [v2.0.2]
+### Fixed
+- Issue #47: Revert unintentional change to strict === and !== comparisons
+
 ## [v2.0.1]
 ### Fixed
 - Issue where Jexl might mistake an identifier as being relative to a parent
