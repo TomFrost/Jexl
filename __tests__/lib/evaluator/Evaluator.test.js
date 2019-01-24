@@ -162,7 +162,7 @@ describe('Evaluator', () => {
     return expect(e.eval(toTree('"".length'))).resolves.toBe(0)
   })
   it('returns empty array when applying a filter to an undefined value', async () => {
-    const e = new Evaluator(grammar, null, {a: {}, d: 4})
+    const e = new Evaluator(grammar, null, { a: {}, d: 4 })
     return expect(e.eval(toTree('a.b[.c == d]'))).resolves.toHaveLength(0)
   })
 })
