@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Development]
 Nothing yet!
 
+## [v2.1.1]
+### Fixed
+- Applying a filter to an undefined identifier now returns an empty array
+instead of an array with one undefined element.
+
 ## [v2.1.0]
 ### Added
 - Jexl now has synchronous evaluation! Just call `evalSync`.
@@ -103,7 +108,8 @@ literals.
 ### Added
 - Initial release
 
-[Development]: https://github.com/TomFrost/Jexl/compare/v2.1.0...HEAD
+[Development]: https://github.com/TomFrost/Jexl/compare/v2.1.1...HEAD
+[v2.1.1]: https://github.com/TomFrost/Jexl/compare/v2.1.0...v2.1.1
 [v2.1.0]: https://github.com/TomFrost/Jexl/compare/v2.0.2...v2.1.0
 [v2.0.2]: https://github.com/TomFrost/Jexl/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/TomFrost/Jexl/compare/v2.0.0...v2.0.1
