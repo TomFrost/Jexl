@@ -31,8 +31,20 @@ describe('Lexer', () => {
       expect(elems).toHaveLength(1)
       expect(elems[0]).toEqual(str)
     })
+    it('supports escaped double-quotes at the end of strings', () => {
+      const str = '"foo\\""'
+      const elems = inst.getElements(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toEqual(str)
+    })
     it('supports escaping single-quotes', () => {
       const str = "'f\\'oo'"
+      const elems = inst.getElements(str)
+      expect(elems).toHaveLength(1)
+      expect(elems[0]).toEqual(str)
+    })
+    it('supports escaped single-quotes at the end of strings', () => {
+      const str = "'foo\\''"
       const elems = inst.getElements(str)
       expect(elems).toHaveLength(1)
       expect(elems[0]).toEqual(str)
