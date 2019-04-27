@@ -31,6 +31,10 @@ describe('Jexl', () => {
     it('passes context', async () => {
       expect(inst.evalSync('foo', { foo: 'bar' })).toBe('bar')
     })
+    it('throws if transform fails', async () => {
+      inst.addTransform('abort', (val, args) => { throw new Error('oops') })
+      expect(inst.evalSync.bind(inst, '"hello"|abort')).toThrow(/oops/)
+    })
   })
   describe('addTransform', () => {
     it('allows transforms to be defined', async () => {
