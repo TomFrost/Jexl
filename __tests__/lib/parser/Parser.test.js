@@ -482,4 +482,13 @@ describe('Parser', () => {
       }
     })
   })
+  it('should handle whitespace in an expression', function () {
+    inst.addTokens(lexer.tokenize('\t2\r\n+\n\r3\n\n'))
+    expect(inst.complete()).toEqual({
+      type: 'BinaryExpression',
+      operator: '+',
+      left: { type: 'Literal', value: 2 },
+      right: { type: 'Literal', value: 3 }
+    })
+  })
 })
