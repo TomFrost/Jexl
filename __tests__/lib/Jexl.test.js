@@ -35,6 +35,11 @@ describe('Jexl', () => {
       inst.addTransform('abort', (val, args) => { throw new Error('oops') })
       expect(inst.evalSync.bind(inst, '"hello"|abort')).toThrow(/oops/)
     })
+    it('throws if one of the query fails', async () => {
+      inst.addTransform('q1', (val, args) => { throw new Error('oops') })
+      inst.addBinaryOp('is', 100, (val, args) => { return true })
+      expect(inst.evalSync.bind(inst, '"hello"|q1 is asdf')).toThrow(/oops/)
+    })
   })
   describe('addTransform', () => {
     it('allows transforms to be defined', async () => {
