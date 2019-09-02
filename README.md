@@ -19,8 +19,8 @@ const context = {
 
 // Filter an array asynchronously...
 jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
-  console.log(res); // Output: Kane
-});
+  console.log(res) // Output: Kane
+})
 
 // Or synchronously!
 console.log(jexl.evalSync('assoc[.first == "Lana"].last')) // Output: Kane
@@ -34,7 +34,10 @@ await jexl.eval('name.first + " " + name["la" + "st"]', context)
 // "Sterling Archer"
 
 // Compound
-await jexl.eval('assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"', context)
+await jexl.eval(
+  'assoc[.last == "Figgis"].first == "Cyril" && assoc[.last == "Poovey"].first == "Pam"',
+  context
+)
 // true
 
 // Use array indexes
@@ -46,12 +49,12 @@ await jexl.eval('age > 62 ? "retired" : "working"', context)
 // "working"
 
 // Transform
-jexl.addTransform('upper', (val) => val.toUpperCase())
+jexl.addTransform('upper', val => val.toUpperCase())
 await jexl.eval('"duchess"|upper + " " + name.last|upper', context)
 // "DUCHESS ARCHER"
 
 // Transform asynchronously, with arguments
-jexl.addTransform('getStat',  async (val, stat) => dbSelectByLastName(val, stat))
+jexl.addTransform('getStat', async (val, stat) => dbSelectByLastName(val, stat))
 try {
   const res = await jexl.eval('name.last|getStat("weight")', context)
   console.log(res) // Output: 184
@@ -61,7 +64,11 @@ try {
 
 // Add your own (a)synchronous operators
 // Here's a case-insensitive string equality
-jexl.addBinaryOp('_=', 20, (left, right) => left.toLowerCase() === right.toLowerCase())
+jexl.addBinaryOp(
+  '_=',
+  20,
+  (left, right) => left.toLowerCase() === right.toLowerCase()
+)
 await jexl.eval('"Guest" _= "gUeSt"')
 // true
 ```
@@ -97,32 +104,32 @@ the `evalSync` API can be simpler to use.
 ### Unary Operators
 
 | Operation | Symbol |
-|-----------|:------:|
-| Negate    |    !   |
+| --------- | :----: |
+| Negate    |   !    |
 
 ### Binary Operators
 
-| Operation        |      Symbol      |
-|------------------|:----------------:|
-| Add, Concat      |         +        |
-| Subtract         |         -        |
-| Multiply         |         *        |
-| Divide           |         /        |
-| Divide and floor |        //        |
-| Modulus          |         %        |
-| Power of         |         ^        |
-| Logical AND      |        &&        |
-| Logical OR       |   &#124;&#124;   |
+| Operation        |    Symbol    |
+| ---------------- | :----------: |
+| Add, Concat      |      +       |
+| Subtract         |      -       |
+| Multiply         |      \*      |
+| Divide           |      /       |
+| Divide and floor |      //      |
+| Modulus          |      %       |
+| Power of         |      ^       |
+| Logical AND      |      &&      |
+| Logical OR       | &#124;&#124; |
 
 ### Comparisons
 
 | Comparison                 | Symbol |
-|----------------------------|:------:|
+| -------------------------- | :----: |
 | Equal                      |   ==   |
 | Not equal                  |   !=   |
-| Greater than               |    >   |
+| Greater than               |   >    |
 | Greater than or equal      |   >=   |
-| Less than                  |    <   |
+| Less than                  |   <    |
 | Less than or equal         |   <=   |
 | Element in array or string |   in   |
 
@@ -130,19 +137,19 @@ the `evalSync` API can be simpler to use.
 
 The `in` operator can be used to check for a substring:
 `"Cad" in "Ron Cadillac"`, and it can be used to check for an array element:
-`"coarse" in ['fine', 'medium', 'coarse']`.  However, the `==` operator is used
+`"coarse" in ['fine', 'medium', 'coarse']`. However, the `==` operator is used
 behind-the-scenes to search arrays, so it should not be used with arrays of
-objects.  The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
+objects. The following expression returns false: `{a: 'b'} in [{a: 'b'}]`.
 
 ### Ternary operator
 
 Conditional expressions check to see if the first segment evaluates to a truthy
-value. If so, the consequent segment is evaluated.  Otherwise, the alternate
+value. If so, the consequent segment is evaluated. Otherwise, the alternate
 is. If the consequent section is missing, the test result itself will be used
 instead.
 
 | Expression                        | Result |
-|-----------------------------------|--------|
+| --------------------------------- | ------ |
 | "" ? "Full" : "Empty"             | Empty  |
 | "foo" in "foobar" ? "Yes" : "No"  | Yes    |
 | {agent: "Archer"}.agent ?: "Kane" | Archer |
@@ -150,19 +157,19 @@ instead.
 ### Native Types
 
 | Type     |            Examples            |
-|----------|:------------------------------:|
-| Booleans |         `true`, `false`        |
+| -------- | :----------------------------: |
+| Booleans |        `true`, `false`         |
 | Strings  | "Hello \"user\"", 'Hey there!' |
 | Numerics |      6, -7.2, 5, -3.14159      |
-| Objects  |        {hello: "world!"}       |
-| Arrays   |       ['hello', 'world!']      |
+| Objects  |       {hello: "world!"}        |
+| Arrays   |      ['hello', 'world!']       |
 
 ### Groups
 
 Parentheses work just how you'd expect them to:
 
 | Expression                          | Result |
-|-------------------------------------|:-------|
+| ----------------------------------- | :----- |
 | (83 + 1) / 2                        | 42     |
 | 1 < 3 && (4 > 2 &#124;&#124; 2 > 4) | true   |
 
@@ -190,7 +197,7 @@ Example context:
 ```
 
 | Expression        | Result        |
-|-------------------|---------------|
+| ----------------- | ------------- |
 | name.first        | Malory        |
 | name['la' + 'st'] | Archer        |
 | exes[2]           | Burt Reynolds |
@@ -219,7 +226,7 @@ Example context:
 ```
 
 | Expression                                    | Result                                                                                |
-|-----------------------------------------------|---------------------------------------------------------------------------------------|
+| --------------------------------------------- | ------------------------------------------------------------------------------------- |
 | employees[.first == 'Sterling']               | [{first: 'Sterling', last: 'Archer', age: 36}]                                        |
 | employees[.last == 'Tu' + 'nt'].first         | Cheryl                                                                                |
 | employees[.age >= 30 && .age < 40]            | [{first: 'Sterling', last: 'Archer', age: 36},{first: 'Lana', last: 'Kane', age: 33}] |
@@ -236,25 +243,25 @@ value. Add them with `jexl.addTransform(name, function)`.
 
 ```javascript
 jexl.addTransform('split', (val, char) => val.split(char))
-jexl.addTransform('lower', (val) => val.toLowerCase())
+jexl.addTransform('lower', val => val.toLowerCase())
 ```
 
 | Expression                                 | Result                |
-|--------------------------------------------|-----------------------|
+| ------------------------------------------ | --------------------- |
 | "Pam Poovey"&#124;lower&#124;split(' ')[1] | poovey                |
 | "password==guest"&#124;split('=' + '=')    | ['password', 'guest'] |
 
 #### Advanced Transforms
 
 Using Transforms, Jexl can support additional string formats like embedded
-JSON, YAML, XML, and more.  The following, with the help of the
+JSON, YAML, XML, and more. The following, with the help of the
 [xml2json](https://github.com/buglabs/node-xml2json) module, allows XML to be
 traversed just as easily as plain javascript objects:
 
 ```javascript
-const xml2json = require('xml2json');
+const xml2json = require('xml2json')
 
-jexl.addTransform('xml', (val) => xml2json.toJson(val, { object: true }))
+jexl.addTransform('xml', val => xml2json.toJson(val, { object: true }))
 
 const context = {
   xmlDoc: `
@@ -270,7 +277,7 @@ const context = {
     </Employees>`
 }
 
-var expr = 'xmlDoc|xml.Employees.Employee[.LastName == "Figgis"].FirstName';
+var expr = 'xmlDoc|xml.Employees.Employee[.LastName == "Figgis"].FirstName'
 
 jexl.eval(expr, context).then(console.log) // Output: Cyril
 ```
@@ -310,7 +317,7 @@ that resolves to the resulting value.
 
 #### jexl.addTransform(_{string} name_, _{function} transform_)
 
-Adds a transform function to this Jexl instance.  See the **Transforms**
+Adds a transform function to this Jexl instance. See the **Transforms**
 section above for information on the structure of a transform function.
 
 #### jexl.addTransforms(_{{}} map_)
