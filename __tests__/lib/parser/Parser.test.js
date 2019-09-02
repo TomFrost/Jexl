@@ -234,12 +234,14 @@ describe('Parser', () => {
     expect(inst.complete()).toEqual({
       type: 'Transform',
       name: 'tr3',
-      args: [{
-        type: 'ObjectLiteral',
-        value: {
-          bar: { type: 'Literal', value: 'tek' }
+      args: [
+        {
+          type: 'ObjectLiteral',
+          value: {
+            bar: { type: 'Literal', value: 'tek' }
+          }
         }
-      }],
+      ],
       subject: {
         type: 'Identifier',
         value: 'baz',

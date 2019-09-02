@@ -1,6 +1,7 @@
 .idea
 *.iml
 .vscode
+*.code-workspace
 
 node_modules
 coverage
