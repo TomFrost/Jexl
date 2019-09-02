@@ -1,0 +1,32 @@
+{
+  "env": {
+    "commonjs": true,
+    "jest": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": "prettier",
+  "plugins": ["prettier"],
+  "rules": {
+    "camelcase": 0,
+    "no-console": 0,
+    "prettier/prettier": "error",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "none",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "node/no-deprecated-api": 0
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  }
+}
