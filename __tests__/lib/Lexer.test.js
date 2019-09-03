@@ -59,6 +59,11 @@ describe('Lexer', () => {
       const elems = inst.getElements(str)
       expect(elems).toEqual([str])
     })
+    it('allows an identifier to start with and contain $', () => {
+      const str = '$my$Var'
+      const elems = inst.getElements(str)
+      expect(elems).toEqual([str])
+    })
   })
   describe('Tokens', () => {
     it('unquotes string elements', () => {

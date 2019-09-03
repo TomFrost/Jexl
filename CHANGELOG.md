@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Arbitrary whitespace is now re-supported (#54) (@czosel)
 - Strings were not tokenized correctly when ending with an escaped quote (#51)
   (@rehandalal)
+- Identifier names can now start with `$` (#36) (@glromeo)
 
 ## [v2.1.1]
 
