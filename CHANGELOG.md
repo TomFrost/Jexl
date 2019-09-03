@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
 
+Nothing yet!
+
+## [v2.2.0]
+
 ### Added
 
 - Introducing the `Expression` object, which allows expressions to be compiled
@@ -160,7 +164,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[development]: https://github.com/TomFrost/Jexl/compare/v2.1.1...HEAD
+[development]: https://github.com/TomFrost/Jexl/compare/v2.2.0...HEAD
+[v2.2.0]: https://github.com/TomFrost/Jexl/compare/v2.1.1...v2.2.0
 [v2.1.1]: https://github.com/TomFrost/Jexl/compare/v2.1.0...v2.1.1
 [v2.1.0]: https://github.com/TomFrost/Jexl/compare/v2.0.2...v2.1.0
 [v2.0.2]: https://github.com/TomFrost/Jexl/compare/v2.0.1...v2.0.2
