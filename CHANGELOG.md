@@ -2,7 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Development]
+## [development]
+
+Nothing yet!
+
+## [v2.2.1]
 
 ### Fixed
 
@@ -168,7 +172,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[development]: https://github.com/TomFrost/Jexl/compare/v2.2.0...HEAD
+[development]: https://github.com/TomFrost/Jexl/compare/v2.2.1...HEAD
+[v2.2.1]: https://github.com/TomFrost/Jexl/compare/v2.2.0...v2.2.1
 [v2.2.0]: https://github.com/TomFrost/Jexl/compare/v2.1.1...v2.2.0
 [v2.1.1]: https://github.com/TomFrost/Jexl/compare/v2.1.0...v2.1.1
 [v2.1.0]: https://github.com/TomFrost/Jexl/compare/v2.0.2...v2.1.0
