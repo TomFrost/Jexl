@@ -234,12 +234,14 @@ describe('Parser', () => {
     expect(inst.complete()).toEqual({
       type: 'Transform',
       name: 'tr3',
-      args: [{
-        type: 'ObjectLiteral',
-        value: {
-          bar: { type: 'Literal', value: 'tek' }
+      args: [
+        {
+          type: 'ObjectLiteral',
+          value: {
+            bar: { type: 'Literal', value: 'tek' }
+          }
         }
-      }],
+      ],
       subject: {
         type: 'Identifier',
         value: 'baz',
@@ -480,6 +482,15 @@ describe('Parser', () => {
         value: 'd',
         from: { type: 'Identifier', value: 'c' }
       }
+    })
+  })
+  it('handles whitespace in an expression', () => {
+    inst.addTokens(lexer.tokenize('\t2\r\n+\n\r3\n\n'))
+    expect(inst.complete()).toEqual({
+      type: 'BinaryExpression',
+      operator: '+',
+      left: { type: 'Literal', value: 2 },
+      right: { type: 'Literal', value: 3 }
     })
   })
 })

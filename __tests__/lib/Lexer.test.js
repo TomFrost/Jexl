@@ -63,11 +63,13 @@ describe('Lexer', () => {
   describe('Tokens', () => {
     it('unquotes string elements', () => {
       const tokens = inst.getTokens(['"foo \\"bar\\\\"'])
-      expect(tokens).toEqual([{
-        type: 'literal',
-        value: 'foo "bar\\',
-        raw: '"foo \\"bar\\\\"'
-      }])
+      expect(tokens).toEqual([
+        {
+          type: 'literal',
+          value: 'foo "bar\\',
+          raw: '"foo \\"bar\\\\"'
+        }
+      ])
     })
     it('recognizes booleans', () => {
       const tokens = inst.getTokens(['true', 'false'])
@@ -101,35 +103,43 @@ describe('Lexer', () => {
     })
     it('recognizes binary operators', () => {
       const tokens = inst.getTokens(['+'])
-      expect(tokens).toEqual([{
-        type: 'binaryOp',
-        value: '+',
-        raw: '+'
-      }])
+      expect(tokens).toEqual([
+        {
+          type: 'binaryOp',
+          value: '+',
+          raw: '+'
+        }
+      ])
     })
     it('recognizes unary operators', () => {
       const tokens = inst.getTokens(['!'])
-      expect(tokens).toEqual([{
-        type: 'unaryOp',
-        value: '!',
-        raw: '!'
-      }])
+      expect(tokens).toEqual([
+        {
+          type: 'unaryOp',
+          value: '!',
+          raw: '!'
+        }
+      ])
     })
     it('recognizes control characters', () => {
       const tokens = inst.getTokens(['('])
-      expect(tokens).toEqual([{
-        type: 'openParen',
-        value: '(',
-        raw: '('
-      }])
+      expect(tokens).toEqual([
+        {
+          type: 'openParen',
+          value: '(',
+          raw: '('
+        }
+      ])
     })
     it('recognizes identifiers', () => {
       const tokens = inst.getTokens(['_foo9_bar'])
-      expect(tokens).toEqual([{
-        type: 'identifier',
-        value: '_foo9_bar',
-        raw: '_foo9_bar'
-      }])
+      expect(tokens).toEqual([
+        {
+          type: 'identifier',
+          value: '_foo9_bar',
+          raw: '_foo9_bar'
+        }
+      ])
     })
     it('throws on invalid token', () => {
       const fn = inst.getTokens.bind(Lexer, ['9foo'])

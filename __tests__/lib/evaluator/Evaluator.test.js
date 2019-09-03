@@ -11,7 +11,7 @@ const PromiseSync = require('lib/PromiseSync')
 
 const lexer = new Lexer(grammar)
 
-const toTree = (exp) => {
+const toTree = exp => {
   const p = new Parser(grammar)
   p.addTokens(lexer.tokenize(exp))
   return p.complete()
@@ -28,8 +28,9 @@ describe('Evaluator', () => {
   })
   it('evaluates a string concat', async () => {
     const e = new Evaluator(grammar)
-    return expect(e.eval(toTree('"Hello" + (4+4) + "Wo\\"rld"')))
-      .resolves.toBe('Hello8Wo"rld')
+    return expect(e.eval(toTree('"Hello" + (4+4) + "Wo\\"rld"'))).resolves.toBe(
+      'Hello8Wo"rld'
+    )
   })
   it('evaluates a true comparison expression', async () => {
     const e = new Evaluator(grammar)
@@ -41,13 +42,16 @@ describe('Evaluator', () => {
   })
   it('evaluates a complex expression', async () => {
     const e = new Evaluator(grammar)
-    return expect(e.eval(toTree('"foo" && 6 >= 6 && 0 + 1 && true')))
-      .resolves.toBe(true)
+    return expect(
+      e.eval(toTree('"foo" && 6 >= 6 && 0 + 1 && true'))
+    ).resolves.toBe(true)
   })
   it('evaluates an identifier chain', async () => {
     const context = { foo: { baz: { bar: 'tek' } } }
     const e = new Evaluator(grammar, null, context)
-    return expect(e.eval(toTree('foo.baz.bar'))).resolves.toBe(context.foo.baz.bar)
+    return expect(e.eval(toTree('foo.baz.bar'))).resolves.toBe(
+      context.foo.baz.bar
+    )
   })
   it('applys transforms', async () => {
     const context = { foo: 10 }
@@ -58,23 +62,18 @@ describe('Evaluator', () => {
   it('filters arrays', async () => {
     const context = {
       foo: {
-        bar: [
-          { tek: 'hello' },
-          { tek: 'baz' },
-          { tok: 'baz' }
-        ]
+        bar: [{ tek: 'hello' }, { tek: 'baz' }, { tok: 'baz' }]
       }
     }
     const e = new Evaluator(grammar, null, context)
-    return expect(e.eval(toTree('foo.bar[.tek == "baz"]'))).resolves.toEqual([{ tek: 'baz' }])
+    return expect(e.eval(toTree('foo.bar[.tek == "baz"]'))).resolves.toEqual([
+      { tek: 'baz' }
+    ])
   })
   it('assumes array index 0 when traversing', async () => {
     const context = {
       foo: {
-        bar: [
-          { tek: { hello: 'world' } },
-          { tek: { hello: 'universe' } }
-        ]
+        bar: [{ tek: { hello: 'world' } }, { tek: { hello: 'universe' } }]
       }
     }
     const e = new Evaluator(grammar, null, context)
@@ -83,11 +82,7 @@ describe('Evaluator', () => {
   it('makes array elements addressable by index', async () => {
     const context = {
       foo: {
-        bar: [
-          { tek: 'tok' },
-          { tek: 'baz' },
-          { tek: 'foz' }
-        ]
+        bar: [{ tek: 'tok' }, { tek: 'baz' }, { tek: 'foz' }]
       }
     }
     const e = new Evaluator(grammar, null, context)
@@ -96,7 +91,9 @@ describe('Evaluator', () => {
   it('allows filters to select object properties', async () => {
     const context = { foo: { baz: { bar: 'tek' } } }
     const e = new Evaluator(grammar, null, context)
-    return expect(e.eval(toTree('foo["ba" + "z"].bar'))).resolves.toBe(context.foo.baz.bar)
+    return expect(e.eval(toTree('foo["ba" + "z"].bar'))).resolves.toBe(
+      context.foo.baz.bar
+    )
   })
   it('throws when transform does not exist', async () => {
     const e = new Evaluator(grammar)
@@ -108,7 +105,9 @@ describe('Evaluator', () => {
   })
   it('evaluates an object literal', async () => {
     const e = new Evaluator(grammar)
-    return expect(e.eval(toTree('{foo: {bar: "tek"}}'))).resolves.toEqual({ foo: { bar: 'tek' } })
+    return expect(e.eval(toTree('{foo: {bar: "tek"}}'))).resolves.toEqual({
+      foo: { bar: 'tek' }
+    })
   })
   it('evaluates an empty object literal', async () => {
     const e = new Evaluator(grammar)
@@ -118,7 +117,9 @@ describe('Evaluator', () => {
     const e = new Evaluator(grammar, {
       concat: (val, a1, a2, a3) => val + ': ' + a1 + a2 + a3
     })
-    return expect(e.eval(toTree('"foo"|concat("baz", "bar", "tek")'))).resolves.toBe('foo: bazbartek')
+    return expect(
+      e.eval(toTree('"foo"|concat("baz", "bar", "tek")'))
+    ).resolves.toBe('foo: bazbartek')
   })
   it('evaluates dot notation for object literals', async () => {
     const e = new Evaluator(grammar)
@@ -142,8 +143,12 @@ describe('Evaluator', () => {
   it('applys the "in" operator to arrays', async () => {
     const e = new Evaluator(grammar)
     return Promise.all([
-      expect(e.eval(toTree('"bar" in ["foo","bar","tek"]'))).resolves.toBe(true),
-      expect(e.eval(toTree('"baz" in ["foo","bar","tek"]'))).resolves.toBe(false)
+      expect(e.eval(toTree('"bar" in ["foo","bar","tek"]'))).resolves.toBe(
+        true
+      ),
+      expect(e.eval(toTree('"baz" in ["foo","bar","tek"]'))).resolves.toBe(
+        false
+      )
     ])
   })
   it('evaluates a conditional expression', async () => {
@@ -164,5 +169,9 @@ describe('Evaluator', () => {
   it('returns empty array when applying a filter to an undefined value', async () => {
     const e = new Evaluator(grammar, null, { a: {}, d: 4 })
     return expect(e.eval(toTree('a.b[.c == d]'))).resolves.toHaveLength(0)
+  })
+  it('evaluates an expression with arbitrary whitespace', async () => {
+    const e = new Evaluator(grammar)
+    await expect(e.eval(toTree('(\t2\n+\n3) *\n4\n\r\n'))).resolves.toBe(20)
   })
 })
