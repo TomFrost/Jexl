@@ -71,6 +71,12 @@ jexl.addBinaryOp(
 )
 await jexl.eval('"Guest" _= "gUeSt"')
 // true
+
+// Compile your expression once, evaluate many times!
+const { expr } = jexl
+const danger = expr`"Danger " + place` // Also: jexl.compile('"Danger " + zone')
+danger.evalSync({ place: 'zone' }) // Danger zone
+danger.evalSync({ place: 'ZONE!!!' }) // Danger ZONE!!! (Doesn't recompile the expression!)
 ```
 
 ## Installation
