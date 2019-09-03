@@ -46,11 +46,24 @@ describe('Jexl', () => {
     it('returns success', () => {
       expect(inst.evalSync('2+2')).toBe(4)
     })
-    it('throws on error', async () => {
+    it('throws on error', () => {
       expect(inst.evalSync.bind(inst, '2++2')).toThrow(/unexpected/)
     })
-    it('passes context', async () => {
+    it('passes context', () => {
       expect(inst.evalSync('foo', { foo: 'bar' })).toBe('bar')
+    })
+    it('throws if transform fails', () => {
+      inst.addTransform('abort', () => {
+        throw new Error('oops')
+      })
+      expect(inst.evalSync.bind(inst, '"hello"|abort')).toThrow(/oops/)
+    })
+    it('throws if nested transform fails', () => {
+      inst.addTransform('q1', () => {
+        throw new Error('oops')
+      })
+      inst.addBinaryOp('is', 100, () => true)
+      expect(inst.evalSync.bind(inst, '"hello"|q1 is asdf')).toThrow(/oops/)
     })
   })
   describe('expr', () => {

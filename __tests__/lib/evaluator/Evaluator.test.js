@@ -170,4 +170,19 @@ describe('Evaluator', () => {
     const e = new Evaluator(grammar, null, { a: {}, d: 4 })
     return expect(e.eval(toTree('a.b[.c == d]'))).resolves.toHaveLength(0)
   })
+  it('evaluates an expression with arbitrary whitespace', async () => {
+    const e = new Evaluator(grammar)
+    await expect(e.eval(toTree('(\t2\n+\n3) *\n4\n\r\n'))).resolves.toBe(20)
+  })
+  it('evaluates an expression with $ in identifiers', async () => {
+    const context = {
+      $: 5,
+      $foo: 6,
+      $foo$bar: 7,
+      $bar: 8
+    }
+    const expr = '$+$foo+$foo$bar+$bar'
+    const e = new Evaluator(grammar, null, context)
+    await expect(e.eval(toTree(expr))).resolves.toBe(26)
+  })
 })

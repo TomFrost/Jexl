@@ -12,6 +12,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Evaluate Expressions asyncronoushly or synchronously by calling `myExpression.eval(context)` or `myExpression.evalSync(context)`
 - Create expressions using a convenient tagged template: `` jexl.expr`2 + 2` ``
 
+### Fixed
+
+- Transform errors did not always get thrown when using `evalSync` (#55, #56)
+  (@bitghostm)
+- Arbitrary whitespace is now re-supported (#54) (@czosel)
+- Strings were not tokenized correctly when ending with an escaped quote (#51)
+  (@rehandalal)
+- Identifier names can now start with `$` (#36) (@glromeo)
+
 ## [v2.1.1]
 
 ### Fixed
