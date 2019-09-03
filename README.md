@@ -289,7 +289,9 @@ in the expression, but they have a hidden feature: they can include a Promise
 object, and when that property is used, Jexl will wait for the Promise to
 resolve and use that value!
 
-### API
+## API
+
+### Jexl
 
 #### jexl.Jexl
 
@@ -325,6 +327,21 @@ section above for information on the structure of a transform function.
 Adds multiple transforms from a supplied map of transform name to transform
 function.
 
+#### jexl.compile(_{string} expression_)
+
+Constructs an Expression object around the given Jexl expression string.
+Expression objects allow a Jexl expression to be compiled only once but
+evaluated many times. See the Expression API below. Note that the only
+difference between this function and `jexl.createExpression` is that this
+function will immediately compile the expression, and throw any errors
+associated with invalid expression syntax.
+
+#### jexl.createExpression(_{string} expression_)
+
+Constructs an Expression object around the given Jexl expression string.
+Expression objects allow a Jexl expression to be compiled only once but
+evaluated many times. See the Expression API below.
+
 #### jexl.getTransform(_{string} name_)
 
 **Returns `{function|undefined}`.** Gets a previously set transform function,
@@ -339,10 +356,52 @@ or `undefined` if no function of that name exists.
 **Returns `{*}`.** Evaluates an expression and returns the result. The context map
 is optional.
 
+#### jexl.expr: _tagged template literal_
+
+A convenient bit of syntactic sugar for `jexl.createExpression`
+
+```javascript
+const someNumber = 10
+const expression = jexl.expr`5 + ${someNumber}`
+console.log(expression.evalSync()) // 15
+```
+
+Note that `expr` will stay bound to its associated Jexl instance even if it's
+pulled out of context:
+
+```javascript
+const { expr } = jexl
+jexl.addTransform('double', val => val * 2)
+const expression = expr`2|double`
+console.log(expression.evalSync()) // 4
+```
+
 #### jexl.removeOp(_{string} operator_)
 
 Removes a binary or unary operator from the Jexl instance. For example, "^" can
 be passed to eliminate the "power of" operator.
+
+### Expression
+
+Expression objects are created via `jexl.createExpression`, `jexl.compile`, or
+`jexl.expr`, and are a convenient way to ensure jexl expressions compile only
+once, even if they're evaluated multiple times.
+
+#### expression.compile()
+
+**Returns self `{Expression}`.** Forces the expression to compile, even if it
+was compiled before. Note that each compile will happen with the latest grammar
+and transforms from the associated Jexl instance.
+
+#### expression.eval(_{{}} [context]_)
+
+**Returns `{Promise<*>}`.** Evaluates the expression. The context map is
+optional.
+
+#### expression.evalSync(_{{}} [context]_)
+
+**Returns `{*}`.** Evaluates the expression and returns the result. The context
+map is optional.
 
 ## Other implementations
 

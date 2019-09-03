@@ -4,7 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
 
-Nothing yet!
+### Added
+
+- Introducing the `Expression` object, which allows expressions to be compiled only once and evaluated many times
+- Get an Expression by calling `jexl.createExpression('2 + 2')`
+- Get a pre-compiled expression by calling `jexl.compile('2 + 2')`
+- Evaluate Expressions asyncronoushly or synchronously by calling `myExpression.eval(context)` or `myExpression.evalSync(context)`
+- Create expressions using a convenient tagged template: `` jexl.expr`2 + 2` ``
 
 ## [v2.1.1]
 
