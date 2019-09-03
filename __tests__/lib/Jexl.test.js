@@ -4,11 +4,32 @@
  */
 
 const Jexl = require('lib/Jexl')
+const Expression = require('lib/Expression')
 let inst
 
 describe('Jexl', () => {
   beforeEach(() => {
     inst = new Jexl.Jexl()
+  })
+  describe('compile', () => {
+    it('returns an instance of Expression', () => {
+      const expr = inst.compile('2/2')
+      expect(expr).toEqual(expect.any(Expression))
+    })
+    it('compiles the Expression', () => {
+      const willFail = () => inst.compile('2 & 2')
+      expect(willFail).toThrow('Invalid expression token: &')
+    })
+  })
+  describe('createExpression', () => {
+    it('returns an instance of Expression', () => {
+      const expr = inst.createExpression('2/2')
+      expect(expr).toEqual(expect.any(Expression))
+    })
+    it('does not compile the Expression', () => {
+      const expr = inst.createExpression('2 wouldFail &^% ..4')
+      expect(expr).toEqual(expect.any(Expression))
+    })
   })
   describe('eval', () => {
     it('resolves Promise on success', async () => {
@@ -30,6 +51,25 @@ describe('Jexl', () => {
     })
     it('passes context', async () => {
       expect(inst.evalSync('foo', { foo: 'bar' })).toBe('bar')
+    })
+  })
+  describe('expr', () => {
+    it('returns an evaluatable instance of Expression', () => {
+      const expr = inst.expr`2+2`
+      expect(expr).toEqual(expect.any(Expression))
+      expect(expr.evalSync()).toEqual(4)
+    })
+    it('functions as a template string', () => {
+      const myVar = 'foo'
+      const expr = inst.expr`'myVar' + ${myVar} + 'Car'`
+      expect(expr.evalSync({ foo: 'Bar' })).toEqual('myVarBarCar')
+    })
+    it('works outside of the instance context', () => {
+      const myVar = '##'
+      inst.addUnaryOp('##', val => val * 2)
+      const { expr } = inst
+      const e = expr`${myVar}5`
+      expect(e.evalSync()).toBe(10)
     })
   })
   describe('addTransform', () => {
