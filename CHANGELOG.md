@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Transform errors did not always get thrown when using `evalSync` (#55, #56)
   (@bitghostm)
+- Arbitrary whitespace is now re-supported (#54) (@czosel)
 
 ## [v2.1.1]
 
