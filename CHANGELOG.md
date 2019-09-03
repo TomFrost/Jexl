@@ -4,7 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
 
-Nothing yet!
+### Fixed
+
+- Transform errors did not always get thrown when using `evalSync` (#55, #56)
+  (@bitghostm)
 
 ## [v2.1.1]
 
