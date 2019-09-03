@@ -4,7 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Development]
 
-Nothing yet!
+### Fixed
+
+- Relative collection filters didn't function appropriately when evalSync was
+  used, as it would sometimes revert to using an actual Promise object.
+  (#61)
 
 ## [v2.2.0]
 

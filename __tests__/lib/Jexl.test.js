@@ -41,6 +41,15 @@ describe('Jexl', () => {
     it('passes context', async () => {
       await expect(inst.eval('foo', { foo: 'bar' })).resolves.toBe('bar')
     })
+    it('filters collections as expected (issue #61)', async () => {
+      const context = {
+        a: [{ b: 'A' }, { b: 'B' }, { b: 'C' }]
+      }
+      await expect(inst.eval('a[.b in ["A","B"]]', context)).resolves.toEqual([
+        { b: 'A' },
+        { b: 'B' }
+      ])
+    })
   })
   describe('evalSync', () => {
     it('returns success', () => {
@@ -64,6 +73,15 @@ describe('Jexl', () => {
       })
       inst.addBinaryOp('is', 100, () => true)
       expect(inst.evalSync.bind(inst, '"hello"|q1 is asdf')).toThrow(/oops/)
+    })
+    it('filters collections as expected (issue #61)', () => {
+      const context = {
+        a: [{ b: 'A' }, { b: 'B' }, { b: 'C' }]
+      }
+      expect(inst.evalSync('a[.b in ["A","B"]]', context)).toEqual([
+        { b: 'A' },
+        { b: 'B' }
+      ])
     })
   })
   describe('expr', () => {
