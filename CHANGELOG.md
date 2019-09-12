@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [development]
 
+Nothing yet!
+
+## [v2.2.2]
+
+### Changes
+
+- Jexl now officially supports Node v12. It's been working, but now CI tests it!
+
 ### Fixed
 
 - Accessing children of null should resolve to undefined rather than throwing
@@ -175,7 +183,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[development]: https://github.com/TomFrost/Jexl/compare/v2.2.1...HEAD
+[development]: https://github.com/TomFrost/Jexl/compare/v2.2.2...HEAD
+[v2.2.2]: https://github.com/TomFrost/Jexl/compare/v2.2.1...v2.2.2
 [v2.2.1]: https://github.com/TomFrost/Jexl/compare/v2.2.0...v2.2.1
 [v2.2.0]: https://github.com/TomFrost/Jexl/compare/v2.1.1...v2.2.0
 [v2.1.1]: https://github.com/TomFrost/Jexl/compare/v2.1.0...v2.1.1
