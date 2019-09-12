@@ -4,7 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [development]
 
-Nothing yet!
+### Fixed
+
+- Accessing children of null should resolve to undefined rather than throwing
+  (#64)
 
 ## [v2.2.1]
 

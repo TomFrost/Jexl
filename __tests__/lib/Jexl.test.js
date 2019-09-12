@@ -83,6 +83,11 @@ describe('Jexl', () => {
         { b: 'B' }
       ])
     })
+    it('early-exits boolean AND when the left is false (issue #64)', () => {
+      const context = { a: null }
+      const expr = 'a != null && a.b'
+      expect(inst.evalSync.bind(inst, expr, context)).not.toThrow()
+    })
   })
   describe('expr', () => {
     it('returns an evaluatable instance of Expression', () => {
