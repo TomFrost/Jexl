@@ -64,6 +64,11 @@ describe('Lexer', () => {
       const elems = inst.getElements(str)
       expect(elems).toEqual([str])
     })
+    it('allows an identifier to start with and contain accented letters from Latin 1 Supplement unicode block', () => {
+      const str = 'ÄmyäVarÖö'
+      const elems = inst.getElements(str)
+      expect(elems).toEqual([str])
+    })
   })
   describe('Tokens', () => {
     it('unquotes string elements', () => {
