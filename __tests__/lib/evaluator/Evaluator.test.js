@@ -59,6 +59,12 @@ describe('Evaluator', () => {
     const e = new Evaluator(grammar, { half: half }, context)
     return expect(e.eval(toTree('foo|half + 3'))).resolves.toBe(8)
   })
+  it('allows using toString as a transform', async () => {
+    const context = { foo: 10 }
+    const toString = val => JSON.stringify(val)
+    const e = new Evaluator(grammar, { toString: toString }, context)
+    return expect(e.eval(toTree('foo|toString'))).resolves.toBe('10')
+  })
   it('filters arrays', async () => {
     const context = {
       foo: {
