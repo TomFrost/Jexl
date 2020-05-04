@@ -1,6 +1,6 @@
 /*
  * Jexl
- * Copyright 2019 Tom Shawver
+ * Copyright 2020 Tom Shawver
  */
 
 const Lexer = require('lib/Lexer')
@@ -11,7 +11,7 @@ const PromiseSync = require('lib/PromiseSync')
 
 const lexer = new Lexer(grammar)
 
-const toTree = exp => {
+const toTree = (exp) => {
   const p = new Parser(grammar)
   p.addTokens(lexer.tokenize(exp))
   return p.complete()
@@ -55,7 +55,7 @@ describe('Evaluator', () => {
   })
   it('applys transforms', async () => {
     const context = { foo: 10 }
-    const half = val => val / 2
+    const half = (val) => val / 2
     const e = new Evaluator(grammar, { half: half }, context)
     return expect(e.eval(toTree('foo|half + 3'))).resolves.toBe(8)
   })

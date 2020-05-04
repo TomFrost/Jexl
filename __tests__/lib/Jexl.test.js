@@ -1,6 +1,6 @@
 /*
  * Jexl
- * Copyright 2019 Tom Shawver
+ * Copyright 2020 Tom Shawver
  */
 
 const Jexl = require('lib/Jexl')
@@ -102,7 +102,7 @@ describe('Jexl', () => {
     })
     it('works outside of the instance context', () => {
       const myVar = '##'
-      inst.addUnaryOp('##', val => val * 2)
+      inst.addUnaryOp('##', (val) => val * 2)
       const { expr } = inst
       const e = expr`${myVar}5`
       expect(e.evalSync()).toBe(10)
@@ -125,8 +125,8 @@ describe('Jexl', () => {
     })
     it('allows transforms to be set in batch', async () => {
       inst.addTransforms({
-        add1: val => val + 1,
-        add2: val => val + 2
+        add1: (val) => val + 1,
+        add2: (val) => val + 2
       })
       await expect(inst.eval('2|add1|add2')).resolves.toBe(5)
     })
@@ -150,7 +150,7 @@ describe('Jexl', () => {
   })
   describe('addUnaryOp', () => {
     it('allows unaryOps to be defined', async () => {
-      inst.addUnaryOp('~', right => Math.floor(right))
+      inst.addUnaryOp('~', (right) => Math.floor(right))
       await expect(inst.eval('~5.7 + 5')).resolves.toBe(10)
     })
   })
