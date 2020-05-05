@@ -147,6 +147,29 @@ describe('Jexl', () => {
         Promise.all([inst.eval('1 + 2 ** 3 + 4'), inst.eval('1 + 2 *** 3 + 4')])
       ).resolves.toEqual([20, 15])
     })
+    it('allows binaryOps to be defined with manual operand evaluation', () => {
+      inst.addBinaryOp(
+        '$$',
+        50,
+        (left, right) => {
+          return left.eval().then((val) => {
+            if (val > 0) return val
+            return right.eval()
+          })
+        },
+        true
+      )
+      let count = 0
+      inst.addTransform('inc', (elem) => {
+        count++
+        return elem
+      })
+      expect(inst.evalSync('-2|inc $$ 5|inc')).toEqual(5)
+      expect(count).toEqual(2)
+      count = 0
+      expect(inst.evalSync('2|inc $$ -5|inc')).toEqual(2)
+      expect(count).toEqual(1)
+    })
   })
   describe('addUnaryOp', () => {
     it('allows unaryOps to be defined', async () => {
