@@ -18,7 +18,7 @@ const context = {
 }
 
 // Filter an array asynchronously...
-jexl.eval('assoc[.first == "Lana"].last', context).then(function(res) {
+jexl.eval('assoc[.first == "Lana"].last', context).then(function (res) {
   console.log(res) // Output: Kane
 })
 
@@ -49,7 +49,7 @@ await jexl.eval('age > 62 ? "retired" : "working"', context)
 // "working"
 
 // Transform
-jexl.addTransform('upper', val => val.toUpperCase())
+jexl.addTransform('upper', (val) => val.toUpperCase())
 await jexl.eval('"duchess"|upper + " " + name.last|upper', context)
 // "DUCHESS ARCHER"
 
@@ -249,7 +249,7 @@ value. Add them with `jexl.addTransform(name, function)`.
 
 ```javascript
 jexl.addTransform('split', (val, char) => val.split(char))
-jexl.addTransform('lower', val => val.toLowerCase())
+jexl.addTransform('lower', (val) => val.toLowerCase())
 ```
 
 | Expression                                 | Result                |
@@ -267,7 +267,7 @@ traversed just as easily as plain javascript objects:
 ```javascript
 const xml2json = require('xml2json')
 
-jexl.addTransform('xml', val => xml2json.toJson(val, { object: true }))
+jexl.addTransform('xml', (val) => xml2json.toJson(val, { object: true }))
 
 const context = {
   xmlDoc: `
@@ -305,7 +305,7 @@ A reference to the Jexl constructor. To maintain separate instances of Jexl
 with each maintaining its own set of transforms, simply re-instantiate with
 `new jexl.Jexl()`.
 
-#### jexl.addBinaryOp(_{string} operator_, _{number} precedence_, _{function} fn_)
+#### jexl.addBinaryOp(_{string} operator_, _{number} precedence_, _{function} fn_, _{boolean} [manualEval]_)
 
 Adds a binary operator to the Jexl instance. A binary operator is one that
 considers the values on both its left and right, such as "+" or "==", in order
@@ -314,6 +314,11 @@ order of operations (please refer to `lib/grammar.js` to see the precedence of
 existing operators). The provided function will be called with two arguments:
 a left value and a right value. It should return either the resulting value,
 or a Promise that resolves to the resulting value.
+
+If `manualEval` is true, the `left` and `right` arguments will be wrapped in
+objects with an `eval` function. Calling `left.eval()` or `right.eval()` will
+return a promise that resolves to that operand's actual value. This is useful to
+conditionally evaluate operands, and is how `&&` and `||` work.
 
 #### jexl.addUnaryOp(_{string} operator_, _{function} fn_)
 
@@ -377,7 +382,7 @@ pulled out of context:
 
 ```javascript
 const { expr } = jexl
-jexl.addTransform('double', val => val * 2)
+jexl.addTransform('double', (val) => val * 2)
 const expression = expr`2|double`
 console.log(expression.evalSync()) // 4
 ```
