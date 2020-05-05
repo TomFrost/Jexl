@@ -79,6 +79,11 @@ danger.evalSync({ place: 'zone' }) // Danger zone
 danger.evalSync({ place: 'ZONE!!!' }) // Danger ZONE!!! (Doesn't recompile the expression!)
 ```
 
+## Play with it
+
+- [Jexl Playground](https://czosel.github.io/jexl-playground/) - An interactive Jexl sandbox by Christian Zosel [@czosel](https://github.com/czosel).
+- [Jexl on RunKit](https://npm.runkit.com/jexl) - JS sandbox with Jexl preloaded. Special thanks to Mike Cunneen [@cunneen](https://github.com/cunneen).
+
 ## Installation
 
 Jexl works on the backend, and on the frontend if bundled using a bundler like Parcel or Webpack.
@@ -423,5 +428,7 @@ map is optional.
 Jexl is licensed under the MIT license. Please see `LICENSE.txt` for full details.
 
 ## Credits
+
+Created by [Tom Shawver](https://github.com/TomFrost) in 2015 and contributed to by [these great people](https://github.com/TomFrost/Jexl/graphs/contributors).
 
 Jexl was originally created at [TechnologyAdvice](http://technologyadvice.com) in Nashville, TN.
