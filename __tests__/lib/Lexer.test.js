@@ -3,7 +3,7 @@
  * Copyright 2020 Tom Shawver
  */
 
-const grammar = require('lib/grammar').elements
+const grammar = require('lib/grammar').getGrammar()
 const Lexer = require('lib/Lexer')
 
 let inst
