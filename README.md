@@ -26,8 +26,8 @@ jexl.eval('assoc[.first == "Lana"].last', context).then(function (res) {
 console.log(jexl.evalSync('assoc[.first == "Lana"].last')) // Output: Kane
 
 // Do math
-const res = await jexl.eval('age * (3 - 1)', context)
-console.log(res) // Output: 72
+await jexl.eval('age * (3 - 1)', context)
+// 72
 
 // Concatenate
 await jexl.eval('name.first + " " + name["la" + "st"]', context)
@@ -293,6 +293,25 @@ var expr = 'xmlDoc|xml.Employees.Employee[.LastName == "Figgis"].FirstName'
 jexl.eval(expr, context).then(console.log) // Output: Cyril
 ```
 
+### Functions
+
+While Transforms are the preferred way to change one value into another value,
+Jexl also allows top-level expression functions to be defined. Use these to
+provide access to functions that either don't require an input, or require
+multiple equally-important inputs. They can be added with
+`jexl.addFunction(name, function)`. Like transforms, functions can return a
+value, or a Promise that resolves to the resulting value.
+
+```javascript
+jexl.addFunction('min', Math.min)
+jexl.addFunction('expensiveQuery', async () => db.runExpensiveQuery())
+```
+
+| Expression                                    | Result                    |
+| --------------------------------------------- | ------------------------- |
+| min(4, 2, 19)                                 | 2                         |
+| counts.missions &#124;&#124; expensiveQuery() | Query only runs if needed |
+
 ### Context
 
 Variable contexts are straightforward Javascript objects that can be accessed
@@ -332,6 +351,16 @@ considers only the value on its right, such as "!", in order to calculate a
 result. The provided function will be called with one argument: the value to
 the operator's right. It should return either the resulting value, or a Promise
 that resolves to the resulting value.
+
+#### jexl.addFunction(_{string} name_, \_{function} func)
+
+Adds an expression function to this Jexl instance. See the **Functions**
+section above for information on the structure of an expression function.
+
+#### jexl.addFunctions(_{{}} map_)
+
+Adds multiple functions from a supplied map of function name to expression
+function.
 
 #### jexl.addTransform(_{string} name_, _{function} transform_)
 
