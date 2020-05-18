@@ -18,9 +18,8 @@ const context = {
 }
 
 // Filter an array asynchronously...
-jexl.eval('assoc[.first == "Lana"].last', context).then(function (res) {
-  console.log(res) // Output: Kane
-})
+await const res = jexl.eval('assoc[.first == "Lana"].last', context)
+console.log(res) // Output: Kane
 
 // Or synchronously!
 console.log(jexl.evalSync('assoc[.first == "Lana"].last')) // Output: Kane
@@ -61,6 +60,11 @@ try {
 } catch (e) {
   console.log('Database Error', e.stack)
 }
+
+// Functions too, sync or async, args or no args
+jexl.addFunction('getOldestAgent', () => db.getOldestAgent())
+await jexl.eval('age == getOldestAgent().age', context)
+// false
 
 // Add your own (a)synchronous operators
 // Here's a case-insensitive string equality
