@@ -28,5 +28,6 @@
   },
   "parserOptions": {
     "ecmaVersion": 2018
-  }
+  },
+  "ignorePatterns": ["dist/**/*.js"]
 }
