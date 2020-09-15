@@ -6,7 +6,7 @@
 const Lexer = require('lib/Lexer')
 const Parser = require('lib/parser/Parser')
 const Evaluator = require('lib/evaluator/Evaluator')
-const grammar = require('lib/grammar').elements
+const grammar = require('lib/grammar').getGrammar()
 const PromiseSync = require('lib/PromiseSync')
 
 const lexer = new Lexer(grammar)
@@ -19,7 +19,7 @@ const toTree = (exp) => {
 
 describe('Evaluator', () => {
   it('evaluates using an alternative Promise class', () => {
-    const e = new Evaluator(grammar, null, null, null, PromiseSync)
+    const e = new Evaluator(grammar, null, null, PromiseSync)
     expect(e.eval(toTree('2 + 2'))).toHaveProperty('value', 4)
   })
   it('evaluates an arithmetic expression', async () => {
@@ -48,15 +48,16 @@ describe('Evaluator', () => {
   })
   it('evaluates an identifier chain', async () => {
     const context = { foo: { baz: { bar: 'tek' } } }
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo.baz.bar'))).resolves.toBe(
       context.foo.baz.bar
     )
   })
-  it('applys transforms', async () => {
+  it('applies transforms', async () => {
     const context = { foo: 10 }
     const half = (val) => val / 2
-    const e = new Evaluator(grammar, { half: half }, context)
+    const g = { ...grammar, transforms: { half } }
+    const e = new Evaluator(g, context)
     return expect(e.eval(toTree('foo|half + 3'))).resolves.toBe(8)
   })
   it('filters arrays', async () => {
@@ -65,7 +66,7 @@ describe('Evaluator', () => {
         bar: [{ tek: 'hello' }, { tek: 'baz' }, { tok: 'baz' }]
       }
     }
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo.bar[.tek == "baz"]'))).resolves.toEqual([
       { tek: 'baz' }
     ])
@@ -76,7 +77,7 @@ describe('Evaluator', () => {
         bar: [{ tek: { hello: 'world' } }, { tek: { hello: 'universe' } }]
       }
     }
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo.bar.tek.hello'))).resolves.toBe('world')
   })
   it('makes array elements addressable by index', async () => {
@@ -85,12 +86,12 @@ describe('Evaluator', () => {
         bar: [{ tek: 'tok' }, { tek: 'baz' }, { tek: 'foz' }]
       }
     }
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo.bar[1].tek'))).resolves.toBe('baz')
   })
   it('allows filters to select object properties', async () => {
     const context = { foo: { baz: { bar: 'tek' } } }
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo["ba" + "z"].bar'))).resolves.toBe(
       context.foo.baz.bar
     )
@@ -114,9 +115,13 @@ describe('Evaluator', () => {
     return expect(e.eval(toTree('{}'))).resolves.toEqual({})
   })
   it('evaluates a transform with multiple args', async () => {
-    const e = new Evaluator(grammar, {
-      concat: (val, a1, a2, a3) => val + ': ' + a1 + a2 + a3
-    })
+    const g = {
+      ...grammar,
+      transforms: {
+        concat: (val, a1, a2, a3) => val + ': ' + a1 + a2 + a3
+      }
+    }
+    const e = new Evaluator(g)
     return expect(
       e.eval(toTree('"foo"|concat("baz", "bar", "tek")'))
     ).resolves.toBe('foo: bazbartek')
@@ -167,7 +172,7 @@ describe('Evaluator', () => {
     return expect(e.eval(toTree('"".length'))).resolves.toBe(0)
   })
   it('returns empty array when applying a filter to an undefined value', async () => {
-    const e = new Evaluator(grammar, null, { a: {}, d: 4 })
+    const e = new Evaluator(grammar, { a: {}, d: 4 })
     return expect(e.eval(toTree('a.b[.c == d]'))).resolves.toHaveLength(0)
   })
   it('evaluates an expression with arbitrary whitespace', async () => {
@@ -182,7 +187,7 @@ describe('Evaluator', () => {
       $bar: 8
     }
     const expr = '$+$foo+$foo$bar+$bar'
-    const e = new Evaluator(grammar, null, context)
+    const e = new Evaluator(grammar, context)
     await expect(e.eval(toTree(expr))).resolves.toBe(26)
   })
 })

@@ -108,6 +108,25 @@ describe('Jexl', () => {
       expect(e.evalSync()).toBe(10)
     })
   })
+  describe('addFunction', () => {
+    it('allows functions to be defined', async () => {
+      inst.addFunction('sayHi', () => 'Hello')
+      await expect(inst.eval('sayHi()')).resolves.toBe('Hello')
+    })
+    it('allows functions to be retrieved', () => {
+      inst.addFunction('ret2', () => 2)
+      const f = inst.getFunction('ret2')
+      expect(f).toBeDefined()
+      expect(f()).toBe(2)
+    })
+    it('allows functions to be set in batch', async () => {
+      inst.addFunctions({
+        add1: (val) => val + 1,
+        add2: (val) => val + 2
+      })
+      await expect(inst.eval('add1(add2(2))')).resolves.toBe(5)
+    })
+  })
   describe('addTransform', () => {
     it('allows transforms to be defined', async () => {
       inst.addTransform('toCase', (val, args) =>

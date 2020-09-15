@@ -6,11 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Top-level expression functions, along with `jexl.addFunction` and
+  `jexl.addFunctions`.
 - Binary operators can now be set to evaluate their operands manually, allowing
   them to decide if and when to resolve the value of the left or right sides.
   See the new `manualEval` option in `jexl.addBinaryOp`.
 
-## Fixed
+### Fixed
 
 - The binary operators `&&` and `||` now evaluate the right operand
   conditionally, depending on the value of the left.

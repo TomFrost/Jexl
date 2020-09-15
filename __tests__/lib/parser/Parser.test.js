@@ -5,7 +5,7 @@
 
 const Lexer = require('lib/Lexer')
 const Parser = require('lib/parser/Parser')
-const grammar = require('lib/grammar').elements
+const grammar = require('lib/grammar').getGrammar()
 
 let inst
 const lexer = new Lexer(grammar)
@@ -232,47 +232,53 @@ describe('Parser', () => {
   it('applies transforms and arguments', () => {
     inst.addTokens(lexer.tokenize('foo|tr1|tr2.baz|tr3({bar:"tek"})'))
     expect(inst.complete()).toEqual({
-      type: 'Transform',
+      type: 'FunctionCall',
       name: 'tr3',
+      pool: 'transforms',
       args: [
+        {
+          type: 'Identifier',
+          value: 'baz',
+          from: {
+            type: 'FunctionCall',
+            name: 'tr2',
+            pool: 'transforms',
+            args: [
+              {
+                type: 'FunctionCall',
+                name: 'tr1',
+                pool: 'transforms',
+                args: [
+                  {
+                    type: 'Identifier',
+                    value: 'foo'
+                  }
+                ]
+              }
+            ]
+          }
+        },
         {
           type: 'ObjectLiteral',
           value: {
             bar: { type: 'Literal', value: 'tek' }
           }
         }
-      ],
-      subject: {
-        type: 'Identifier',
-        value: 'baz',
-        from: {
-          type: 'Transform',
-          name: 'tr2',
-          args: [],
-          subject: {
-            type: 'Transform',
-            name: 'tr1',
-            args: [],
-            subject: {
-              type: 'Identifier',
-              value: 'foo'
-            }
-          }
-        }
-      }
+      ]
     })
   })
   it('handles multiple arguments in transforms', () => {
     inst.addTokens(lexer.tokenize('foo|bar("tek", 5, true)'))
     expect(inst.complete()).toEqual({
-      type: 'Transform',
+      type: 'FunctionCall',
       name: 'bar',
+      pool: 'transforms',
       args: [
+        { type: 'Identifier', value: 'foo' },
         { type: 'Literal', value: 'tek' },
         { type: 'Literal', value: 5 },
         { type: 'Literal', value: true }
-      ],
-      subject: { type: 'Identifier', value: 'foo' }
+      ]
     })
   })
   it('applies filters to identifiers', () => {
