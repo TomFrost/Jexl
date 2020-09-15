@@ -69,6 +69,11 @@ describe('Lexer', () => {
       const elems = inst.getElements(str)
       expect(elems).toEqual([str])
     })
+    it('allows an identifier to start with and contain accented letters from Russian unicode block', () => {
+      const str = 'Проверка'
+      const elems = inst.getElements(str)
+      expect(elems).toEqual([str])
+    })
   })
   describe('Tokens', () => {
     it('unquotes string elements', () => {
