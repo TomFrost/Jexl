@@ -4,13 +4,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [development]
 
+Nothing yet!
+
+## [v2.3.0]
+
 ### Added
 
 - Top-level expression functions, along with `jexl.addFunction` and
-  `jexl.addFunctions`.
+  `jexl.addFunctions`. (#25)
 - Binary operators can now be set to evaluate their operands manually, allowing
   them to decide if and when to resolve the value of the left or right sides.
   See the new `manualEval` option in `jexl.addBinaryOp`.
+- Support for Latin 1 Suppliment characters in identifiers (#68) (@heharkon)
+- Support for Russian chatacters in identifiers (#90) (@a-gorbunov)
+- ES5 build for browser support (#87) (@czosel)
 
 ### Fixed
 
@@ -194,7 +201,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[development]: https://github.com/TomFrost/Jexl/compare/v2.2.2...HEAD
+[development]: https://github.com/TomFrost/Jexl/compare/v2.3.0...HEAD
+[v2.3.0]: https://github.com/TomFrost/Jexl/compare/v2.2.2...v2.3.0
 [v2.2.2]: https://github.com/TomFrost/Jexl/compare/v2.2.1...v2.2.2
 [v2.2.1]: https://github.com/TomFrost/Jexl/compare/v2.2.0...v2.2.1
 [v2.2.0]: https://github.com/TomFrost/Jexl/compare/v2.1.1...v2.2.0
