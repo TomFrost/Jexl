@@ -80,6 +80,15 @@ describe('Evaluator', () => {
     const e = new Evaluator(grammar, context)
     return expect(e.eval(toTree('foo.bar.tek.hello'))).resolves.toBe('world')
   })
+  it('empty array does not throw error when traversing', async () => {
+    const context = {
+      foo: {
+        bar: []
+      }
+    }
+    const e = new Evaluator(grammar, context)
+    return expect(e.eval(toTree('foo.bar.tek.hello'))).resolves.toBe(undefined)
+  })
   it('makes array elements addressable by index', async () => {
     const context = {
       foo: {
