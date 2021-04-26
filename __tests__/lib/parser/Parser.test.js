@@ -150,6 +150,21 @@ describe('Parser', () => {
       }
     })
   })
+  it('handles dashes in key', () => {
+    inst.addTokens(lexer.tokenize(`{'with-dash': "bar", tek: 1+2}`))
+    expect(inst.complete()).toEqual({
+      type: 'ObjectLiteral',
+      value: {
+        'with-dash': { type: 'Literal', value: 'bar' },
+        tek: {
+          type: 'BinaryExpression',
+          operator: '+',
+          left: { type: 'Literal', value: 1 },
+          right: { type: 'Literal', value: 2 }
+        }
+      }
+    })
+  })
   it('handles nested object literals', () => {
     inst.addTokens(lexer.tokenize('{foo: {bar: "tek"}}'))
     expect(inst.complete()).toEqual({
