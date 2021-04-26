@@ -78,9 +78,9 @@ await jexl.eval('"Guest" _= "gUeSt"')
 
 // Compile your expression once, evaluate many times!
 const { expr } = jexl
-const danger = expr`"Danger " + place` // Also: jexl.compile('"Danger " + place')
-danger.evalSync({ place: 'zone' }) // Danger zone
-danger.evalSync({ place: 'ZONE!!!' }) // Danger ZONE!!! (Doesn't recompile the expression!)
+const doYouWant = expr`"Do you want  " + thing + "? Because that's how you get " + thing+"!"` // Or without expr: jexl.compile('"Do you want " + thing + "?"')
+doYouWant.evalSync({ thing: 'ants' }) // Do you want ants? Because that's how you get ants!
+doYouWant.evalSync({ thing: 'ANTS!' }) // Do you want ANTS!? Because that's how you you get ANTS!! (Doesn't recompile the expression!)
 ```
 
 ## Play with it
