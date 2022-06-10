@@ -181,13 +181,38 @@ describe('Lexer', () => {
       { type: 'closeBracket', value: ']', raw: ']' }
     ])
   })
-  it('considers minus to be negative appropriately', () => {
-    expect(inst.tokenize('-1?-2:-3')).toEqual([
-      { type: 'literal', value: -1, raw: '-1' },
-      { type: 'question', value: '?', raw: '?' },
-      { type: 'literal', value: -2, raw: '-2' },
-      { type: 'colon', value: ':', raw: ':' },
-      { type: 'literal', value: -3, raw: '-3' }
-    ])
+  describe('minus interpretation', () => {
+    it('considers minus to be negative appropriately', () => {
+      expect(inst.tokenize('-1?-2:-3')).toEqual([
+        { type: 'literal', value: -1, raw: '-1' },
+        { type: 'question', value: '?', raw: '?' },
+        { type: 'literal', value: -2, raw: '-2' },
+        { type: 'colon', value: ':', raw: ':' },
+        { type: 'literal', value: -3, raw: '-3' }
+      ])
+    })
+    it('can interpret minus in an array', () => {
+      expect(inst.tokenize('[-1, -2, 3]')).toEqual([
+        { type: 'openBracket', value: '[', raw: '[' },
+        { type: 'literal', value: -1, raw: '-1' },
+        { type: 'comma', value: ',', raw: ', ' },
+        { type: 'literal', value: -2, raw: '-2' },
+        { type: 'comma', value: ',', raw: ', ' },
+        { type: 'literal', value: 3, raw: '3' },
+        { type: 'closeBracket', value: ']', raw: ']' }
+      ])
+    })
+    it('can interpret minus in a method call', () => {
+      expect(inst.tokenize('min(1, -2, 3)')).toEqual([
+        { type: 'identifier', value: 'min', raw: 'min' },
+        { type: 'openParen', value: '(', raw: '(' },
+        { type: 'literal', value: 1, raw: '1' },
+        { type: 'comma', value: ',', raw: ', ' },
+        { type: 'literal', value: -2, raw: '-2' },
+        { type: 'comma', value: ',', raw: ', ' },
+        { type: 'literal', value: 3, raw: '3' },
+        { type: 'closeParen', value: ')', raw: ')' }
+      ])
+    })
   })
 })
