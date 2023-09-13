@@ -26,6 +26,34 @@ describe('Evaluator', () => {
     const e = new Evaluator(grammar)
     return expect(e.eval(toTree('(2 + 3) * 4'))).resolves.toBe(20)
   })
+  it('evaluates an arithmetic expression with null values', async () => {
+    const e = new Evaluator(grammar)
+    return expect(e.eval(toTree('(null + 3) * 4'))).resolves.toBe(null)
+  })
+  it('evaluates an arithmetic expression with undefined values', async () => {
+    const e = new Evaluator(grammar)
+    return expect(e.eval(toTree('(undefined + 3) * 4'))).resolves.toBe(null)
+  })
+  it('evaluates an arithmetic expression with null values in context', async () => {
+    const context = { nulvar: null }
+    const e = new Evaluator(grammar, context)
+    return expect(e.eval(toTree('(nulvar + 3) * 4'))).resolves.toBe(null)
+  })
+  it('evaluates an arithmetic expression with undefined values in context', async () => {
+    const context = {}
+    const e = new Evaluator(grammar, context)
+    return expect(e.eval(toTree('(foo + 3) * 4'))).resolves.toBe(null)
+  })
+  it('evaluates an comparision involving arithmetic expression with undefined values in context', async () => {
+    const context = {}
+    const e = new Evaluator(grammar, context)
+    return expect(e.eval(toTree('(foo + 3) * 4 == null'))).resolves.toBe(true)
+  })
+  it('evaluates an comparision involving arithmetic expression with null values in context', async () => {
+    const context = { nulvar: null }
+    const e = new Evaluator(grammar, context)
+    return expect(e.eval(toTree('nulvar * 4 == null'))).resolves.toBe(true)
+  })
   it('evaluates a string concat', async () => {
     const e = new Evaluator(grammar)
     return expect(e.eval(toTree('"Hello" + (4+4) + "Wo\\"rld"'))).resolves.toBe(
