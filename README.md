@@ -18,11 +18,11 @@ const context = {
 }
 
 // Filter an array asynchronously...
-await const res = jexl.eval('assoc[.first == "Lana"].last', context)
+const res = await jexl.eval('assoc[.first == "Lana"].last', context)
 console.log(res) // Output: Kane
 
 // Or synchronously!
-console.log(jexl.evalSync('assoc[.first == "Lana"].last')) // Output: Kane
+console.log(jexl.evalSync('assoc[.first == "Lana"].last', context)) // Output: Kane
 
 // Do math
 await jexl.eval('age * (3 - 1)', context)
