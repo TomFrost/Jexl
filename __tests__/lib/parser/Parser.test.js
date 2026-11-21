@@ -328,6 +328,33 @@ describe('Parser', () => {
       }
     })
   })
+  it('applies an index to an array literal', () => {
+    inst.addTokens(lexer.tokenize('["zero", "one"][1]'))
+    expect(inst.complete()).toEqual({
+      type: 'FilterExpression',
+      relative: false,
+      expr: { type: 'Literal', value: 1 },
+      subject: {
+        type: 'ArrayLiteral',
+        value: [
+          { type: 'Literal', value: 'zero' },
+          { type: 'Literal', value: 'one' }
+        ]
+      }
+    })
+  })
+  it('applies a property lookup to an object literal', () => {
+    inst.addTokens(lexer.tokenize('{foo: 1}["foo"]'))
+    expect(inst.complete()).toEqual({
+      type: 'FilterExpression',
+      relative: false,
+      expr: { type: 'Literal', value: 'foo' },
+      subject: {
+        type: 'ObjectLiteral',
+        value: { foo: { type: 'Literal', value: 1 } }
+      }
+    })
+  })
   it('allows mixing relative and non-relative identifiers', () => {
     inst.addTokens(lexer.tokenize('foo[.bar.baz == tek]'))
     expect(inst.complete()).toEqual({
