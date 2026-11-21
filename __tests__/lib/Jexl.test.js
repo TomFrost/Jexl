@@ -89,6 +89,33 @@ describe('Jexl', () => {
       expect(inst.evalSync.bind(inst, expr, context)).not.toThrow()
     })
   })
+  describe('literal indexing (issue #115)', () => {
+    const cases = [
+      ['["zero", "one", "two", "three"][1]', 'one'],
+      ['{foo: 1}["foo"]', 1],
+      ['[][0]', undefined],
+      ['{}["foo"]', undefined],
+      ['[[{foo: 1}]][0][0].foo', 1],
+      ['["zero", "one"][index]', 'one'],
+      ['({foo: 1})["foo"]', 1],
+      ['("a" + "bc")[1]', 'b'],
+      ['2 * [3, 4][1] + 1', 9],
+      ['[{foo: 1}, {foo: 2}][.foo > 1][0].foo', 2],
+      ['[true, false][0] ? {foo: 1}["foo"] : 0', 1]
+    ]
+
+    it.each(cases)('evaluates %s synchronously', (expression, expected) => {
+      expect(inst.evalSync(expression, { index: 1 })).toEqual(expected)
+    })
+    it.each(cases)(
+      'evaluates %s asynchronously',
+      async (expression, expected) => {
+        await expect(inst.eval(expression, { index: 1 })).resolves.toEqual(
+          expected
+        )
+      }
+    )
+  })
   describe('expr', () => {
     it('returns an evaluatable instance of Expression', () => {
       const expr = inst.expr`2+2`
